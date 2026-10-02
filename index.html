@@ -3,18 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>สนามยอดขาย ตุลาคม 2569</title>
+<title>สนามยอดขาย</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Mitr:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --brand:#7A2BD6;
-  --brand-deep:color-mix(in srgb,var(--brand) 58%,#12021f);
-  --brand-hi:color-mix(in srgb,var(--brand) 70%,#ffffff);
-  --accent:var(--brand);
-  --accent-ink:#FFFFFF;
-  --bg:color-mix(in srgb,var(--brand) 6%,#FFFFFF);
+  --brand-deep:color-mix(in srgb,var(--brand) 55%,#12021f);
+  --brand-hi:color-mix(in srgb,var(--brand) 65%,#ffffff);
+  --accent:var(--brand); --accent-ink:#fff;
+  --bg:color-mix(in srgb,var(--brand) 5%,#FFFFFF);
   --surface:#FFFFFF;
   --soft:color-mix(in srgb,var(--brand) 10%,#FFFFFF);
   --ink:#1F1433; --muted:#6F6388;
@@ -24,918 +23,1191 @@
   --hit-soft:#D8F5EA; --near-soft:#FDEFD2; --miss-soft:#FDE1EB; --wait-soft:#F1EEF7;
   --display:"Mitr","Anuphan","Noto Sans Thai",Tahoma,sans-serif;
   --body:"Anuphan","Noto Sans Thai",Tahoma,sans-serif;
-  color-scheme:light;
-  box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light; box-sizing:border-box;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --accent:color-mix(in srgb,var(--brand) 55%,#ffffff); --accent-ink:#150a24;
-    --bg:color-mix(in srgb,var(--brand) 12%,#0B0614);
-    --surface:color-mix(in srgb,var(--brand) 16%,#130B20);
-    --soft:color-mix(in srgb,var(--brand) 28%,#130B20);
+    --accent:color-mix(in srgb,var(--brand) 55%,#fff); --accent-ink:#150a24;
+    --bg:color-mix(in srgb,var(--brand) 10%,#0B0614);
+    --surface:color-mix(in srgb,var(--brand) 15%,#130B20);
+    --soft:color-mix(in srgb,var(--brand) 26%,#130B20);
     --ink:#F4EEFF; --muted:#AFA2C9;
-    --line:color-mix(in srgb,var(--brand) 30%,#130B20);
-    --track:color-mix(in srgb,var(--brand) 26%,#130B20);
+    --line:color-mix(in srgb,var(--brand) 28%,#130B20);
+    --track:color-mix(in srgb,var(--brand) 24%,#130B20);
     --hit:#2AD6A0; --near:#FFB83D; --miss:#FF6A9A; --wait:#5A4F74;
     --hit-soft:#10392E; --near-soft:#3C2C0E; --miss-soft:#40162B; --wait-soft:#241C36;
     color-scheme:dark;
   }
 }
-:root[data-theme="dark"]{
-  --accent:color-mix(in srgb,var(--brand) 55%,#ffffff); --accent-ink:#150a24;
-  --bg:color-mix(in srgb,var(--brand) 12%,#0B0614);
-  --surface:color-mix(in srgb,var(--brand) 16%,#130B20);
-  --soft:color-mix(in srgb,var(--brand) 28%,#130B20);
-  --ink:#F4EEFF; --muted:#AFA2C9;
-  --line:color-mix(in srgb,var(--brand) 30%,#130B20);
-  --track:color-mix(in srgb,var(--brand) 26%,#130B20);
-  --hit:#2AD6A0; --near:#FFB83D; --miss:#FF6A9A; --wait:#5A4F74;
-  --hit-soft:#10392E; --near-soft:#3C2C0E; --miss-soft:#40162B; --wait-soft:#241C36;
-  color-scheme:dark;
-}
 *,*::before,*::after{box-sizing:inherit}
-html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
 .num{font-variant-numeric:tabular-nums}
-button,input,textarea{font:inherit;color:inherit}
+button,input,textarea,select{font:inherit;color:inherit}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
-.wrap{max-width:1220px;margin:0 auto;padding:0 20px}
 img{max-width:100%}
+[hidden]{display:none!important}
 
-/* avatar */
-.av{flex:none;border-radius:50%;overflow:hidden;display:inline-grid;place-items:center;background:var(--soft);color:var(--accent);font-family:var(--display);font-weight:600;border:2px solid var(--surface);box-shadow:0 0 0 2px var(--c,var(--line))}
-.av img{width:100%;height:100%;object-fit:cover;display:block}
-
-/* ---------- hero ---------- */
-.hero{background:radial-gradient(120% 150% at 100% 0%,var(--brand) 0%,var(--brand-deep) 60%);color:#fff;padding:26px 0 36px;position:relative;overflow:hidden}
-.hero::after{content:"";position:absolute;inset:auto -10% -60% -10%;height:120%;background:repeating-linear-gradient(180deg,rgba(255,255,255,.07) 0 2px,transparent 2px 46px);transform:perspective(600px) rotateX(58deg);transform-origin:bottom;pointer-events:none}
-.hero .wrap{position:relative;z-index:1}
-.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.brand{font-family:var(--display);font-weight:500;font-size:15px;opacity:.9;display:flex;align-items:center;gap:8px}
-.brand svg{width:22px;height:22px}
-.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.pill{font-size:13px;padding:5px 12px 5px 10px;border-radius:999px;background:rgba(255,255,255,.15);display:inline-flex;align-items:center;gap:8px;border:0;color:#fff}
-button.pill{cursor:pointer}
-button.pill:hover{background:rgba(255,255,255,.24)}
+/* ---------- shell ---------- */
+.app{display:grid;grid-template-columns:268px minmax(0,1fr);min-height:100%}
+.side{position:sticky;top:0;height:100vh;height:100dvh;overflow:auto;background:linear-gradient(185deg,var(--brand) -40%,var(--brand-deep) 45%,color-mix(in srgb,var(--brand-deep) 70%,#000) 100%);color:#fff;padding:20px 16px calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:16px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:19px;padding:0 6px}
+.logo svg{width:26px;height:26px}
+.sl{font-size:12px;opacity:.7;margin:0 6px 6px;display:block}
+.side select{width:100%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:9px 12px;color:#fff;font-family:var(--display);font-size:16px}
+.side select option{color:#1F1433}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);background:rgba(0,0,0,.22);border-radius:12px;padding:3px;gap:3px}
+.seg button{border:0;background:none;color:#fff;border-radius:9px;padding:7px 0;cursor:pointer;font-weight:600;font-size:14px;opacity:.8}
+.seg button[aria-pressed="true"]{background:#fff;color:var(--brand-deep);opacity:1}
+.wlist{display:flex;flex-direction:column;gap:4px}
+.wbtn{display:flex;justify-content:space-between;align-items:center;border:0;background:none;color:#fff;border-radius:10px;padding:8px 10px;cursor:pointer;text-align:left;opacity:.85}
+.wbtn b{font-family:var(--display);font-weight:500;font-size:15px}
+.wbtn span{font-size:12.5px;opacity:.75}
+.wbtn:hover{background:rgba(255,255,255,.08)}
+.wbtn[aria-pressed="true"]{background:rgba(255,255,255,.18);opacity:1;box-shadow:inset 3px 0 0 #fff}
+.nav{display:flex;flex-direction:column;gap:2px;border-top:1px solid rgba(255,255,255,.14);padding-top:12px}
+.nav button{display:flex;align-items:center;gap:11px;border:0;background:none;color:#fff;border-radius:11px;padding:10px 12px;cursor:pointer;text-align:left;font-size:15px;opacity:.85}
+.nav button svg{width:19px;height:19px;flex:none;opacity:.9}
+.nav button:hover{background:rgba(255,255,255,.08)}
+.nav button[aria-current="page"]{background:#fff;color:var(--brand-deep);opacity:1;font-weight:600}
+.nav .lock{margin-left:auto;font-size:11px;opacity:.7}
+.sidefoot{margin-top:auto;display:flex;flex-direction:column;gap:8px;font-size:13px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.12)}
 .pill i{width:8px;height:8px;border-radius:50%;background:#FFD66B;display:inline-block}
-.pill.live i{background:#5CF2BE;box-shadow:0 0 0 4px rgba(92,242,190,.25)}
+.pill.live i{background:#5CF2BE;box-shadow:0 0 0 4px rgba(92,242,190,.22)}
 .pill.local i{background:#FFB0C8}
-.pill .sw{width:14px;height:14px;border-radius:4px;background:var(--brand);box-shadow:0 0 0 2px #fff}
-.notice{margin-top:16px;background:#fff;color:#2a1240;border-radius:14px;padding:12px 16px;font-size:15px;line-height:1.5;max-width:760px;border-left:6px solid var(--near)}
-.notice b{display:block;font-family:var(--display);font-weight:600;font-size:16px}
-.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(44px,8vw,92px);line-height:1;margin:22px 0 6px;letter-spacing:-.01em}
-.hero .sub{font-size:17px;opacity:.88;margin:0 0 26px;max-width:62ch}
-.weeks{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
-.wk{border:1.5px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:14px;padding:8px 14px;cursor:pointer;text-align:left;min-width:108px}
-.wk b{display:block;font-family:var(--display);font-weight:600;font-size:17px;line-height:1.2}
-.wk span{font-size:13px;opacity:.8}
-.wk:hover{background:rgba(255,255,255,.1)}
-.wk[aria-pressed="true"]{background:#fff;color:var(--brand-deep);border-color:#fff}
-.overall{display:grid;grid-template-columns:1fr auto;gap:18px 32px;align-items:end}
-.figs{display:flex;gap:28px;flex-wrap:wrap}
-.fig small{display:block;font-size:13px;opacity:.78}
-.fig strong{font-family:var(--display);font-weight:600;font-size:clamp(22px,3vw,32px);line-height:1.15}
-.bigpct{font-family:var(--display);font-weight:700;font-size:clamp(56px,9vw,104px);line-height:.9;text-align:right}
-.bigpct small{display:block;font-family:var(--body);font-weight:500;font-size:14px;opacity:.82;margin-top:8px}
-.htrack{grid-column:1/-1;margin-top:8px}
+.who-row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.linkbtn{border:0;background:none;color:#fff;text-decoration:underline;cursor:pointer;opacity:.85;font-size:13px;padding:0}
 
-/* track */
-.track{position:relative;display:block;height:18px;border-radius:999px;background:var(--track)}
-.hero .track{height:26px;background:rgba(255,255,255,.15)}
-.fill{position:absolute;display:block;left:0;top:0;bottom:0;border-radius:999px;background:var(--c,var(--accent));width:0;transition:width .9s cubic-bezier(.2,.8,.2,1)}
-.hero .fill{background:linear-gradient(90deg,var(--brand-hi),#fff)}
-.runner{position:absolute;display:block;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--surface);border:3px solid var(--c,var(--accent));transition:left .9s cubic-bezier(.2,.8,.2,1)}
-.hero .runner{width:34px;height:34px;margin:-17px 0 0 -17px;border:0;background:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(20,4,50,.35);color:var(--brand-deep)}
-.hero .runner svg{width:20px;height:20px}
-.pace{position:absolute;display:block;top:-6px;bottom:-6px;width:0;border-left:2px dashed var(--ink);opacity:.5}
-.hero .pace{border-color:#fff;opacity:.9;top:-10px;bottom:-10px}
-.ticks{position:relative;height:22px;margin-top:6px;font-size:12px;color:rgba(255,255,255,.72)}
-.ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
-.ticks span:last-child{transform:translateX(-100%)}
-@media (prefers-reduced-motion:reduce){.fill,.runner,.fbar i{transition:none}}
+/* mini calendar */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
+.cal .h{font-size:11px;opacity:.65;padding-bottom:2px}
+.cal button{border:0;border-radius:8px;padding:5px 0 7px;background:rgba(255,255,255,.08);color:inherit;cursor:pointer;font-size:13px;position:relative;font-variant-numeric:tabular-nums}
+.cal button:disabled{background:none;opacity:.3;cursor:default}
+.cal button.today{box-shadow:inset 0 0 0 1.5px currentColor}
+.cal button[aria-pressed="true"]{background:#fff;color:var(--brand-deep);font-weight:700}
+.cal button.dot::after{content:"";position:absolute;left:50%;bottom:2px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:#5CF2BE}
+.pcal .cal button{background:var(--soft)}
+.pcal .cal button:disabled{background:none}
+.pcal .cal button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.pcal .cal button.dot::after{background:var(--hit)}
 
-/* sections */
-main{padding:36px 0 60px}
-.sec{margin-bottom:46px}
-.sech{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:14px}
-.sech h2{font-family:var(--display);font-weight:600;font-size:26px;margin:0;line-height:1.2}
-.sech p{margin:2px 0 0;color:var(--muted);font-size:14px}
+/* ---------- main ---------- */
+.main{min-width:0;padding:26px clamp(16px,2.4vw,40px) 70px}
+.notice{background:var(--near-soft);color:var(--ink);border-radius:14px;padding:12px 16px;margin-bottom:18px;border-left:6px solid var(--near)}
+.notice b{display:block;font-family:var(--display);font-weight:600}
+.ph{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+.ph h1{font-family:var(--display);font-weight:600;font-size:clamp(26px,2.6vw,36px);margin:0;line-height:1.15}
+.ph p{margin:4px 0 0;color:var(--muted)}
+.sec{margin-bottom:34px}
+.sech{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.sech h2{font-family:var(--display);font-weight:600;font-size:21px;margin:0}
+.sech p{margin:2px 0 0;color:var(--muted);font-size:13.5px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:20px}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 .legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
-.panel{background:var(--surface);border:1px solid var(--line);border-radius:22px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+
+/* hero */
+.hero{background:radial-gradient(130% 160% at 100% 0%,var(--brand) 0%,var(--brand-deep) 62%);color:#fff;border-radius:24px;padding:26px 30px 22px;margin-bottom:26px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto -10% -70% -10%;height:120%;background:repeating-linear-gradient(180deg,rgba(255,255,255,.07) 0 2px,transparent 2px 44px);transform:perspective(600px) rotateX(58deg);transform-origin:bottom;pointer-events:none}
+.hero>*{position:relative;z-index:1}
+.hrow{display:grid;grid-template-columns:1fr auto;gap:16px 30px;align-items:end}
+.hero .ttl{font-size:15px;opacity:.82}
+.figs{display:flex;gap:30px;flex-wrap:wrap;margin-top:10px}
+.fig small{display:block;font-size:13px;opacity:.78}
+.fig strong{font-family:var(--display);font-weight:600;font-size:clamp(22px,2.4vw,32px);line-height:1.15}
+.bigpct{font-family:var(--display);font-weight:700;font-size:clamp(56px,7vw,100px);line-height:.9;text-align:right}
+.bigpct small{display:block;font-family:var(--body);font-weight:500;font-size:14px;opacity:.82;margin-top:8px}
+.htrack{margin-top:20px}
+
+.track{position:relative;display:block;height:16px;border-radius:999px;background:var(--track)}
+.hero .track{height:24px;background:rgba(255,255,255,.15)}
+.fill{position:absolute;display:block;left:0;top:0;bottom:0;border-radius:999px;background:var(--c,var(--accent));transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.hero .fill{background:linear-gradient(90deg,var(--brand-hi),#fff)}
+.runner{position:absolute;display:block;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--surface);border:3px solid var(--c,var(--accent));transition:left .8s cubic-bezier(.2,.8,.2,1)}
+.hero .runner{width:32px;height:32px;margin:-16px 0 0 -16px;border:0;background:#fff;display:grid;place-items:center;color:var(--brand-deep);box-shadow:0 6px 18px rgba(20,4,50,.35)}
+.hero .runner svg{width:19px;height:19px}
+.pace{position:absolute;display:block;top:-6px;bottom:-6px;width:0;border-left:2px dashed var(--ink);opacity:.5}
+.hero .pace{border-color:#fff;opacity:.9;top:-9px;bottom:-9px}
+.hcap{display:flex;justify-content:space-between;font-size:12.5px;opacity:.78;margin-top:8px}
+@media (prefers-reduced-motion:reduce){.fill,.runner{transition:none}}
+
+/* avatar */
+.av{flex:none;border-radius:50%;overflow:hidden;display:inline-grid;place-items:center;background:var(--soft);color:var(--accent);font-family:var(--display);font-weight:600;box-shadow:0 0 0 2px var(--c,var(--line))}
+.av img{width:100%;height:100%;object-fit:cover;display:block}
+button.av{border:0;cursor:pointer;padding:0}
 
 /* stars */
-.stars{display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden}
-.star{padding:22px 20px;border-left:1px solid var(--line);display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.stars{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.star{padding:20px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:10px;min-width:0}
 .star:first-child{border-left:0}
-.star .t{font-size:14px;color:var(--muted);font-weight:600}
-.star .row{display:flex;align-items:center;gap:12px}
-.star .row b{font-family:var(--display);font-weight:500;font-size:18px;line-height:1.25;display:block}
-.star .row small{color:var(--muted);font-size:13px}
-.star .v{font-family:var(--display);font-weight:600;font-size:30px;line-height:1;color:var(--accent)}
-.star.none .v{color:var(--wait);font-size:18px}
-.star .av{--c:var(--accent)}
+.star .t{font-size:13.5px;color:var(--muted);font-weight:600}
+.star .row{display:flex;align-items:center;gap:12px;min-width:0}
+.star .row b{font-family:var(--display);font-weight:500;font-size:17px;display:block;line-height:1.25}
+.star .row small{color:var(--muted);font-size:12.5px}
+.star .v{font-family:var(--display);font-weight:600;font-size:28px;line-height:1;color:var(--accent)}
+.star.none .v{color:var(--wait);font-size:17px}
 
 /* lanes */
-.lanes{overflow:hidden}
-.lane{display:grid;grid-template-columns:minmax(210px,260px) 1fr minmax(170px,200px) 110px;gap:20px;align-items:center;padding:14px 22px;border:0;border-top:1px solid var(--line);background:none;width:100%;text-align:left;cursor:pointer}
+.lane{display:grid;grid-template-columns:minmax(200px,260px) minmax(0,1fr) 200px 150px;gap:20px;align-items:center;padding:13px 20px;border-top:1px solid var(--line)}
 .lane:first-child{border-top:0}
-.lane:hover{background:color-mix(in srgb,var(--brand) 5%,transparent)}
 .who{display:flex;align-items:center;gap:12px;min-width:0}
-.who .txt{min-width:0}
-.who b{font-family:var(--display);font-weight:500;font-size:18px;display:block;line-height:1.25}
-.who small{color:var(--muted);font-size:13px;display:block;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lane .nums{font-size:14px;color:var(--muted);line-height:1.35}
-.lane .nums b{color:var(--ink);font-size:16px;font-weight:600}
-.lane .act{display:flex;justify-content:flex-end}
-.chip{display:inline-flex;align-items:center;font-size:12.5px;font-weight:600;padding:2px 10px;border-radius:999px;white-space:nowrap;margin-top:4px}
+.who b{font-family:var(--display);font-weight:500;font-size:17px;display:block;line-height:1.25}
+.who small{color:var(--muted);font-size:12.5px;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lane .nums{font-size:13.5px;color:var(--muted);line-height:1.35}
+.lane .nums b{color:var(--ink);font-size:15.5px;font-weight:600}
+.lane .need{font-size:13px;color:var(--muted);text-align:right;line-height:1.35}
+.lane .need b{display:block;color:var(--ink);font-size:15px}
+.chip{display:inline-flex;align-items:center;font-size:12.5px;font-weight:600;padding:2px 10px;border-radius:999px;white-space:nowrap;margin-top:3px}
+.hit{--c:var(--hit)} .near{--c:var(--near)} .miss{--c:var(--miss)} .wait{--c:var(--wait)}
 .chip.hit{background:var(--hit-soft);color:var(--hit)}
 .chip.near{background:var(--near-soft);color:var(--near)}
 .chip.miss{background:var(--miss-soft);color:var(--miss)}
 .chip.wait{background:var(--wait-soft);color:var(--muted)}
-.fillbtn{font-size:14px;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:6px}
-.fillbtn svg{width:16px;height:16px}
+
+/* daily chart */
+.chart{padding:18px 20px 10px}
+.chart svg{width:100%;height:220px;display:block;overflow:visible}
+.chart .lbl{font-size:11px;fill:var(--muted)}
+.chart .tl{stroke:var(--ink);stroke-dasharray:5 5;opacity:.45}
 
 /* funnel */
-.funnelwrap{display:grid;grid-template-columns:1.3fr 1fr;gap:0}
-.funnel{padding:22px 24px;border-right:1px solid var(--line)}
-.fstep{display:grid;grid-template-columns:90px 1fr 92px;gap:14px;align-items:center;margin-bottom:10px}
-.fstep .l{font-weight:600;font-size:15px}
-.fbar{height:34px;background:var(--track);border-radius:10px;position:relative;overflow:hidden}
-.fbar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--brand-deep),var(--brand));border-radius:10px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
-.fbar em{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-style:normal;font-weight:600;font-size:14px;color:#fff;mix-blend-mode:normal;text-shadow:0 1px 2px rgba(0,0,0,.25)}
-.fstep .r{font-size:13px;color:var(--muted);text-align:right;line-height:1.3}
-.fstep .r b{display:block;color:var(--ink);font-size:16px}
-.fside{padding:22px 24px;display:grid;grid-template-columns:1fr 1fr;gap:18px 20px;align-content:start}
-.fside div small{display:block;color:var(--muted);font-size:13px}
-.fside div b{font-family:var(--display);font-weight:600;font-size:26px;line-height:1.2}
+.funnelwrap{display:grid;grid-template-columns:1.3fr 1fr}
+.funnel{padding:20px 22px;border-right:1px solid var(--line)}
+.fstep{display:grid;grid-template-columns:86px 1fr 90px;gap:14px;align-items:center;margin-bottom:10px}
+.fstep .l{font-weight:600;font-size:14.5px}
+.fbar{height:32px;background:var(--track);border-radius:10px;position:relative;overflow:hidden}
+.fbar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--brand-deep),var(--brand));border-radius:10px}
+.fbar em{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-style:normal;font-weight:600;font-size:13.5px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+.fstep .r{font-size:12.5px;color:var(--muted);text-align:right;line-height:1.3}
+.fstep .r b{display:block;color:var(--ink);font-size:15.5px}
+.fside{padding:20px 22px;display:grid;grid-template-columns:1fr 1fr;gap:16px 20px;align-content:start}
+.fside small{display:block;color:var(--muted);font-size:12.5px}
+.fside b{font-family:var(--display);font-weight:600;font-size:24px;line-height:1.2}
 
 /* tables */
 .scroll{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:15px}
-.kpi table{min-width:1180px}
-.mx table{min-width:780px}
-th,td{padding:11px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:10px 11px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
 th{font-weight:600;font-size:12.5px;color:var(--muted);background:var(--surface);line-height:1.3;vertical-align:bottom}
+th.sort{cursor:pointer;user-select:none}
+th.sort:hover{color:var(--ink)}
 th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--surface);z-index:1}
+.tl-left{text-align:left}
 tbody tr:last-child td{border-bottom:0}
-tr.total td,tr.total td:first-child{font-weight:700;background:color-mix(in srgb,var(--brand) 8%,var(--surface))}
+tr.total td{font-weight:700;background:color-mix(in srgb,var(--brand) 8%,var(--surface))}
 td .tn{display:flex;align-items:center;gap:10px}
+td small{color:var(--muted);font-weight:400}
 td.up{color:var(--hit);font-weight:600}
 td.down{color:var(--miss);font-weight:600}
 td.na{color:var(--wait)}
-.cell{display:inline-block;min-width:74px;text-align:center;padding:4px 8px;border-radius:9px;font-weight:600;cursor:pointer;border:0;background:none}
+.cell{display:inline-flex;flex-direction:column;align-items:center;min-width:86px;padding:4px 8px;border-radius:9px;font-weight:600;line-height:1.25}
+.cell small{font-weight:400;font-size:11.5px;opacity:.85}
 .cell.hit{background:var(--hit-soft);color:var(--hit)}
 .cell.near{background:var(--near-soft);color:var(--near)}
 .cell.miss{background:var(--miss-soft);color:var(--miss)}
 .cell.wait{color:var(--wait)}
-.cell.static{cursor:default}
+.rank{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--soft);font-size:12px;font-weight:700;color:var(--accent);margin-right:2px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips button{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;cursor:pointer;font-weight:600;font-size:14px}
+.chips button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+
+/* entry */
+.entryhead{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;margin-bottom:20px}
+.ehcard{padding:18px 20px}
+.teampick{display:flex;align-items:center;gap:16px;margin-top:14px}
+.teampick .av{width:64px;height:64px;font-size:26px}
+.teampick h3{font-family:var(--display);font-weight:600;font-size:24px;margin:0;line-height:1.2}
+.teampick p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.etable td{padding:7px 8px}
+.ein{width:100%;min-width:84px;border:1.5px solid var(--line);border-radius:10px;padding:7px 10px;background:var(--bg);text-align:right;font-variant-numeric:tabular-nums}
+.ein.wide{min-width:120px}
+.ein:focus{border-color:var(--accent);outline:none}
+.ein.bad{border-color:var(--miss);background:var(--miss-soft)}
+.notes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:18px 20px}
+label.l{display:block;font-weight:600;font-size:13.5px;margin-bottom:5px}
+textarea{width:100%;min-height:76px;resize:vertical;border:1.5px solid var(--line);border-radius:12px;padding:9px 12px;background:var(--bg);line-height:1.5}
+textarea:focus{border-color:var(--accent);outline:none}
+.savebar{position:sticky;bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 16px;box-shadow:0 10px 30px rgba(30,10,60,.15);margin-top:18px;z-index:3;flex-wrap:wrap}
+.savebar .msg{color:var(--muted);font-size:14px}
+.savebar .msg.dirty{color:var(--near);font-weight:600}
+.btn{border:0;border-radius:12px;padding:10px 18px;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:var(--soft);color:var(--ink)}
+.btn.danger{background:var(--miss-soft);color:var(--miss)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.empty{color:var(--muted);font-size:14px;margin:0;padding:18px 20px}
 
 /* voices */
-.voices{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.voices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
 .col{padding:18px 20px}
-.col h3{font-family:var(--display);font-weight:500;font-size:18px;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+.col h3{font-family:var(--display);font-weight:500;font-size:17px;margin:0 0 12px;display:flex;align-items:center;gap:8px}
 .col h3 i{width:10px;height:10px;border-radius:50%}
-.note{display:flex;gap:10px;padding:12px 0;border-top:1px dashed var(--line)}
+.note{display:flex;gap:10px;padding:11px 0;border-top:1px dashed var(--line)}
 .note:first-of-type{border-top:0;padding-top:0}
 .note b{font-weight:600;font-size:14px}
-.note p{margin:1px 0 0;font-size:15px;white-space:pre-wrap;overflow-wrap:anywhere}
+.note p{margin:1px 0 0;white-space:pre-wrap;overflow-wrap:anywhere}
 .note small{color:var(--muted);font-size:12px}
-.empty{color:var(--muted);font-size:14px;margin:0}
 
-/* dialog */
-dialog{border:0;padding:0;border-radius:24px;width:min(760px,calc(100vw - 20px));max-height:calc(100% - 20px);background:var(--surface);color:var(--ink);box-shadow:0 30px 80px rgba(20,4,50,.4)}
+/* admin */
+.form{padding:18px 20px}
+.frow{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px}
+.frow>div{min-width:140px}
+.in{border:1.5px solid var(--line);border-radius:10px;padding:8px 11px;background:var(--bg);width:100%}
+.in:focus{border-color:var(--accent);outline:none}
+.wd{display:flex;gap:6px;flex-wrap:wrap}
+.wd label{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--line);border-radius:10px;padding:6px 10px;cursor:pointer;font-size:14px}
+.hol{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.hol span{display:inline-flex;align-items:center;gap:6px;background:var(--soft);border-radius:999px;padding:4px 6px 4px 12px;font-size:13.5px}
+.hol button{border:0;background:var(--surface);border-radius:50%;width:22px;height:22px;cursor:pointer;line-height:1}
+.atable td{padding:6px 8px}
+.atable .in{min-width:110px}
+.hint{color:var(--muted);font-size:13px;margin:6px 0 0}
+.err{color:var(--miss);font-size:14px;margin:8px 0 0}
+
+dialog{border:0;padding:0;border-radius:22px;width:min(420px,calc(100vw - 20px));background:var(--surface);color:var(--ink);box-shadow:0 30px 80px rgba(20,4,50,.4)}
 dialog::backdrop{background:rgba(20,8,36,.6)}
-.dlg{display:flex;flex-direction:column;max-height:calc(100vh - 20px)}
-.dhead{background:radial-gradient(120% 160% at 100% 0%,var(--brand) 0%,var(--brand-deep) 70%);color:#fff;padding:20px 24px}
-.dtop{display:flex;gap:16px;align-items:center;margin-bottom:14px}
-.photo{position:relative;cursor:pointer;flex:none}
-.photo .av{width:76px;height:76px;font-size:30px;border-color:rgba(255,255,255,.9);box-shadow:none;background:rgba(255,255,255,.18);color:#fff}
-.photo span{position:absolute;right:-4px;bottom:-2px;background:#fff;color:var(--brand-deep);border-radius:999px;font-size:11px;font-weight:700;padding:2px 7px}
-.photo input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
-.dtop small{opacity:.82;font-size:14px}
-.dtop h3{font-family:var(--display);font-weight:600;font-size:26px;margin:0;line-height:1.2}
-.supin{margin-top:6px;background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.3);color:#fff;border-radius:10px;padding:5px 10px;width:min(280px,100%);font-size:15px}
-.supin::placeholder{color:rgba(255,255,255,.65)}
-.supin:focus{outline:none;border-color:#fff}
-.dstats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.dstats div{background:rgba(255,255,255,.13);border-radius:12px;padding:8px 10px}
-.dstats small{display:block;font-size:12px;opacity:.82}
-.dstats b{font-family:var(--display);font-weight:500;font-size:17px}
-.dbody{padding:18px 24px;overflow:auto}
-.grp{font-family:var(--display);font-weight:500;font-size:17px;margin:6px 0 10px;color:var(--accent)}
-label{display:block;font-weight:600;font-size:14px;margin:0 0 5px}
-label small{font-weight:400;color:var(--muted)}
-.field{margin-bottom:14px}
-.money{display:flex;align-items:center;border:2px solid var(--line);border-radius:14px;padding:0 14px;background:var(--bg)}
-.money:focus-within{border-color:var(--accent)}
-.money input{border:0;background:transparent;font-family:var(--display);font-size:28px;font-weight:600;padding:8px 0;width:100%;outline:none}
-.money span{color:var(--muted);font-size:15px}
-.preview{margin-top:6px;font-size:14px;color:var(--muted)}
-.kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:0 12px}
-.kin{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:8px 12px;background:var(--bg);font-family:var(--display);font-size:20px;font-weight:500}
-.kin:focus{border-color:var(--accent);outline:none}
-.kprev{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;background:var(--soft);border-radius:14px;padding:10px 12px;margin:2px 0 8px}
-.kprev small{display:block;font-size:12px;color:var(--muted);line-height:1.3}
-.kprev b{font-family:var(--display);font-weight:600;font-size:18px}
-.warn{color:var(--near);font-size:13px;margin:0 0 12px}
-textarea{width:100%;min-height:62px;resize:vertical;border:1.5px solid var(--line);border-radius:12px;padding:9px 12px;background:var(--bg);line-height:1.5}
-textarea:focus{border-color:var(--accent);outline:none}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
-.dfoot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 24px;border-top:1px solid var(--line);flex-wrap:wrap}
-.dfoot .meta{font-size:13px;color:var(--muted)}
-.btn{border:0;border-radius:12px;padding:11px 20px;font-weight:600;cursor:pointer}
-.btn.primary{background:var(--accent);color:var(--accent-ink)}
-.btn.ghost{background:transparent;color:var(--muted)}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.err{color:var(--miss);font-size:14px;margin:0 0 12px}
-
-/* theme dialog */
-#gate{width:min(420px,calc(100vw - 20px))}
-.tbody{padding:22px 24px}
-.tbody h3{font-family:var(--display);font-weight:600;font-size:22px;margin:0 0 4px}
-.tbody p{color:var(--muted);font-size:14px;margin:0 0 16px}
-.swatches{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
-.swatches button{width:40px;height:40px;border-radius:12px;border:3px solid var(--surface);box-shadow:0 0 0 1.5px var(--line);cursor:pointer}
-.swatches button[aria-pressed="true"]{box-shadow:0 0 0 3px var(--ink)}
-.custom{display:flex;align-items:center;gap:12px}
-.custom input[type=color]{width:48px;height:40px;border:0;background:none;padding:0;cursor:pointer}
-.custom input[type=text]{border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;width:130px;background:var(--bg);font-family:var(--display)}
-
-.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,140px);background:var(--ink);color:var(--bg);padding:11px 20px;border-radius:999px;font-weight:600;font-size:14px;transition:transform .25s;z-index:10}
+.dbody{padding:22px 24px}
+.dbody h3{font-family:var(--display);font-weight:600;font-size:22px;margin:0 0 4px}
+.dbody p{color:var(--muted);font-size:14px;margin:0 0 14px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,140px);background:var(--ink);color:var(--bg);padding:11px 20px;border-radius:999px;font-weight:600;font-size:14px;transition:transform .25s;z-index:20}
 .toast.show{transform:translate(-50%,0)}
-footer{color:var(--muted);font-size:13px;padding-bottom:30px;max-width:80ch}
 
-@media (max-width:980px){
-  .stars{grid-template-columns:1fr 1fr}
+@media (max-width:1280px){
+  .stars{grid-template-columns:repeat(2,minmax(0,1fr))}
   .star:nth-child(3){border-left:0}
   .star:nth-child(n+3){border-top:1px solid var(--line)}
+  .notes{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:1100px){
   .funnelwrap{grid-template-columns:1fr}
   .funnel{border-right:0;border-bottom:1px solid var(--line)}
-}
-@media (max-width:860px){
-  .lane{grid-template-columns:1fr auto;gap:10px 14px}
+  .lane{grid-template-columns:minmax(0,1fr) auto;gap:10px 14px}
   .lane .trackwrap{grid-column:1/-1;order:3}
-  .lane .nums{order:2;text-align:right}
-  .lane .act{display:none}
+  .lane .need{display:none}
   .voices{grid-template-columns:1fr}
-  .overall{grid-template-columns:1fr}
+  .entryhead{grid-template-columns:1fr}
+}
+@media (max-width:900px){
+  .app{display:block}
+  .side{position:static;height:auto;padding-top:calc(14px + env(safe-area-inset-top,0px))}
+  .nav{flex-direction:row;overflow-x:auto;padding-bottom:4px}
+  .nav button{flex:none}
+  .wlist{flex-direction:row;overflow-x:auto}
+  .wbtn{flex:none;flex-direction:column;align-items:flex-start}
+  .sidefoot{margin-top:0}
+  .hrow{grid-template-columns:1fr}
   .bigpct{text-align:left}
-  .kgrid{grid-template-columns:repeat(2,1fr)}
-  .kprev{grid-template-columns:repeat(3,1fr)}
+  .grid2{grid-template-columns:1fr}
 }
 @media (max-width:560px){
-  .wrap{padding:0 14px}
-  .wk{min-width:0;flex:1 1 30%}
-  .dstats{grid-template-columns:1fr 1fr}
-  .grid2{grid-template-columns:1fr}
   .stars{grid-template-columns:1fr}
   .star{border-left:0!important;border-top:1px solid var(--line)}
   .star:first-child{border-top:0}
-  .lane{padding:14px 16px}
+  .notes{grid-template-columns:1fr}
+  .hero{padding:20px}
   .fstep{grid-template-columns:70px 1fr 74px;gap:10px}
-  .fside{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
 <body>
-
-<header class="hero">
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V4"/><path d="M4 4h12l-2 4 2 4H4"/></svg>
-        สนามยอดขาย ทีมเซลส์
-      </div>
-      <div class="tools">
-        <div class="pill" id="sync" role="status"><i></i><span>กำลังเชื่อมต่อ…</span></div>
-      </div>
+<div class="app">
+  <aside class="side" aria-label="เมนู">
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V4"/><path d="M4 4h12l-2 4 2 4H4"/></svg>
+      สนามยอดขาย
     </div>
+    <div><span class="sl">เดือน</span><select id="monthSel" aria-label="เลือกเดือน"></select></div>
+    <div id="periodBox">
+      <span class="sl">มุมมอง</span>
+      <div class="seg" id="ptype" role="group" aria-label="มุมมอง">
+        <button data-p="day">รายวัน</button><button data-p="week">รายสัปดาห์</button><button data-p="month">รายเดือน</button>
+      </div>
+      <div id="picker" style="margin-top:10px"></div>
+    </div>
+    <nav class="nav" id="nav" aria-label="หน้า"></nav>
+    <div class="sidefoot">
+      <div class="who-row"><span class="pill" id="sync"><i></i><span>กำลังเชื่อมต่อ…</span></span></div>
+      <div class="who-row"><span id="roleTxt"></span><button class="linkbtn" id="switchBtn">เปลี่ยนรหัส</button></div>
+    </div>
+  </aside>
+  <main class="main">
     <div class="notice" id="notice" role="alert" hidden></div>
-    <h1>ตุลาคม 2569</h1>
-    <p class="sub">ซุปกดชื่อทีมตัวเองเพื่อกรอกยอดขายและ KPI ของสัปดาห์ ใส่รูปตัวเองได้ที่ฟอร์มเดียวกัน ระบบคำนวณยอดสะสม เป้า และ %Con ให้อัตโนมัติ</p>
-
-    <div class="weeks" id="weeks" role="group" aria-label="เลือกสัปดาห์"></div>
-
-    <div class="overall">
-      <div class="figs">
-        <div class="fig"><small>ยอดสะสมทั้งทีม</small><strong class="num" id="oCum">0</strong></div>
-        <div class="fig"><small>เป้าสะสมถึงสัปดาห์นี้</small><strong class="num" id="oTgt">0</strong></div>
-        <div class="fig"><small>เป้าทั้งเดือน</small><strong class="num" id="oMonth">0</strong></div>
-      </div>
-      <div class="bigpct num" id="oPct">0%</div>
-      <div class="htrack">
-        <div class="track" id="oTrack">
-          <span class="fill"></span><span class="pace"></span>
-          <span class="runner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="14" cy="4" r="2"/><path d="M8 21l3-6 3 2 2 5"/><path d="M6 12l3-4 5 1 3 3 3 1"/></svg></span>
-        </div>
-        <div class="ticks" id="oTicks"></div>
-      </div>
-    </div>
-  </div>
-</header>
-
-<main class="wrap">
-  <section class="sec">
-    <div class="sech"><div><h2 id="starTitle">ดาวเด่นประจำสัปดาห์</h2><p>คัดจากทีมที่กรอกผลสัปดาห์นี้แล้ว</p></div></div>
-    <div class="panel stars" id="stars"></div>
-  </section>
-
-  <section class="sec">
-    <div class="sech">
-      <div><h2 id="laneTitle">ลู่วิ่งรายทีม</h2><p>แถบคือยอดสะสมเทียบเป้าทั้งเดือน เส้นประคือจุดที่ควรไปถึงในสัปดาห์นี้</p></div>
-      <div class="legend">
-        <span><i style="background:var(--hit)"></i>ถึงเป้า</span>
-        <span><i style="background:var(--near)"></i>ใกล้เป้า (90% ขึ้นไป)</span>
-        <span><i style="background:var(--miss)"></i>ต่ำกว่าเป้า</span>
-        <span><i style="background:var(--wait)"></i>รอกรอก</span>
-      </div>
-    </div>
-    <div class="panel lanes" id="lanes"></div>
-  </section>
-
-  <section class="sec">
-    <div class="sech"><div><h2 id="funTitle">Funnel การโทรทั้งทีม</h2><p>จากสายที่โทรออกจนถึงออเดอร์ที่ปิดได้ของทุกทีมรวมกัน</p></div></div>
-    <div class="panel funnelwrap">
-      <div class="funnel" id="funnel"></div>
-      <div class="fside" id="fside"></div>
-    </div>
-  </section>
-
-  <section class="sec">
-    <div class="sech">
-      <div><h2 id="kpiTitle">KPI รายทีม</h2><p>ตัวเลขสีเขียวดีกว่าค่ารวมทั้งทีมเกิน 10% สีชมพูต่ำกว่าเกิน 10%</p></div>
-    </div>
-    <div class="panel scroll kpi"><table id="kpi"></table></div>
-  </section>
-
-  <section class="sec">
-    <div class="sech"><div><h2>% เป้าสะสม ทุกสัปดาห์</h2><p>กดช่องไหนก็ได้เพื่อเปิดฟอร์มของทีมและสัปดาห์นั้น</p></div></div>
-    <div class="panel scroll mx"><table id="matrix"></table></div>
-  </section>
-
-  <section class="sec">
-    <div class="sech"><div><h2 id="voiceTitle">เสียงจากซุป</h2><p>รวมทุกข้อความที่ซุปเขียนไว้ในสัปดาห์ที่เลือก</p></div></div>
-    <div class="voices" id="voices"></div>
-  </section>
-
-  <footer>
-    วิธีคิด: เป้าสะสมคิดจากวันทำงานสะสม ÷ 25 วัน (3, 9, 14, 19, 25 วัน) %ติดต่อได้ = ได้คุย ÷ โทร, %คุยจบ = คุยจบ ÷ ได้คุย, %Con = ปิด ÷ คุยจบ, Talktime และโทรต่อคนต่อวัน หารด้วยจำนวนเซลส์ × วันทำงานของสัปดาห์นั้น
-  </footer>
-</main>
-
-<dialog id="dlg" aria-labelledby="dTeam">
-  <form class="dlg" method="dialog" id="form">
-    <div class="dhead">
-      <div class="dtop">
-        <label class="photo" title="เปลี่ยนรูปซุป">
-          <span class="av" id="dAv"></span><span>รูป</span>
-          <input type="file" id="fPhoto" accept="image/*" aria-label="อัปโหลดรูปซุป">
-        </label>
-        <div>
-          <small id="dWeek"></small>
-          <h3 id="dTeam"></h3>
-          <input class="supin" id="fSup" placeholder="ชื่อซุปของทีมนี้" aria-label="ชื่อซุป" maxlength="40">
-        </div>
-      </div>
-      <div class="dstats">
-        <div><small>เป้าสัปดาห์นี้</small><b class="num" id="sWeekTgt"></b></div>
-        <div><small>เป้าสะสม</small><b class="num" id="sCumTgt"></b></div>
-        <div><small>ยอดสะสมก่อนหน้า</small><b class="num" id="sPrev"></b></div>
-        <div><small>เป้าทั้งเดือน</small><b class="num" id="sMonth"></b></div>
-      </div>
-    </div>
-    <div class="dbody">
-      <p class="err" id="dErr" hidden></p>
-
-      <div class="grp">ยอดขาย</div>
-      <div class="field">
-        <label for="fSales">ยอดขายสัปดาห์นี้ <small>(เฉพาะสัปดาห์นี้ ไม่ใช่ยอดสะสม)</small></label>
-        <div class="money"><input id="fSales" inputmode="numeric" autocomplete="off" placeholder="0"><span>บาท</span></div>
-        <div class="preview num" id="fPreview"></div>
-      </div>
-
-      <div class="grp">KPI การโทร</div>
-      <div class="kgrid">
-        <div class="field"><label for="fHeads">เซลส์ที่ทำงาน <small>(คน)</small></label><input class="kin num" id="fHeads" inputmode="numeric" placeholder="0"></div>
-        <div class="field"><label for="fCalls">โทรออก <small>(สาย)</small></label><input class="kin num" id="fCalls" inputmode="numeric" placeholder="0"></div>
-        <div class="field"><label for="fReach">ได้คุย <small>(สาย)</small></label><input class="kin num" id="fReach" inputmode="numeric" placeholder="0"></div>
-        <div class="field"><label for="fDone">คุยจบ <small>(สาย)</small></label><input class="kin num" id="fDone" inputmode="numeric" placeholder="0"></div>
-        <div class="field"><label for="fClose">ปิดการขาย <small>(ออเดอร์)</small></label><input class="kin num" id="fClose" inputmode="numeric" placeholder="0"></div>
-        <div class="field"><label for="fTalk">Talktime รวม <small>(ชม.:นาที)</small></label><input class="kin num" id="fTalk" inputmode="decimal" placeholder="0:00"></div>
-        <div class="field"><label for="fNew">ลูกค้าใหม่ <small>(ราย)</small></label><input class="kin num" id="fNew" inputmode="numeric" placeholder="0"></div>
-        <div class="field"><label for="fPipe">คาดว่าปิดได้สัปดาห์หน้า <small>(บาท)</small></label><input class="kin num" id="fPipe" inputmode="numeric" placeholder="0"></div>
-      </div>
-      <div class="kprev num" id="kPrev"></div>
-      <p class="warn" id="kWarn" hidden></p>
-
-      <div class="grp">สรุปสัปดาห์</div>
-      <div class="grid2">
-        <div class="field"><label for="fHigh">จุดเด่น / สิ่งที่ทำได้ดี</label><textarea id="fHigh" placeholder="เช่น ปิดลูกค้าใหม่ได้ 3 ราย"></textarea></div>
-        <div class="field"><label for="fProb">ปัญหา / อุปสรรค</label><textarea id="fProb" placeholder="เช่น ลูกค้า 2 รายเลื่อนสั่งของ"></textarea></div>
-        <div class="field"><label for="fPlan">แผนสัปดาห์หน้า</label><textarea id="fPlan" placeholder="เช่น โทรตามลูกค้าที่เลื่อน นัดเดโม่ 5 ราย"></textarea></div>
-        <div class="field"><label for="fHelp">อยากให้หัวหน้าช่วย</label><textarea id="fHelp" placeholder="เช่น ขออนุมัติส่วนลดพิเศษ 1 ดีล"></textarea></div>
-      </div>
-    </div>
-    <div class="dfoot">
-      <span class="meta" id="dMeta"></span>
-      <div>
-        <button type="button" class="btn ghost" id="bCancel">ปิด</button>
-        <button type="submit" class="btn primary" id="bSave">บันทึกผล</button>
-      </div>
-    </div>
-  </form>
-</dialog>
+    <div id="page"></div>
+  </main>
+</div>
 
 <dialog id="gate" aria-labelledby="gTitle">
-  <form class="tbody" id="gForm">
-    <h3 id="gTitle">ใส่รหัสทีมเพื่อเข้าใช้งาน</h3>
-    <p>ขอรหัสจากหัวหน้าทีม ใส่ครั้งเดียว เครื่องนี้จะจำไว้ให้</p>
-    <input class="kin" id="gCode" type="password" autocomplete="current-password" aria-label="รหัสทีม" style="width:100%">
-    <p class="err" id="gErr" hidden style="margin-top:12px"></p>
-    <div style="display:flex;justify-content:flex-end;margin-top:16px"><button type="submit" class="btn primary">เข้าใช้งาน</button></div>
+  <form class="dbody" id="gForm">
+    <h3 id="gTitle">ใส่รหัสเพื่อเข้าใช้งาน</h3>
+    <p id="gSub">ซุปใส่รหัสทีม แอดมินใส่รหัสแอดมิน เครื่องนี้จะจำไว้ให้</p>
+    <input class="in" id="gCode" type="password" autocomplete="current-password" aria-label="รหัส">
+    <p class="err" id="gErr" hidden></p>
+    <div style="display:flex;justify-content:flex-end;gap:8px;margin-top:16px">
+      <button type="button" class="btn ghost" id="gCancel">ยกเลิก</button>
+      <button type="submit" class="btn primary">เข้าใช้งาน</button>
+    </div>
   </form>
 </dialog>
-
+<input type="file" id="photoIn" accept="image/*" hidden>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="config.js"></script>
 <script>
-const CONFIG = window.APP_CONFIG;
-const API = (CONFIG.apiUrl || "").trim();
-const LS_KEY = "salesRace." + CONFIG.storageKey;
+/* ============ boot ============ */
+const BOOT = window.APP_CONFIG || {};
+const API = String(BOOT.apiUrl || "").trim();
 const CODE_KEY = "salesRace.code";
+const NUMF = ["sales", "calls", "reached", "completed", "closed", "talk", "newCust"];
 const STATUS_TXT = { hit: "ถึงเป้า", near: "ใกล้เป้า", miss: "ต่ำกว่าเป้า", wait: "รอกรอก" };
-const NUM_FIELDS = { fSales: "sales", fHeads: "heads", fCalls: "calls", fReach: "reached", fDone: "completed", fClose: "closed", fNew: "newCust", fPipe: "pipeline" };
 const POLL_MS = 30000;
+const ICON = {
+  dash: '<path d="M3 13h8V3H3z"/><path d="M13 21h8V11h-8z"/><path d="M13 3v6h8V3z"/><path d="M3 21h8v-6H3z"/>',
+  entry: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+  people: '<circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M17 4a4 4 0 0 1 0 8"/><path d="M22 21a6 6 0 0 0-4-5.6"/>',
+  kpi: '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-6"/>',
+  summary: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 10h18"/><path d="M9 4v17"/>',
+  voices: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+  admin: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'
+};
+const PAGES = [
+  ["dash", "ภาพรวม"], ["entry", "กรอกผลรายวัน"], ["people", "รายคน"], ["kpi", "KPI รายทีม"],
+  ["summary", "สรุปตามช่วงเวลา"], ["voices", "เสียงจากซุป"], ["admin", "ตั้งค่า (แอดมิน)"]
+];
 
-let entries = {}, teamInfo = {};
-let mode = "connecting";
+const S = {
+  month: null, months: [], cfg: null, cal: null, role: null,
+  daily: {}, notes: {}, photos: {},
+  page: "dash", ptype: "week", week: 0, day: null,
+  entryTeam: null, entryDate: null, dirty: false,
+  peopleTeam: "all", sort: { k: "p", d: -1 }, sumMode: "team",
+  draft: null, mode: "connecting"
+};
 let code = ""; try { code = localStorage.getItem(CODE_KEY) || ""; } catch (e) {}
-let sel = detectWeek();
-let editing = null, pendingPhoto = undefined, pollT = null, loading = false;
 
+/* ============ utils ============ */
 const $ = id => document.getElementById(id);
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const fmt = n => n == null || isNaN(n) ? "—" : Math.round(n).toLocaleString("th-TH");
-const fmt1 = n => n == null || isNaN(n) ? "—" : n.toLocaleString("th-TH", { maximumFractionDigits: 1 });
+const num = v => { if (v === null || v === undefined || v === "") return null; const n = Number(v); return isFinite(n) ? n : null; };
+const fmt = n => n == null || !isFinite(n) ? "—" : Math.round(n).toLocaleString("th-TH");
+const fmt1 = n => n == null || !isFinite(n) ? "—" : n.toLocaleString("th-TH", { maximumFractionDigits: 1 });
 const fmtM = n => (n / 1e6).toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " ล้าน";
 const pct = p => p == null || !isFinite(p) ? "—" : (p * 100).toLocaleString("th-TH", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + "%";
 const hm = h => { if (h == null || !isFinite(h)) return "—"; const m = Math.round(h * 60); return Math.floor(m / 60) + ":" + String(m % 60).padStart(2, "0"); };
-const key = (wi, ti) => CONFIG.weeks[wi].id + "__" + CONFIG.teams[ti].id;
 const isHex = v => typeof v === "string" && /^#[0-9a-fA-F]{6}$/.test(v);
 const isImg = v => typeof v === "string" && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(v);
+const clone = o => JSON.parse(JSON.stringify(o));
+const uid = p => p + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+function parseNum(v) { const c = String(v ?? "").replace(/[,\s฿]/g, ""); if (c === "") return null; const n = Number(c); return isFinite(n) && n >= 0 ? n : NaN; }
+function parseTalk(v) {
+  const c = String(v ?? "").trim(); if (c === "") return null;
+  const m = c.match(/^(\d+):(\d{1,2})$/);
+  if (m) { const mm = +m[2]; return mm < 60 ? +m[1] + mm / 60 : NaN; }
+  const n = Number(c.replace(/,/g, "")); return isFinite(n) && n >= 0 ? n : NaN;
+}
+const pad = n => String(n).padStart(2, "0");
+function todayStr() { const t = new Date(); return t.getFullYear() + "-" + pad(t.getMonth() + 1) + "-" + pad(t.getDate()); }
+function dsDate(ds) { const [y, m, d] = ds.split("-").map(Number); return new Date(y, m - 1, d); }
+const thMonth = m => { const [y, mo] = m.split("-").map(Number); return new Date(y, mo - 1, 1).toLocaleDateString("th-TH", { month: "long", year: "numeric" }); };
+const dShort = ds => dsDate(ds).toLocaleDateString("th-TH", { day: "numeric", month: "short" });
+const dLong = ds => dsDate(ds).toLocaleDateString("th-TH", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
 
-function detectWeek() {
-  const t = new Date();
-  const today = t.getFullYear() + "-" + String(t.getMonth() + 1).padStart(2, "0") + "-" + String(t.getDate()).padStart(2, "0");
-  const i = CONFIG.weeks.findIndex(w => today <= w.end);
-  return i === -1 ? CONFIG.weeks.length - 1 : i;
+/* ============ config & calendar ============ */
+function bootMonth() {
+  const w = BOOT.weeks && BOOT.weeks[0] && BOOT.weeks[0].end;
+  if (w) return w.slice(0, 7);
+  return todayStr().slice(0, 7);
 }
-
-/* ---------- maths ---------- */
-const share = wi => wi < 0 ? 0 : CONFIG.weeks[wi].cum / CONFIG.totalDays;
-const daysOf = wi => CONFIG.weeks[wi].cum - (wi ? CONFIG.weeks[wi - 1].cum : 0);
-const cumTarget = (ti, wi) => CONFIG.teams[ti].target * share(wi);
-const weekTarget = (ti, wi) => cumTarget(ti, wi) - cumTarget(ti, wi - 1);
-const val = (e, f) => { if (!e) return null; const v = e[f]; if (v === null || v === undefined || v === "") return null; const n = Number(v); return isFinite(n) ? n : null; };
-const sales = (ti, wi) => val(entries[key(wi, ti)], "sales");
-function cumActual(ti, wi) { let s = 0; for (let j = 0; j <= wi; j++) s += sales(ti, j) || 0; return s; }
-const statusOf = (p, filled) => !filled ? "wait" : p >= CONFIG.hit ? "hit" : p >= CONFIG.near ? "near" : "miss";
-function teamState(ti, wi) {
-  const ct = cumTarget(ti, wi), ca = cumActual(ti, wi), filled = sales(ti, wi) !== null;
-  const p = ct ? ca / ct : 0, left = CONFIG.totalDays - CONFIG.weeks[wi].cum;
-  return { ct, ca, p, filled, status: statusOf(p, filled), perDay: left > 0 ? Math.max(0, CONFIG.teams[ti].target - ca) / left : null, monthP: ca / CONFIG.teams[ti].target };
-}
-function totalState(wi) {
-  let ct = 0, ca = 0, n = 0, month = 0;
-  CONFIG.teams.forEach((t, ti) => { ct += cumTarget(ti, wi); ca += cumActual(ti, wi); month += t.target; if (sales(ti, wi) !== null) n++; });
-  const p = ct ? ca / ct : 0;
-  return { ct, ca, p, n, month, status: statusOf(p, n > 0) };
-}
-const div = (a, b) => a == null || b == null || !b ? null : a / b;
-function kpiOf(e, days) {
-  const g = f => val(e, f);
-  const heads = g("heads"), calls = g("calls"), reached = g("reached"), completed = g("completed"), closed = g("closed"), talk = g("talk"), s = g("sales");
-  const hd = heads && days ? heads * days : null;
+function defaultConfig(month) {
   return {
-    heads, calls, reached, completed, closed, talk, sales: s, newCust: g("newCust"), pipeline: g("pipeline"),
-    rReach: div(reached, calls), rDone: div(completed, reached), rCon: div(closed, completed),
-    talkPer: div(talk, hd), callsPer: div(calls, hd), aov: div(s, closed)
+    month, brand: isHex(BOOT.brand) ? BOOT.brand : "#7A2BD6", near: 0.9, hit: 1,
+    workWeekdays: [1, 2, 3, 4, 5, 6],
+    holidays: month === "2026-10" ? ["2026-10-13", "2026-10-23"] : [],
+    teams: (BOOT.teams || []).map(t => ({ id: t.id, name: t.name, sup: "", target: t.target })),
+    people: [],
+    kpi: { callsPerDay: null, talkPerDay: null, rReach: null, rCon: null }
   };
 }
-const teamKpi = (ti, wi) => kpiOf(entries[key(wi, ti)], daysOf(wi));
-function totalKpi(wi) {
-  const sum = { heads: null, calls: null, reached: null, completed: null, closed: null, talk: null, sales: null, newCust: null, pipeline: null };
-  let hTalk = 0, hCalls = 0, sClose = 0, cClose = 0;
-  CONFIG.teams.forEach((t, ti) => {
-    const e = entries[key(wi, ti)];
-    Object.keys(sum).forEach(f => { const v = val(e, f); if (v !== null) sum[f] = (sum[f] || 0) + v; });
-    const h = val(e, "heads");
-    if (h && val(e, "talk") !== null) hTalk += h;
-    if (h && val(e, "calls") !== null) hCalls += h;
-    if (val(e, "sales") !== null && val(e, "closed")) { sClose += val(e, "sales"); cClose += val(e, "closed"); }
+function normCfg(c, month) {
+  const d = defaultConfig(month);
+  c = Object.assign({}, d, c || {});
+  c.month = month;
+  c.teams = Array.isArray(c.teams) ? c.teams : [];
+  c.people = Array.isArray(c.people) ? c.people : [];
+  c.holidays = Array.isArray(c.holidays) ? c.holidays : [];
+  c.workWeekdays = Array.isArray(c.workWeekdays) ? c.workWeekdays : d.workWeekdays;
+  c.kpi = Object.assign({}, d.kpi, c.kpi || {});
+  return c;
+}
+function calendar(cfg) {
+  const [y, m] = cfg.month.split("-").map(Number);
+  const n = new Date(y, m, 0).getDate();
+  const hol = new Set(cfg.holidays), ww = new Set(cfg.workWeekdays.map(Number));
+  const days = [];
+  for (let d = 1; d <= n; d++) {
+    const ds = `${y}-${pad(m)}-${pad(d)}`, dow = new Date(y, m - 1, d).getDay();
+    days.push({ ds, d, dow, work: ww.has(dow) && !hol.has(ds) });
+  }
+  const work = days.filter(x => x.work).map(x => x.ds);
+  const off = (days[0].dow + 6) % 7, groups = {};
+  days.forEach(x => { const k = Math.floor((x.d - 1 + off) / 7); (groups[k] = groups[k] || []).push(x); });
+  const weeks = [];
+  Object.keys(groups).sort((a, b) => a - b).forEach(k => {
+    const wd = groups[k].filter(x => x.work);
+    if (!wd.length) return;
+    const a = wd[0], b = wd[wd.length - 1];
+    const mon = dsDate(a.ds).toLocaleDateString("th-TH", { month: "short" });
+    weeks.push({ id: "W" + (weeks.length + 1), days: wd.map(x => x.ds), label: a.d === b.d ? `${a.d} ${mon}` : `${a.d}–${b.d} ${mon}` });
   });
-  const d = daysOf(wi);
-  return {
-    ...sum,
-    rReach: div(sum.reached, sum.calls), rDone: div(sum.completed, sum.reached), rCon: div(sum.closed, sum.completed),
-    talkPer: div(sum.talk, hTalk * d), callsPer: div(sum.calls, hCalls * d), aov: div(sClose, cClose)
+  return { days, work, weeks, total: work.length };
+}
+function weekOf(ds) { return Math.max(0, S.cal.weeks.findIndex(w => w.days.includes(ds) || w.days[w.days.length - 1] >= ds)); }
+function defaultDay() {
+  const t = todayStr(), w = S.cal.work;
+  if (!w.length) return S.cal.days[0].ds;
+  if (w.includes(t)) return t;
+  const past = w.filter(d => d <= t);
+  return past.length ? past[past.length - 1] : w[0];
+}
+
+/* ============ targets & aggregation ============ */
+const teamById = id => S.cfg.teams.find(t => t.id === id);
+const personById = id => S.cfg.people.find(p => p.id === id);
+function personTargets() {
+  const out = {};
+  S.cfg.teams.forEach(t => {
+    const ps = S.cfg.people.filter(p => p.team === t.id && p.active !== false);
+    const fixed = ps.filter(p => num(p.target) > 0), rest = ps.filter(p => !(num(p.target) > 0));
+    const used = fixed.reduce((s, p) => s + num(p.target), 0);
+    fixed.forEach(p => out[p.id] = num(p.target));
+    rest.forEach(p => out[p.id] = rest.length ? Math.max(0, (num(t.target) || 0) - used) / rest.length : 0);
+  });
+  S.cfg.people.forEach(p => { if (out[p.id] === undefined) out[p.id] = num(p.target) || 0; });
+  return out;
+}
+function agg(days, pred) {
+  const set = new Set(days);
+  const a = { n: 0, pdays: 0, pdCalls: 0, pdTalk: 0, dates: new Set() };
+  const has = {};
+  NUMF.forEach(f => { a[f] = 0; has[f] = false; });
+  for (const r of Object.values(S.daily)) {
+    if (!set.has(r.date) || !pred(r)) continue;
+    let any = false;
+    NUMF.forEach(f => { const v = num(r[f]); if (v !== null) { a[f] += v; has[f] = true; any = true; } });
+    if (!any) continue;
+    a.n++; a.pdays++; a.dates.add(r.date);
+    if (num(r.calls) !== null) a.pdCalls++;
+    if (num(r.talk) !== null) a.pdTalk++;
+  }
+  const d = (x, y) => (y ? x / y : null);
+  NUMF.forEach(f => { if (!has[f]) a[f] = null; });
+  a.rReach = a.calls ? d(a.reached, a.calls) : null;
+  a.rDone = a.reached ? d(a.completed, a.reached) : null;
+  a.rCon = a.completed ? d(a.closed, a.completed) : null;
+  a.talkPer = a.talk != null ? d(a.talk, a.pdTalk) : null;
+  a.callsPer = a.calls != null ? d(a.calls, a.pdCalls) : null;
+  a.aov = a.closed ? d(a.sales, a.closed) : null;
+  return a;
+}
+function statusOf(p, filled) { if (!filled || p == null) return "wait"; return p >= S.cfg.hit ? "hit" : p >= S.cfg.near ? "near" : "miss"; }
+function perf(monthly, days, pred) {
+  const a = agg(days, pred), t = todayStr(), total = S.cal.total || 1;
+  const el = days.filter(d => d <= t);
+  const full = monthly * days.length / total, toDate = monthly * el.length / total;
+  const p = toDate > 0 && a.n ? (a.sales || 0) / toDate : null;
+  return { a, full, toDate, el: el.length, p, status: statusOf(p, a.n > 0), sales: a.sales || 0 };
+}
+function needPerDay(monthly, pred) {
+  const t = todayStr(), left = S.cal.work.filter(d => d > t).length;
+  if (!left) return null;
+  const a = agg(S.cal.work, pred);
+  return Math.max(0, monthly - (a.sales || 0)) / left;
+}
+function periodInfo() {
+  const c = S.cal;
+  if (S.ptype === "day") { const ds = S.day; return { days: [ds], title: dLong(ds), short: dShort(ds) }; }
+  if (S.ptype === "week") { const w = c.weeks[S.week] || c.weeks[0]; return { days: w ? w.days : [], title: `สัปดาห์ที่ ${S.week + 1} (${w ? w.label : ""})`, short: `สัปดาห์ ${S.week + 1}` }; }
+  return { days: c.work, title: thMonth(S.month), short: "ทั้งเดือน" };
+}
+const teamPred = id => r => r.team === id;
+const personPred = id => r => r.person === id;
+const allPred = () => true;
+const totalTarget = () => S.cfg.teams.reduce((s, t) => s + (num(t.target) || 0), 0);
+
+/* ============ avatars & photos ============ */
+function photo(kind, id) { const p = S.photos[kind + ":" + id]; return isImg(p) ? p : null; }
+function avatar(kind, id, name, size, opts = {}) {
+  const p = photo(kind, id), init = esc([...String(name || "?").trim()][0] || "?");
+  const tag = opts.edit ? "button" : "span";
+  const attrs = opts.edit ? ` type="button" data-photo="${kind}:${esc(id)}" title="เปลี่ยนรูป" aria-label="เปลี่ยนรูป ${esc(name)}"` : "";
+  return `<${tag} class="av ${opts.cls || ""}"${attrs} style="width:${size}px;height:${size}px;font-size:${Math.round(size * .42)}px">${p ? `<img src="${p}" alt="">` : init}</${tag}>`;
+}
+function teamAv(t, size, opts) { return avatar("team", t.id, t.sup || t.name, size, opts); }
+function personAv(p, size, opts) { return avatar("person", p.id, p.name, size, opts); }
+
+/* ============ sidebar ============ */
+function renderSide() {
+  const ms = [...new Set([...S.months, S.month])].filter(Boolean).sort().reverse();
+  $("monthSel").innerHTML = ms.map(m => `<option value="${m}" ${m === S.month ? "selected" : ""}>${thMonth(m)}</option>`).join("");
+  const showPeriod = !["entry", "admin"].includes(S.page);
+  $("periodBox").hidden = !showPeriod;
+  $("ptype").querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.p === S.ptype));
+  let pk = "";
+  if (S.ptype === "week") {
+    pk = `<div class="wlist">${S.cal.weeks.map((w, i) => `<button class="wbtn" data-week="${i}" aria-pressed="${i === S.week}"><b>สัปดาห์ ${i + 1}</b><span>${esc(w.label)}</span></button>`).join("")}</div>`;
+  } else if (S.ptype === "day") {
+    pk = miniCal(S.day, "day", ds => Object.values(S.daily).some(r => r.date === ds));
+  } else {
+    pk = `<div class="wbtn" style="opacity:.85;cursor:default"><b>ทั้งเดือน</b><span>${S.cal.total} วันทำงาน</span></div>`;
+  }
+  $("picker").innerHTML = pk;
+  $("nav").innerHTML = PAGES.map(([id, label]) =>
+    `<button data-page="${id}" ${S.page === id ? 'aria-current="page"' : ""}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[id]}</svg>${label}${id === "admin" && S.role !== "admin" ? '<span class="lock">🔒</span>' : ""}</button>`).join("");
+  $("roleTxt").textContent = S.role === "admin" ? "👑 แอดมิน" : S.role === "member" ? "ซุป / ทีมขาย" : "";
+}
+function miniCal(sel, attr, dotFn) {
+  const days = S.cal.days, off = (days[0].dow + 6) % 7, t = todayStr();
+  let h = ["จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"].map(x => `<span class="h">${x}</span>`).join("");
+  for (let i = 0; i < off; i++) h += "<span></span>";
+  days.forEach(x => {
+    h += `<button type="button" data-${attr}="${x.ds}" ${x.work ? "" : "disabled"} aria-pressed="${x.ds === sel}" class="${x.ds === t ? "today " : ""}${x.work && dotFn(x.ds) ? "dot" : ""}" aria-label="${dShort(x.ds)}">${x.d}</button>`;
+  });
+  return `<div class="cal">${h}</div>`;
+}
+
+/* ============ pages ============ */
+function render() {
+  if (!S.cfg) return;
+  document.documentElement.style.setProperty("--brand", isHex(S.cfg.brand) ? S.cfg.brand : "#7A2BD6");
+  document.title = "สนามยอดขาย " + thMonth(S.month);
+  renderSide();
+  const f = { dash: pageDash, entry: pageEntry, people: pagePeople, kpi: pageKpi, summary: pageSummary, voices: pageVoices, admin: pageAdmin }[S.page];
+  $("page").innerHTML = f();
+  afterRender();
+}
+function afterRender() {
+  document.querySelectorAll("[data-track]").forEach(el => {
+    const [w, pace] = el.dataset.track.split(",").map(Number);
+    el.querySelector(".fill").style.width = Math.min(100, w) + "%";
+    el.querySelector(".runner").style.left = Math.max(Math.min(100, w), 1.2) + "%";
+    el.querySelector(".pace").style.left = Math.min(100, pace) + "%";
+  });
+}
+const track = (w, pace, cls = "") => `<span class="track ${cls}" data-track="${w},${pace}"><span class="fill"></span><span class="pace"></span><span class="runner"></span></span>`;
+const runnerSvg = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="14" cy="4" r="2"/><path d="M8 21l3-6 3 2 2 5"/><path d="M6 12l3-4 5 1 3 3 3 1"/></svg>';
+
+function pageDash() {
+  const P = periodInfo(), tot = perf(totalTarget(), P.days, allPred);
+  const filledTeams = S.cfg.teams.filter(t => agg(P.days, teamPred(t.id)).n > 0).length;
+  const w = tot.full ? tot.sales / tot.full * 100 : 0, pace = tot.full ? tot.toDate / tot.full * 100 : 0;
+  const hero = `<section class="hero">
+    <div class="hrow">
+      <div>
+        <div class="ttl">${esc(P.title)}</div>
+        <div class="figs">
+          <div class="fig"><small>ยอดขายรวม</small><strong class="num">${fmtM(tot.sales)}</strong></div>
+          <div class="fig"><small>เป้าถึงวันนี้</small><strong class="num">${fmtM(tot.toDate)}</strong></div>
+          <div class="fig"><small>เป้าทั้ง${S.ptype === "day" ? "วัน" : S.ptype === "week" ? "สัปดาห์" : "เดือน"}</small><strong class="num">${fmtM(tot.full)}</strong></div>
+        </div>
+      </div>
+      <div class="bigpct num">${tot.p == null ? "0" : Math.round(tot.p * 100)}%<small>ของเป้าถึงวันนี้ กรอกแล้ว ${filledTeams}/${S.cfg.teams.length} ทีม</small></div>
+    </div>
+    <div class="htrack"><span class="track" data-track="${w},${pace}"><span class="fill"></span><span class="pace"></span><span class="runner">${runnerSvg}</span></span>
+      <div class="hcap"><span>เส้นประ = จุดที่ควรไปถึงวันนี้</span><span>${tot.el}/${P.days.length} วันทำงานผ่านไปแล้ว</span></div></div>
+  </section>`;
+  return hero + starsHtml(P) + (P.days.length > 1 ? chartHtml(P) : "") + lanesHtml(P) + funnelHtml(P);
+}
+
+function starsHtml(P) {
+  const pt = personTargets();
+  const best = (list, fn) => { let b = null; list.forEach(x => { const v = fn(x); if (v != null && isFinite(v) && (!b || v > b.v)) b = { x, v }; }); return b; };
+  const teams = S.cfg.teams, people = S.cfg.people;
+  const card = (t, b, kind, f) => {
+    if (!b) return `<div class="star none"><span class="t">${t}</span><span class="v">รอข้อมูล</span></div>`;
+    const isTeam = kind === "team", x = b.x, sub = isTeam ? (x.sup || "") : (teamById(x.team) || {}).name || "";
+    return `<div class="star"><span class="t">${t}</span><div class="row">${isTeam ? teamAv(x, 52) : personAv(x, 52)}<div><b>${esc(x.name)}</b><small>${esc(sub)}</small></div></div><span class="v num">${f(b.v)}</span></div>`;
   };
+  return `<section class="sec"><div class="sech"><div><h2>ดาวเด่น ${esc(P.short)}</h2><p>คัดจากข้อมูลที่กรอกแล้วในช่วงเวลาที่เลือก</p></div></div>
+    <div class="panel stars">
+      ${card("ทีมเข้าเป้าสูงสุด", best(teams, t => perf(num(t.target) || 0, P.days, teamPred(t.id)).p), "team", pct)}
+      ${card("เซลส์เข้าเป้าสูงสุด", best(people, p => perf(pt[p.id] || 0, P.days, personPred(p.id)).p), "person", pct)}
+      ${card("%Con สูงสุด", best(people, p => agg(P.days, personPred(p.id)).rCon), "person", pct)}
+      ${card("Talktime ต่อวันสูงสุด", best(people, p => agg(P.days, personPred(p.id)).talkPer), "person", v => hm(v) + " ชม.")}
+    </div></section>`;
 }
 
-/* ---------- avatars ---------- */
-function supName(ti) { const t = teamInfo[CONFIG.teams[ti].id]; return t && t.sup ? String(t.sup) : ""; }
-function photoOf(ti) { const t = teamInfo[CONFIG.teams[ti].id]; return t && isImg(t.photo) ? t.photo : null; }
-function initial(ti) { const s = supName(ti) || CONFIG.teams[ti].name; return esc([...s.trim()][0] || "?"); }
-function avatar(ti, size, ring) {
-  const p = photoOf(ti);
-  return `<span class="av" style="width:${size}px;height:${size}px;font-size:${Math.round(size * .42)}px;${ring ? "--c:" + ring : ""}">${p ? `<img src="${p}" alt="">` : initial(ti)}</span>`;
-}
-
-/* ---------- render ---------- */
-function setTrack(el, cumVal, monthVal, paceShare, status) {
-  const w = Math.min(1, monthVal ? cumVal / monthVal : 0) * 100;
-  el.style.setProperty("--c", `var(--${status})`);
-  el.querySelector(".fill").style.width = w + "%";
-  el.querySelector(".runner").style.left = Math.max(w, 1.2) + "%";
-  el.querySelector(".pace").style.left = paceShare * 100 + "%";
-}
-
-function renderWeeks() {
-  $("weeks").innerHTML = CONFIG.weeks.map((w, i) =>
-    `<button class="wk" aria-pressed="${i === sel}" data-w="${i}"><b>สัปดาห์ ${i + 1}</b><span>${esc(w.label)}</span></button>`).join("");
-}
-
-function renderHero() {
-  const s = totalState(sel);
-  $("oCum").textContent = fmtM(s.ca);
-  $("oTgt").textContent = fmtM(s.ct);
-  $("oMonth").textContent = fmtM(s.month);
-  $("oPct").innerHTML = `${s.n ? Math.round(s.p * 100) : 0}%<small>ของเป้าสะสม กรอกแล้ว ${s.n}/${CONFIG.teams.length} ทีม</small>`;
-  const tr = $("oTrack"), w = Math.min(100, s.ca / s.month * 100);
-  tr.querySelector(".fill").style.width = w + "%";
-  tr.querySelector(".runner").style.left = Math.max(w, 1.5) + "%";
-  tr.querySelector(".pace").style.left = share(sel) * 100 + "%";
-  $("oTicks").innerHTML = CONFIG.weeks.map((w, i) => `<span style="left:${share(i) * 100}%">W${i + 1}</span>`).join("");
-}
-
-function renderStars() {
-  $("starTitle").textContent = `ดาวเด่นประจำสัปดาห์ ${sel + 1}`;
-  const filled = CONFIG.teams.map((t, ti) => ti).filter(ti => entries[key(sel, ti)]);
-  const best = fn => { let b = null; filled.forEach(ti => { const v = fn(ti); if (v != null && isFinite(v) && (b === null || v > b.v)) b = { ti, v }; }); return b; };
-  const awards = [
-    { t: "เข้าเป้าสะสมสูงสุด", b: best(ti => sales(ti, sel) !== null ? teamState(ti, sel).p : null), f: v => pct(v) },
-    { t: "%Con สูงสุด", b: best(ti => teamKpi(ti, sel).rCon), f: v => pct(v) },
-    { t: "Talktime ต่อคนต่อวันสูงสุด", b: best(ti => teamKpi(ti, sel).talkPer), f: v => hm(v) + " ชม." },
-    { t: "โทรต่อคนต่อวันสูงสุด", b: best(ti => teamKpi(ti, sel).callsPer), f: v => fmt1(v) + " สาย" }
-  ];
-  $("stars").innerHTML = awards.map(a => a.b ? `
-    <div class="star">
-      <span class="t">${a.t}</span>
-      <div class="row">${avatar(a.b.ti, 56)}<div><b>${esc(CONFIG.teams[a.b.ti].name)}</b><small>${esc(supName(a.b.ti) || " ")}</small></div></div>
-      <span class="v num">${a.f(a.b.v)}</span>
-    </div>` : `
-    <div class="star none"><span class="t">${a.t}</span><span class="v">รอข้อมูล</span></div>`).join("");
-}
-
-function renderLanes() {
-  const w = CONFIG.weeks[sel];
-  $("laneTitle").textContent = `ลู่วิ่งรายทีม สัปดาห์ ${sel + 1} (${w.label})`;
-  $("lanes").innerHTML = CONFIG.teams.map((t, ti) => {
-    const s = teamState(ti, sel), sup = supName(ti);
-    return `<button class="lane" data-t="${ti}" aria-label="กรอกผลของทีม ${esc(t.name)} สัปดาห์ ${sel + 1}">
-      <span class="who">${avatar(ti, 46, `var(--${s.status})`)}<span class="txt"><b>${esc(t.name)}</b><small>${sup ? "ซุป " + esc(sup) : "ยังไม่ได้ใส่ชื่อซุป"}</small><span class="chip ${s.status}">${STATUS_TXT[s.status]}${s.filled ? " " + Math.round(s.p * 100) + "%" : ""}</span></span></span>
-      <span class="trackwrap"><span class="track"><span class="fill"></span><span class="pace"></span><span class="runner"></span></span></span>
-      <span class="nums num"><b>${fmt(s.ca)}</b> / ${fmt(s.ct)}<br>${s.perDay === null ? "สัปดาห์สุดท้ายของเดือน" : "ต้องทำวันละ " + fmt(s.perDay)}</span>
-      <span class="act"><span class="fillbtn">${entries[key(sel, ti)] ? "แก้ไขผล" : "กรอกผล"}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span></span>
-    </button>`;
+function chartHtml(P) {
+  const daily = totalTarget() / (S.cal.total || 1), t = todayStr();
+  const vals = P.days.map(ds => ({ ds, v: agg([ds], allPred).sales, n: agg([ds], allPred).n }));
+  const max = Math.max(daily * 1.25, ...vals.map(x => x.v || 0)) || 1;
+  const W = 1000, H = 200, gap = 8, bw = Math.min(70, Math.max(6, (W - gap * (vals.length - 1)) / vals.length)), x0 = (W - (bw * vals.length + gap * (vals.length - 1))) / 2;
+  const y = v => H - (v / max) * H;
+  const bars = vals.map((x, i) => {
+    const X = x0 + i * (bw + gap), v = x.v || 0, st = !x.n ? "wait" : statusOf(v / daily, true);
+    const h = Math.max(x.n ? 3 : 0, H - y(v));
+    const color = { hit: "var(--hit)", near: "var(--near)", miss: "var(--miss)", wait: "var(--wait)" }[st];
+    return `<g><title>${dShort(x.ds)}: ${fmt(v)} บาท (${x.n ? pct(v / daily) : "ยังไม่กรอก"})</title>
+      ${x.n ? `<rect x="${X}" y="${H - h}" width="${bw}" height="${h}" rx="4" fill="${color}"/>` : `<rect x="${X}" y="${H - 6}" width="${bw}" height="6" rx="3" fill="var(--track)"${x.ds > t ? "" : ""}/>`}
+      <text class="lbl" x="${X + bw / 2}" y="${H + 16}" text-anchor="middle">${dsDate(x.ds).getDate()}</text></g>`;
   }).join("");
-  $("lanes").querySelectorAll(".lane").forEach(el => {
-    const ti = +el.dataset.t, s = teamState(ti, sel);
-    setTrack(el.querySelector(".track"), s.ca, CONFIG.teams[ti].target, share(sel), s.status);
+  return `<section class="sec"><div class="sech"><div><h2>ยอดขายรายวันทั้งทีม</h2><p>เส้นประคือเป้ารายวัน ${fmt(daily)} บาท ชี้ที่แท่งเพื่อดูตัวเลข</p></div>
+      <div class="legend"><span><i style="background:var(--hit)"></i>ถึงเป้า</span><span><i style="background:var(--near)"></i>ใกล้เป้า</span><span><i style="background:var(--miss)"></i>ต่ำกว่าเป้า</span></div></div>
+    <div class="panel chart"><svg viewBox="0 -6 ${W} ${H + 26}" preserveAspectRatio="none" role="img" aria-label="กราฟยอดขายรายวัน">${bars}<line class="tl" x1="0" x2="${W}" y1="${y(daily)}" y2="${y(daily)}"/></svg></div></section>`;
+}
+
+function lanesHtml(P) {
+  const rows = S.cfg.teams.map(t => {
+    const m = num(t.target) || 0, r = perf(m, P.days, teamPred(t.id)), need = needPerDay(m, teamPred(t.id));
+    const w = r.full ? r.sales / r.full * 100 : 0, pace = r.full ? r.toDate / r.full * 100 : 0;
+    return `<div class="lane ${r.status}">
+      <div class="who">${teamAv(t, 46)}<div style="min-width:0"><b>${esc(t.name)}</b><small>${t.sup ? "ซุป " + esc(t.sup) : "&nbsp;"}</small><span class="chip ${r.status}">${STATUS_TXT[r.status]}${r.p != null ? " " + Math.round(r.p * 100) + "%" : ""}</span></div></div>
+      <div class="trackwrap">${track(w, pace)}</div>
+      <div class="nums num"><b>${fmt(r.sales)}</b> / ${fmt(r.toDate)}<br>เป้าทั้งช่วง ${fmt(r.full)}</div>
+      <div class="need num">ต้องทำวันละ<b>${need == null ? "—" : fmt(need)}</b>เพื่อปิดเป้าเดือน</div>
+    </div>`;
+  }).join("");
+  return `<section class="sec"><div class="sech"><div><h2>ลู่วิ่งรายทีม</h2><p>แถบคือยอดเทียบเป้าทั้งช่วงที่เลือก เส้นประคือจุดที่ควรไปถึงวันนี้</p></div>
+    <div class="legend"><span><i style="background:var(--hit)"></i>ถึงเป้า</span><span><i style="background:var(--near)"></i>ใกล้เป้า (${Math.round(S.cfg.near * 100)}%+)</span><span><i style="background:var(--miss)"></i>ต่ำกว่าเป้า</span><span><i style="background:var(--wait)"></i>รอกรอก</span></div></div>
+    <div class="panel">${rows || '<p class="empty">ยังไม่มีทีม แอดมินเพิ่มได้ที่หน้าตั้งค่า</p>'}</div></section>`;
+}
+
+function funnelHtml(P) {
+  const k = agg(P.days, allPred);
+  const steps = [["โทรออก", k.calls, null, ""], ["ได้คุย", k.reached, k.rReach, "ติดต่อได้"], ["คุยจบ", k.completed, k.rDone, "คุยจบ"], ["ปิดการขาย", k.closed, k.rCon, "%Con"]];
+  const max = k.calls || Math.max(...steps.map(s => s[1] || 0)) || 1;
+  const fun = steps.map(([l, v, r, rl]) => `<div class="fstep"><span class="l">${l}</span><span class="fbar"><i style="width:${v ? Math.max(4, Math.min(100, v / max * 100)) : 0}%"></i><em class="num">${v == null ? "" : fmt(v)}</em></span><span class="r num">${r == null ? "" : `<b>${pct(r)}</b>${rl}`}</span></div>`).join("");
+  const side = [["%Con ทั้งทีม", pct(k.rCon)], ["Talktime รวม", k.talk == null ? "—" : hm(k.talk) + " ชม."], ["Talktime / คน / วัน", k.talkPer == null ? "—" : hm(k.talkPer) + " ชม."], ["โทร / คน / วัน", k.callsPer == null ? "—" : fmt1(k.callsPer) + " สาย"], ["ยอดเฉลี่ยต่อออเดอร์", fmt(k.aov)], ["ลูกค้าใหม่", fmt(k.newCust)]]
+    .map(([a, b]) => `<div><small>${a}</small><b class="num">${b}</b></div>`).join("");
+  return `<section class="sec"><div class="sech"><div><h2>Funnel การโทรทั้งทีม</h2><p>จากสายที่โทรออกจนถึงออเดอร์ที่ปิดได้</p></div></div>
+    <div class="panel funnelwrap"><div class="funnel">${fun}${k.calls == null ? '<p class="empty" style="padding:6px 0 0">ยังไม่มีข้อมูลการโทรในช่วงนี้</p>' : ""}</div><div class="fside">${side}</div></div></section>`;
+}
+
+/* ---------- entry ---------- */
+function pageEntry() {
+  const teams = S.cfg.teams;
+  if (!teams.length) return `<div class="ph"><div><h1>กรอกผลรายวัน</h1></div></div><div class="panel"><p class="empty">ยังไม่มีทีม แอดมินเพิ่มทีมได้ที่หน้าตั้งค่า</p></div>`;
+  if (!S.entryTeam || !teamById(S.entryTeam)) S.entryTeam = teams[0].id;
+  if (!S.entryDate || !S.cal.days.some(d => d.ds === S.entryDate)) S.entryDate = defaultDay();
+  const t = teamById(S.entryTeam), ds = S.entryDate, wi = weekOf(ds), wk = S.cal.weeks[wi];
+  const people = S.cfg.people.filter(p => p.team === t.id && p.active !== false);
+  const pt = personTargets(), dailyTeam = (num(t.target) || 0) / (S.cal.total || 1);
+  const isWork = S.cal.work.includes(ds);
+  const rowsHtml = people.map(p => {
+    const r = S.daily[ds + "__" + p.id] || {};
+    const inp = (f, cls = "") => {
+      const v = num(r[f]);
+      const shown = v == null ? "" : f === "talk" ? hm(v) : v.toLocaleString("th-TH");
+      return `<td><input class="ein ${cls}" data-p="${esc(p.id)}" data-f="${f}" value="${shown}" inputmode="${f === "talk" ? "decimal" : "numeric"}" placeholder="${f === "talk" ? "0:00" : "0"}" aria-label="${esc(p.name)} ${f}"></td>`;
+    };
+    return `<tr data-row="${esc(p.id)}"><td><span class="tn">${personAv(p, 34, { edit: true })}<span>${esc(p.name)}<br><small>เป้าวันละ ${fmt((pt[p.id] || 0) / (S.cal.total || 1))}</small></span></span></td>
+      ${inp("sales", "wide")}${inp("calls")}${inp("reached")}${inp("completed")}${inp("closed")}${inp("talk")}${inp("newCust")}
+      <td class="num" data-calc="${esc(p.id)}">—</td></tr>`;
+  }).join("");
+  const note = S.notes[`${S.month}__${wk ? wk.id : "W1"}__${t.id}`] || {};
+  return `<div class="ph"><div><h1>กรอกผลรายวัน</h1><p>เลือกทีมและวันที่ แล้วกรอกตัวเลขของเซลส์แต่ละคน ช่องที่เว้นว่างจะไม่ถูกนับ</p></div></div>
+  <div class="entryhead">
+    <div class="panel ehcard">
+      <div class="chips" id="teamChips">${teams.map(x => `<button type="button" data-eteam="${esc(x.id)}" aria-pressed="${x.id === t.id}">${esc(x.name)}</button>`).join("")}</div>
+      <div class="teampick">${teamAv(t, 64, { edit: true })}<div><h3>ทีม ${esc(t.name)}</h3><p>${t.sup ? "ซุป " + esc(t.sup) + " · " : ""}${esc(dLong(ds))}${isWork ? "" : " (วันหยุด)"}</p><p class="num">เป้าทีมวันนี้ <b>${fmt(dailyTeam)}</b> บาท</p></div></div>
+    </div>
+    <div class="panel ehcard pcal"><span class="l" style="display:block;font-weight:600;margin-bottom:8px">เลือกวันที่ (จุดเขียว = กรอกแล้ว)</span>${miniCal(ds, "edate", d => Object.values(S.daily).some(r => r.date === d && r.team === t.id))}</div>
+  </div>
+  <section class="sec"><div class="panel scroll">
+    ${people.length ? `<table class="etable"><thead><tr><th>เซลส์</th><th>ยอดขาย (บาท)</th><th>โทรออก</th><th>ได้คุย</th><th>คุยจบ</th><th>ปิดการขาย</th><th>Talktime<br>(ชม.:นาที)</th><th>ลูกค้าใหม่</th><th>%Con</th></tr></thead>
+    <tbody>${rowsHtml}<tr class="total" id="etotal"></tr></tbody></table>`
+    : `<p class="empty">ทีมนี้ยังไม่มีรายชื่อเซลส์ ${S.role === "admin" ? 'ไปเพิ่มได้ที่ <a href="#" data-goto="admin">หน้าตั้งค่า</a>' : "แจ้งแอดมินให้เพิ่มรายชื่อ"}</p>`}
+  </div></section>
+  <section class="sec"><div class="sech"><div><h2>สรุปสัปดาห์ที่ ${wi + 1} ของทีม (${wk ? esc(wk.label) : ""})</h2><p>เขียนครั้งเดียวต่อสัปดาห์ แก้ได้ตลอดสัปดาห์</p></div></div>
+    <div class="panel notes">
+      <div><label class="l" for="nHigh">จุดเด่น / สิ่งที่ทำได้ดี</label><textarea id="nHigh" data-note="highlight">${esc(note.highlight || "")}</textarea></div>
+      <div><label class="l" for="nProb">ปัญหา / อุปสรรค</label><textarea id="nProb" data-note="problem">${esc(note.problem || "")}</textarea></div>
+      <div><label class="l" for="nPlan">แผนสัปดาห์หน้า</label><textarea id="nPlan" data-note="plan">${esc(note.plan || "")}</textarea></div>
+      <div><label class="l" for="nHelp">อยากให้หัวหน้าช่วย</label><textarea id="nHelp" data-note="help">${esc(note.help || "")}</textarea></div>
+    </div></section>
+  <div class="savebar"><span class="msg" id="saveMsg">${S.dirty ? "มีการแก้ไขที่ยังไม่บันทึก" : "ข้อมูลล่าสุดแล้ว"}</span><button class="btn primary" id="saveEntry">บันทึกผลวันที่ ${esc(dShort(ds))}</button></div>`;
+}
+function entryCalc() {
+  const tr = $("etotal"); if (!tr) return;
+  const sum = {}; NUMF.forEach(f => sum[f] = null);
+  document.querySelectorAll("tr[data-row]").forEach(row => {
+    const pid = row.dataset.row, v = {};
+    row.querySelectorAll(".ein").forEach(i => {
+      const x = i.dataset.f === "talk" ? parseTalk(i.value) : parseNum(i.value);
+      i.classList.toggle("bad", Number.isNaN(x));
+      v[i.dataset.f] = Number.isNaN(x) ? null : x;
+      if (v[i.dataset.f] != null) sum[i.dataset.f] = (sum[i.dataset.f] || 0) + v[i.dataset.f];
+    });
+    const c = row.querySelector(`[data-calc]`);
+    c.textContent = v.completed ? pct((v.closed || 0) / v.completed) : "—";
   });
+  const t = teamById(S.entryTeam), dt = (num(t.target) || 0) / (S.cal.total || 1);
+  tr.innerHTML = `<td>รวมทีม ${sum.sales != null && dt ? `<small>(${pct(sum.sales / dt)} ของเป้าวัน)</small>` : ""}</td>` +
+    ["sales", "calls", "reached", "completed", "closed"].map(f => `<td class="num">${fmt(sum[f])}</td>`).join("") +
+    `<td class="num">${sum.talk == null ? "—" : hm(sum.talk)}</td><td class="num">${fmt(sum.newCust)}</td><td class="num">${sum.completed ? pct((sum.closed || 0) / sum.completed) : "—"}</td>`;
+}
+async function saveEntry() {
+  const ds = S.entryDate, t = teamById(S.entryTeam), wk = S.cal.weeks[weekOf(ds)];
+  const rows = []; let bad = null;
+  document.querySelectorAll("tr[data-row]").forEach(row => {
+    const o = { person: row.dataset.row };
+    row.querySelectorAll(".ein").forEach(i => {
+      const x = i.dataset.f === "talk" ? parseTalk(i.value) : parseNum(i.value);
+      if (Number.isNaN(x)) bad = bad || i;
+      o[i.dataset.f] = Number.isNaN(x) ? null : x;
+    });
+    rows.push(o);
+  });
+  if (bad) { bad.focus(); toast("มีช่องที่กรอกไม่ใช่ตัวเลข (ช่องสีชมพู)"); return; }
+  const noteBody = {}; let noteChanged = false;
+  const old = S.notes[`${S.month}__${wk.id}__${t.id}`] || {};
+  document.querySelectorAll("[data-note]").forEach(x => { noteBody[x.dataset.note] = x.value.trim(); if ((old[x.dataset.note] || "") !== noteBody[x.dataset.note]) noteChanged = true; });
+  const btn = $("saveEntry"); btn.disabled = true; btn.textContent = "กำลังบันทึก…";
+  try {
+    const by = S.role === "admin" ? "แอดมิน" : (t.sup || "ซุป");
+    await apiWrite({ action: "saveDaily", month: S.month, date: ds, team: t.id, rows, by });
+    if (noteChanged) await apiWrite({ action: "saveNotes", month: S.month, week: wk.id, team: t.id, ...noteBody, by });
+    S.dirty = false;
+    toast(`บันทึกผลทีม ${t.name} วันที่ ${dShort(ds)} แล้ว`);
+    await load(S.month, true);
+  } catch (e) { toast(errText(e)); }
+  finally { const b = $("saveEntry"); if (b) { b.disabled = false; b.textContent = `บันทึกผลวันที่ ${dShort(ds)}`; } }
 }
 
-function renderFunnel() {
-  $("funTitle").textContent = `Funnel การโทรทั้งทีม สัปดาห์ ${sel + 1}`;
-  const k = totalKpi(sel);
-  const steps = [
-    { l: "โทรออก", v: k.calls, r: null, rl: "" },
-    { l: "ได้คุย", v: k.reached, r: k.rReach, rl: "ติดต่อได้" },
-    { l: "คุยจบ", v: k.completed, r: k.rDone, rl: "คุยจบ" },
-    { l: "ปิดการขาย", v: k.closed, r: k.rCon, rl: "%Con" }
-  ];
-  const max = k.calls || Math.max(...steps.map(s => s.v || 0)) || 1;
-  $("funnel").innerHTML = steps.map(s => {
-    const w = s.v ? Math.max(4, Math.min(100, s.v / max * 100)) : 0;
-    return `<div class="fstep"><span class="l">${s.l}</span><span class="fbar"><i style="width:${w}%"></i><em class="num">${s.v == null ? "" : fmt(s.v)}</em></span><span class="r num">${s.r == null ? "" : `<b>${pct(s.r)}</b>${s.rl}`}</span></div>`;
-  }).join("") + (k.calls == null ? `<p class="empty">ยังไม่มีทีมกรอก KPI การโทรในสัปดาห์นี้</p>` : "");
-  const items = [
-    ["%Con ทั้งทีม", pct(k.rCon)], ["Talktime รวม", hm(k.talk) + (k.talk != null ? " ชม." : "")],
-    ["Talktime / คน / วัน", k.talkPer == null ? "—" : hm(k.talkPer) + " ชม."], ["โทร / คน / วัน", k.callsPer == null ? "—" : fmt1(k.callsPer) + " สาย"],
-    ["ยอดเฉลี่ยต่อออเดอร์", fmt(k.aov)], ["ลูกค้าใหม่", fmt(k.newCust)]
-  ];
-  $("fside").innerHTML = items.map(([a, b]) => `<div><small>${a}</small><b class="num">${b}</b></div>`).join("");
-}
-
-function renderKpi() {
-  $("kpiTitle").textContent = `KPI รายทีม สัปดาห์ ${sel + 1}`;
-  const cols = [
-    ["คน", "heads", fmt, 0], ["โทร", "calls", fmt, 0], ["ได้คุย", "reached", fmt, 0], ["คุยจบ", "completed", fmt, 0], ["ปิด", "closed", fmt, 0],
-    ["%ติดต่อได้", "rReach", pct, 1], ["%คุยจบ", "rDone", pct, 1], ["%Con", "rCon", pct, 1],
-    ["Talktime<br>รวม (ชม.)", "talk", hm, 0], ["Talktime<br>/คน/วัน", "talkPer", hm, 1], ["โทร<br>/คน/วัน", "callsPer", fmt1, 1],
-    ["ยอดเฉลี่ย<br>/ออเดอร์", "aov", fmt, 1], ["ลูกค้าใหม่", "newCust", fmt, 0], ["คาดว่าปิดได้<br>สัปดาห์หน้า", "pipeline", fmt, 0]
-  ];
-  const tot = totalKpi(sel);
-  const cls = (v, avg, cmp) => v == null ? "na" : (!cmp || !avg) ? "" : v >= avg * 1.1 ? "up" : v <= avg * 0.9 ? "down" : "";
-  const head = `<thead><tr><th>ทีม</th>${cols.map(c => `<th>${c[0]}</th>`).join("")}</tr></thead>`;
-  const rows = CONFIG.teams.map((t, ti) => {
-    const k = teamKpi(ti, sel);
-    return `<tr><td><span class="tn">${avatar(ti, 30)}${esc(t.name)}</span></td>${cols.map(c => `<td class="num ${cls(k[c[1]], tot[c[1]], c[3])}">${c[2](k[c[1]])}</td>`).join("")}</tr>`;
+/* ---------- people ---------- */
+function pagePeople() {
+  const P = periodInfo(), pt = personTargets();
+  const list = S.cfg.people.filter(p => (S.peopleTeam === "all" || p.team === S.peopleTeam) && (p.active !== false || agg(P.days, personPred(p.id)).n));
+  const rows = list.map(p => {
+    const r = perf(pt[p.id] || 0, P.days, personPred(p.id)), a = r.a;
+    return { p, r, a, k: { p: r.p ?? -1, sales: r.sales, calls: a.calls ?? -1, rCon: a.rCon ?? -1, talkPer: a.talkPer ?? -1, callsPer: a.callsPer ?? -1, closed: a.closed ?? -1 } };
+  });
+  const { k, d } = S.sort;
+  rows.sort((x, y) => (x.k[k] - y.k[k]) * d);
+  const K = S.cfg.kpi;
+  const th = (key, label) => `<th class="sort" data-sort="${key}">${label}${k === key ? (d < 0 ? " ▼" : " ▲") : ""}</th>`;
+  const body = rows.map((x, i) => {
+    const t = teamById(x.p.team) || {}, a = x.a;
+    return `<tr><td><span class="tn"><span class="rank">${i + 1}</span>${personAv(x.p, 32)}<span>${esc(x.p.name)}<br><small>${esc(t.name || "")}</small></span></span></td>
+      <td class="num">${fmt(x.r.sales)}</td><td class="num">${fmt(x.r.toDate)}</td><td><span class="chip ${x.r.status}">${x.r.p == null ? "รอกรอก" : pct(x.r.p)}</span></td>
+      <td class="num">${fmt(a.calls)}</td><td class="num">${fmt(a.reached)}</td><td class="num">${fmt(a.completed)}</td><td class="num">${fmt(a.closed)}</td>
+      <td class="num ${kcls(a.rReach, K.rReach)}">${pct(a.rReach)}</td><td class="num ${kcls(a.rCon, K.rCon)}">${pct(a.rCon)}</td>
+      <td class="num">${a.talk == null ? "—" : hm(a.talk)}</td><td class="num ${kcls(a.talkPer, K.talkPerDay)}">${a.talkPer == null ? "—" : hm(a.talkPer)}</td>
+      <td class="num ${kcls(a.callsPer, K.callsPerDay)}">${fmt1(a.callsPer)}</td><td class="num">${a.dates.size}</td></tr>`;
   }).join("");
-  $("kpi").innerHTML = head + `<tbody>${rows}<tr class="total"><td>รวมทั้งหมด</td>${cols.map(c => `<td class="num">${c[2](tot[c[1]])}</td>`).join("")}</tr></tbody>`;
+  return `<div class="ph"><div><h1>ผลงานรายคน</h1><p>${esc(P.title)} · กดหัวตารางเพื่อเรียงลำดับ</p></div>
+    <div class="chips">${[["all", "ทุกทีม"], ...S.cfg.teams.map(t => [t.id, t.name])].map(([id, n]) => `<button data-pteam="${esc(id)}" aria-pressed="${S.peopleTeam === id}">${esc(n)}</button>`).join("")}</div></div>
+    <div class="panel scroll">${rows.length ? `<table><thead><tr><th>เซลส์</th>${th("sales", "ยอดขาย")}<th>เป้าถึงวันนี้</th>${th("p", "% เป้า")}${th("calls", "โทร")}<th>ได้คุย</th><th>คุยจบ</th>${th("closed", "ปิด")}<th>%ติดต่อได้</th>${th("rCon", "%Con")}<th>Talktime</th>${th("talkPer", "Talktime<br>/วัน")}${th("callsPer", "โทร<br>/วัน")}<th>วันที่กรอก</th></tr></thead><tbody>${body}</tbody></table>` : '<p class="empty">ยังไม่มีรายชื่อเซลส์ แอดมินเพิ่มได้ที่หน้าตั้งค่า</p>'}</div>
+    ${kpiNote()}`;
+}
+function kcls(v, target) { target = num(target); if (v == null) return "na"; if (!target) return ""; return v >= target ? "up" : v < target * 0.9 ? "down" : ""; }
+function kpiNote() {
+  const K = S.cfg.kpi, parts = [];
+  if (num(K.callsPerDay)) parts.push(`โทร ${fmt(K.callsPerDay)} สาย/วัน`);
+  if (num(K.talkPerDay)) parts.push(`Talktime ${hm(K.talkPerDay)} ชม./วัน`);
+  if (num(K.rReach)) parts.push(`%ติดต่อได้ ${pct(K.rReach)}`);
+  if (num(K.rCon)) parts.push(`%Con ${pct(K.rCon)}`);
+  return `<p class="hint" style="margin-top:10px">${parts.length ? "เป้า KPI ต่อคนจากแอดมิน: " + parts.join(", ") + " · สีเขียว = ถึงเป้า, สีชมพู = ต่ำกว่าเป้าเกิน 10%" : "แอดมินยังไม่ได้ตั้งเป้า KPI ต่อคน ตั้งได้ที่หน้าตั้งค่า"}</p>`;
 }
 
-function renderMatrix() {
-  const head = `<thead><tr><th>ทีม</th><th>เป้าทั้งเดือน</th>${CONFIG.weeks.map((w, i) => `<th>W${i + 1}<br>${esc(w.label)}</th>`).join("")}<th>ยอดสะสม<br>ล่าสุด</th><th>% ของ<br>เป้าเดือน</th></tr></thead>`;
-  const rows = CONFIG.teams.map((t, ti) => {
-    const cells = CONFIG.weeks.map((w, wi) => {
-      const s = teamState(ti, wi);
-      return `<td><button class="cell ${s.status}" data-t="${ti}" data-w="${wi}" aria-label="${esc(t.name)} สัปดาห์ ${wi + 1}">${s.filled ? pct(s.p) : "—"}</button></td>`;
+/* ---------- kpi teams ---------- */
+function pageKpi() {
+  const P = periodInfo(), K = S.cfg.kpi;
+  const row = (name, avHtml, m, pred, cls = "") => {
+    const r = perf(m, P.days, pred), a = r.a;
+    return `<tr class="${cls}"><td><span class="tn">${avHtml}${name}</span></td><td class="num">${fmt(r.sales)}</td><td><span class="chip ${r.status}">${r.p == null ? "รอกรอก" : pct(r.p)}</span></td>
+      <td class="num">${fmt(a.calls)}</td><td class="num">${fmt(a.reached)}</td><td class="num">${fmt(a.completed)}</td><td class="num">${fmt(a.closed)}</td>
+      <td class="num ${kcls(a.rReach, K.rReach)}">${pct(a.rReach)}</td><td class="num">${pct(a.rDone)}</td><td class="num ${kcls(a.rCon, K.rCon)}">${pct(a.rCon)}</td>
+      <td class="num">${a.talk == null ? "—" : hm(a.talk)}</td><td class="num ${kcls(a.talkPer, K.talkPerDay)}">${a.talkPer == null ? "—" : hm(a.talkPer)}</td><td class="num ${kcls(a.callsPer, K.callsPerDay)}">${fmt1(a.callsPer)}</td>
+      <td class="num">${fmt(a.aov)}</td><td class="num">${fmt(a.newCust)}</td></tr>`;
+  };
+  const body = S.cfg.teams.map(t => row(esc(t.name), teamAv(t, 30), num(t.target) || 0, teamPred(t.id))).join("") + row("รวมทั้งหมด", "", totalTarget(), allPred, "total");
+  return `<div class="ph"><div><h1>KPI รายทีม</h1><p>${esc(P.title)} · ค่าต่อคนต่อวันคิดจากวันที่มีการกรอกจริง</p></div></div>
+    <div class="panel scroll"><table><thead><tr><th>ทีม</th><th>ยอดขาย</th><th>% เป้า</th><th>โทร</th><th>ได้คุย</th><th>คุยจบ</th><th>ปิด</th><th>%ติดต่อได้</th><th>%คุยจบ</th><th>%Con</th><th>Talktime</th><th>Talktime<br>/คน/วัน</th><th>โทร<br>/คน/วัน</th><th>ยอดเฉลี่ย<br>/ออเดอร์</th><th>ลูกค้าใหม่</th></tr></thead><tbody>${body}</tbody></table></div>
+    ${kpiNote()}
+    <p class="hint">วิธีคิด: %ติดต่อได้ = ได้คุย ÷ โทร, %คุยจบ = คุยจบ ÷ ได้คุย, %Con = ปิด ÷ คุยจบ</p>`;
+}
+
+/* ---------- summary ---------- */
+function pageSummary() {
+  const pt = personTargets(), weeks = S.cal.weeks;
+  const ents = S.sumMode === "team"
+    ? S.cfg.teams.map(t => ({ name: t.name, av: teamAv(t, 30), m: num(t.target) || 0, pred: teamPred(t.id) }))
+    : S.cfg.people.map(p => ({ name: p.name, sub: (teamById(p.team) || {}).name, av: personAv(p, 30), m: pt[p.id] || 0, pred: personPred(p.id) }));
+  ents.push({ name: "รวมทั้งหมด", av: "", m: totalTarget(), pred: allPred, total: true });
+  const cell = r => `<span class="cell ${r.status}">${r.p == null ? "—" : pct(r.p)}<small class="num">${r.a.n ? fmt(r.sales) : ""}</small></span>`;
+  const body = ents.map(e => {
+    const mr = perf(e.m, S.cal.work, e.pred);
+    return `<tr class="${e.total ? "total" : ""}"><td><span class="tn">${e.av}<span>${esc(e.name)}${e.sub ? `<br><small>${esc(e.sub)}</small>` : ""}</span></span></td><td class="num">${fmt(e.m)}</td>
+      ${weeks.map(w => `<td>${cell(perf(e.m, w.days, e.pred))}</td>`).join("")}<td>${cell(mr)}</td><td class="num">${pct(e.m ? mr.sales / e.m : null)}</td></tr>`;
+  }).join("");
+  return `<div class="ph"><div><h1>สรุปตามช่วงเวลา</h1><p>% เทียบเป้าถึงวันนี้ของแต่ละสัปดาห์ และยอดขายจริง</p></div>
+    <div class="chips"><button data-smode="team" aria-pressed="${S.sumMode === "team"}">รายทีม</button><button data-smode="person" aria-pressed="${S.sumMode === "person"}">รายคน</button></div></div>
+    <div class="panel scroll"><table><thead><tr><th>${S.sumMode === "team" ? "ทีม" : "เซลส์"}</th><th>เป้าเดือน</th>${weeks.map((w, i) => `<th>สัปดาห์ ${i + 1}<br>${esc(w.label)}</th>`).join("")}<th>ทั้งเดือน<br>ถึงวันนี้</th><th>% ของ<br>เป้าเดือน</th></tr></thead><tbody>${body}</tbody></table></div>`;
+}
+
+/* ---------- voices ---------- */
+function pageVoices() {
+  const P = periodInfo();
+  const wset = new Set(S.cal.weeks.filter(w => w.days.some(d => P.days.includes(d))).map(w => w.id));
+  const cols = [["problem", "ปัญหา / อุปสรรค", "var(--miss)"], ["help", "อยากให้หัวหน้าช่วย", "var(--near)"], ["plan", "แผนสัปดาห์หน้า", "var(--hit)"], ["highlight", "จุดเด่น", "var(--accent)"]];
+  const list = Object.values(S.notes).filter(n => wset.has(n.week));
+  const html = cols.map(([f, h, c]) => {
+    const items = list.filter(n => String(n[f] || "").trim()).sort((a, b) => String(a.week).localeCompare(String(b.week))).map(n => {
+      const t = teamById(n.team) || { id: n.team, name: n.team };
+      return `<div class="note">${teamAv(t, 34)}<div><b>${esc(t.name)}</b> <small>${esc(n.week)}${n.updatedBy ? " · " + esc(n.updatedBy) : ""}</small><p>${esc(n[f])}</p></div></div>`;
     }).join("");
-    const last = teamState(ti, CONFIG.weeks.length - 1);
-    return `<tr><td><span class="tn">${avatar(ti, 30)}${esc(t.name)}</span></td><td class="num">${fmt(t.target)}</td>${cells}<td class="num">${fmt(last.ca)}</td><td class="num">${pct(last.monthP)}</td></tr>`;
+    return `<div class="panel col"><h3><i style="background:${c}"></i>${h}</h3>${items || '<p class="empty" style="padding:0">ยังไม่มีข้อความในช่วงนี้</p>'}</div>`;
   }).join("");
-  const tc = CONFIG.weeks.map((w, wi) => { const s = totalState(wi); return `<td><span class="cell static ${s.status}">${s.n ? pct(s.p) : "—"}</span></td>`; }).join("");
-  const lt = totalState(CONFIG.weeks.length - 1);
-  $("matrix").innerHTML = head + `<tbody>${rows}<tr class="total"><td>รวมทั้งหมด</td><td class="num">${fmt(lt.month)}</td>${tc}<td class="num">${fmt(lt.ca)}</td><td class="num">${pct(lt.ca / lt.month)}</td></tr></tbody>`;
+  return `<div class="ph"><div><h1>เสียงจากซุป</h1><p>${esc(P.title)} · ซุปเขียนได้ที่หน้ากรอกผลรายวัน</p></div></div><div class="voices" style="grid-template-columns:repeat(2,minmax(0,1fr))">${html}</div>`;
 }
 
-function renderVoices() {
-  $("voiceTitle").textContent = `เสียงจากซุป สัปดาห์ ${sel + 1}`;
-  const cols = [
-    { f: "problem", h: "ปัญหา / อุปสรรค", c: "var(--miss)" },
-    { f: "help", h: "อยากให้หัวหน้าช่วย", c: "var(--near)" },
-    { f: "plan", h: "แผนสัปดาห์หน้า", c: "var(--hit)" }
-  ];
-  $("voices").innerHTML = cols.map(col => {
-    const notes = CONFIG.teams.map((t, ti) => ({ t, ti, e: entries[key(sel, ti)] }))
-      .filter(x => x.e && String(x.e[col.f] || "").trim())
-      .map(x => {
-        const who = supName(x.ti);
-        return `<div class="note">${avatar(x.ti, 34)}<div><b>${esc(x.t.name)}</b>${who ? ` <small>${esc(who)}</small>` : ""}<p>${esc(x.e[col.f])}</p></div></div>`;
-      }).join("");
-    return `<div class="panel col"><h3><i style="background:${col.c}"></i>${col.h}</h3>${notes || `<p class="empty">ยังไม่มีทีมไหนเขียนในสัปดาห์นี้</p>`}</div>`;
-  }).join("");
+/* ---------- admin ---------- */
+function pageAdmin() {
+  if (S.role !== "admin") return `<div class="ph"><div><h1>ตั้งค่า</h1><p>หน้านี้สำหรับแอดมินเท่านั้น</p></div></div><div class="panel form"><p>ใส่รหัสแอดมินเพื่อแก้ไขเป้า ทีม รายชื่อเซลส์ และวันทำงาน</p><button class="btn primary" id="askAdmin">ใส่รหัสแอดมิน</button></div>`;
+  if (!S.draft) S.draft = clone(S.cfg);
+  const D = S.draft, cal = calendar(normCfg(D, S.month)), pt = (() => { const keep = S.cfg; S.cfg = normCfg(D, S.month); const r = personTargets(); S.cfg = keep; return r; })();
+  const wdNames = ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส"];
+  const teamRows = D.teams.map((t, i) => `<tr><td><input class="in" data-t="${i}" data-f="name" value="${esc(t.name)}" aria-label="ชื่อทีม"></td>
+    <td><input class="in" data-t="${i}" data-f="sup" value="${esc(t.sup || "")}" placeholder="ชื่อซุป" aria-label="ชื่อซุป"></td>
+    <td><input class="in num" data-t="${i}" data-f="target" value="${num(t.target) == null ? "" : num(t.target).toLocaleString("th-TH")}" inputmode="numeric" aria-label="เป้าเดือน"></td>
+    <td class="num">${D.people.filter(p => p.team === t.id && p.active !== false).length} คน</td>
+    <td><button class="btn danger" data-deltam="${i}">ลบ</button></td></tr>`).join("");
+  const peopleRows = D.people.map((p, i) => `<tr><td><span class="tn">${personAv(p, 30, { edit: true })}<input class="in" data-pi="${i}" data-f="name" value="${esc(p.name)}" aria-label="ชื่อเซลส์"></span></td>
+    <td><select class="in" data-pi="${i}" data-f="team" aria-label="ทีม">${D.teams.map(t => `<option value="${esc(t.id)}" ${t.id === p.team ? "selected" : ""}>${esc(t.name)}</option>`).join("")}</select></td>
+    <td><input class="in num" data-pi="${i}" data-f="target" value="${num(p.target) == null ? "" : num(p.target).toLocaleString("th-TH")}" placeholder="อัตโนมัติ ${fmt(pt[p.id])}" inputmode="numeric" aria-label="เป้าเดือน"></td>
+    <td><label style="display:inline-flex;gap:6px;align-items:center"><input type="checkbox" data-pi="${i}" data-f="active" ${p.active !== false ? "checked" : ""}>ทำงานอยู่</label></td>
+    <td><button class="btn danger" data-delp="${i}">ลบ</button></td></tr>`).join("");
+  const K = D.kpi || {};
+  return `<div class="ph"><div><h1>ตั้งค่า ${esc(thMonth(S.month))}</h1><p>แก้ไขแล้วกด "บันทึกการตั้งค่า" ด้านล่าง ทุกคนจะเห็นทันทีหลังรีเฟรช</p></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost" id="csvBtn">ดาวน์โหลด CSV รายวัน</button></div></div>
+
+  <section class="sec"><div class="sech"><div><h2>วันทำงานและเกณฑ์</h2><p>ตอนนี้มี ${cal.total} วันทำงาน แบ่งเป็น ${cal.weeks.length} สัปดาห์</p></div></div>
+    <div class="panel form">
+      <div class="frow"><div><span class="l">วันที่ทำงานในสัปดาห์</span><div class="wd">${[1, 2, 3, 4, 5, 6, 0].map(d => `<label><input type="checkbox" data-wd="${d}" ${D.workWeekdays.map(Number).includes(d) ? "checked" : ""}>${wdNames[d]}</label>`).join("")}</div></div></div>
+      <div class="frow"><div><span class="l">วันหยุดพิเศษ</span><div style="display:flex;gap:8px"><input class="in" type="date" id="holIn" min="${S.month}-01" max="${cal.days[cal.days.length - 1].ds}"><button class="btn ghost" id="holAdd">เพิ่มวันหยุด</button></div>
+        <div class="hol">${D.holidays.slice().sort().map(h => `<span>${esc(dShort(h))}<button data-delhol="${esc(h)}" aria-label="ลบวันหยุด">×</button></span>`).join("") || '<span style="background:none;padding:0;color:var(--muted)">ไม่มีวันหยุดพิเศษ</span>'}</div></div></div>
+      <div class="frow">
+        <div><label class="l" for="aNear">เกณฑ์ "ใกล้เป้า" (%)</label><input class="in" id="aNear" data-k="near" value="${Math.round((num(D.near) ?? .9) * 100)}" inputmode="numeric"></div>
+        <div><label class="l" for="aHit">เกณฑ์ "ถึงเป้า" (%)</label><input class="in" id="aHit" data-k="hit" value="${Math.round((num(D.hit) ?? 1) * 100)}" inputmode="numeric"></div>
+        <div><label class="l" for="aBrand">สีธีมบริษัท</label><div style="display:flex;gap:8px;align-items:center"><input type="color" id="aBrand" data-k="brand" value="${isHex(D.brand) ? D.brand : "#7A2BD6"}" style="width:48px;height:40px;border:0;background:none;padding:0"><span class="num">${esc(D.brand)}</span></div></div>
+      </div>
+    </div></section>
+
+  <section class="sec"><div class="sech"><div><h2>ทีมและเป้าทั้งเดือน</h2><p>รวมเป้าทุกทีม ${fmt(D.teams.reduce((s, t) => s + (num(t.target) || 0), 0))} บาท</p></div><button class="btn ghost" id="addTeam">+ เพิ่มทีม</button></div>
+    <div class="panel scroll"><table class="atable"><thead><tr><th>ชื่อทีม</th><th class="tl-left">ชื่อซุป</th><th>เป้าทั้งเดือน (บาท)</th><th>เซลส์</th><th></th></tr></thead><tbody>${teamRows}</tbody></table></div></section>
+
+  <section class="sec"><div class="sech"><div><h2>รายชื่อเซลส์และเป้ารายคน</h2><p>เว้นเป้าว่างไว้ ระบบจะแบ่งเป้าที่เหลือของทีมให้เท่ากันอัตโนมัติ กดวงกลมเพื่อใส่รูป</p></div><button class="btn ghost" id="addPerson">+ เพิ่มเซลส์</button></div>
+    <div class="panel scroll">${D.people.length ? `<table class="atable"><thead><tr><th>ชื่อเซลส์</th><th class="tl-left">ทีม</th><th>เป้าทั้งเดือน (บาท)</th><th class="tl-left">สถานะ</th><th></th></tr></thead><tbody>${peopleRows}</tbody></table>` : '<p class="empty">ยังไม่มีรายชื่อ กด "+ เพิ่มเซลส์"</p>'}</div></section>
+
+  <section class="sec"><div class="sech"><div><h2>เป้า KPI ต่อคน</h2><p>ใช้เทียบสีในหน้ารายคนและ KPI รายทีม เว้นว่างได้ถ้ายังไม่ต้องการตั้ง</p></div></div>
+    <div class="panel form"><div class="frow">
+      <div><label class="l" for="kCalls">โทรต่อวัน (สาย)</label><input class="in" id="kCalls" data-kpi="callsPerDay" value="${num(K.callsPerDay) ?? ""}" inputmode="numeric"></div>
+      <div><label class="l" for="kTalk">Talktime ต่อวัน (ชม.:นาที)</label><input class="in" id="kTalk" data-kpi="talkPerDay" value="${num(K.talkPerDay) == null ? "" : hm(num(K.talkPerDay))}" placeholder="2:00"></div>
+      <div><label class="l" for="kReach">%ติดต่อได้</label><input class="in" id="kReach" data-kpi="rReach" value="${num(K.rReach) == null ? "" : Math.round(num(K.rReach) * 1000) / 10}" inputmode="decimal"></div>
+      <div><label class="l" for="kCon">%Con</label><input class="in" id="kCon" data-kpi="rCon" value="${num(K.rCon) == null ? "" : Math.round(num(K.rCon) * 1000) / 10}" inputmode="decimal"></div>
+    </div></div></section>
+
+  <section class="sec"><div class="sech"><div><h2>เริ่มเดือนใหม่</h2><p>คัดลอกทีม รายชื่อ เป้า และเป้า KPI ของเดือนนี้ไปตั้งต้นเดือนใหม่ ข้อมูลเดือนเก่ายังดูย้อนหลังได้</p></div></div>
+    <div class="panel form"><div class="frow"><div><label class="l" for="newMonth">เดือนใหม่</label><input class="in" type="month" id="newMonth"></div><div><button class="btn ghost" id="newMonthBtn">สร้างเดือนนี้</button></div></div></div></section>
+
+  <div class="savebar"><span class="msg ${S.adminDirty ? "dirty" : ""}" id="aMsg">${S.adminDirty ? "มีการแก้ไขที่ยังไม่บันทึก" : "ยังไม่มีการแก้ไข"}</span><div style="display:flex;gap:8px"><button class="btn ghost" id="aReset">ยกเลิกการแก้ไข</button><button class="btn primary" id="aSave">บันทึกการตั้งค่า</button></div></div>`;
+}
+function adminMark() { S.adminDirty = true; const m = $("aMsg"); if (m) { m.textContent = "มีการแก้ไขที่ยังไม่บันทึก"; m.classList.add("dirty"); } }
+function readAdminInputs() {
+  const D = S.draft, errs = [];
+  document.querySelectorAll("[data-t]").forEach(i => {
+    const t = D.teams[+i.dataset.t]; if (!t) return;
+    if (i.dataset.f === "target") { const v = parseNum(i.value); if (Number.isNaN(v)) errs.push(i); else t.target = v; }
+    else t[i.dataset.f] = i.value.trim();
+  });
+  document.querySelectorAll("[data-pi]").forEach(i => {
+    const p = D.people[+i.dataset.pi]; if (!p) return;
+    if (i.dataset.f === "target") { const v = parseNum(i.value); if (Number.isNaN(v)) errs.push(i); else p.target = v; }
+    else if (i.dataset.f === "active") p.active = i.checked;
+    else p[i.dataset.f] = i.type === "checkbox" ? i.checked : i.value.trim();
+  });
+  document.querySelectorAll("[data-k]").forEach(i => {
+    if (i.dataset.k === "brand") D.brand = i.value;
+    else { const v = parseNum(i.value); if (Number.isNaN(v) || v === null) errs.push(i); else D[i.dataset.k] = v / 100; }
+  });
+  document.querySelectorAll("[data-kpi]").forEach(i => {
+    const k = i.dataset.kpi;
+    const v = k === "talkPerDay" ? parseTalk(i.value) : parseNum(i.value);
+    if (Number.isNaN(v)) { errs.push(i); return; }
+    D.kpi[k] = v == null ? null : (k === "rReach" || k === "rCon") ? v / 100 : v;
+  });
+  const wd = [...document.querySelectorAll("[data-wd]")].filter(i => i.checked).map(i => +i.dataset.wd);
+  if (document.querySelector("[data-wd]")) D.workWeekdays = wd;
+  return errs;
+}
+async function saveAdmin() {
+  const errs = readAdminInputs();
+  if (errs.length) { errs[0].focus(); errs.forEach(e => e.classList.add("bad")); toast("มีช่องที่ไม่ใช่ตัวเลข"); return; }
+  const D = S.draft;
+  if (D.teams.some(t => !t.name)) { toast("ทุกทีมต้องมีชื่อ"); return; }
+  if (D.people.some(p => !p.name)) { toast("เซลส์ทุกคนต้องมีชื่อ"); return; }
+  if (!D.workWeekdays.length) { toast("ต้องมีวันทำงานอย่างน้อย 1 วันต่อสัปดาห์"); return; }
+  const btn = $("aSave"); btn.disabled = true; btn.textContent = "กำลังบันทึก…";
+  try {
+    const cfg = normCfg(D, S.month);
+    await apiWrite({ action: "saveConfig", month: S.month, config: JSON.stringify(cfg) });
+    S.cfg = cfg; S.cal = calendar(cfg); S.draft = null; S.adminDirty = false;
+    toast("บันทึกการตั้งค่าแล้ว");
+    await load(S.month, true);
+  } catch (e) { toast(errText(e)); }
+  finally { const b = $("aSave"); if (b) { b.disabled = false; b.textContent = "บันทึกการตั้งค่า"; } }
+}
+async function createMonth() {
+  const m = $("newMonth").value;
+  if (!/^\d{4}-\d{2}$/.test(m)) { toast("เลือกเดือนก่อน"); return; }
+  if (S.months.includes(m)) { toast("เดือนนี้มีอยู่แล้ว เลือกจากเมนูเดือนด้านซ้ายได้เลย"); return; }
+  readAdminInputs();
+  const cfg = normCfg(Object.assign(clone(S.draft || S.cfg), { month: m, holidays: [] }), m);
+  try {
+    await apiWrite({ action: "saveConfig", month: m, config: JSON.stringify(cfg) });
+    S.draft = null; S.adminDirty = false;
+    toast(`สร้าง ${thMonth(m)} แล้ว อย่าลืมเพิ่มวันหยุดของเดือนนี้`);
+    await load(m);
+  } catch (e) { toast(errText(e)); }
+}
+function downloadCsv() {
+  const head = ["วันที่", "ทีม", "เซลส์", "ยอดขาย", "โทรออก", "ได้คุย", "คุยจบ", "ปิดการขาย", "Talktime (ชม.)", "ลูกค้าใหม่"];
+  const rows = Object.values(S.daily).sort((a, b) => (a.date + a.team).localeCompare(b.date + b.team)).map(r => [
+    r.date, (teamById(r.team) || {}).name || r.team, (personById(r.person) || {}).name || r.person, ...NUMF.map(f => num(r[f]) ?? "")]);
+  const csv = "\ufeff" + [head, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+  a.download = `sales-daily-${S.month}.csv`; document.body.appendChild(a); a.click(); a.remove();
 }
 
-function render() { renderWeeks(); renderHero(); renderStars(); renderLanes(); renderFunnel(); renderKpi(); renderMatrix(); renderVoices(); }
-
-function setSync(m, extra) {
-  mode = m;
-  const el = $("sync");
-  el.className = "pill" + (m === "live" ? " live" : m === "local" ? " local" : "");
-  el.querySelector("span").textContent = {
-    connecting: "กำลังเชื่อมต่อ…",
-    live: "ออนไลน์ อัปเดตอัตโนมัติ",
-    local: "โหมดทดลอง บันทึกในเครื่องนี้",
-    offline: "เชื่อมต่อไม่ได้"
-  }[m];
-  const n = $("notice");
-  if (m === "local") {
-    n.innerHTML = "<b>ยังไม่ได้เชื่อมกับ Google Sheet</b>ใส่ apiUrl ในไฟล์ config.js ตามคู่มือ README ก่อนแชร์ให้ซุป ตอนนี้ข้อมูลที่กรอกจะอยู่ในเครื่องนี้เท่านั้น";
-    n.hidden = false;
-  } else if (m === "offline") {
-    n.innerHTML = "<b>เชื่อมต่อข้อมูลกลางไม่ได้</b>" + esc(extra || "ตรวจอินเทอร์เน็ตแล้วรีเฟรชหน้านี้");
-    n.hidden = false;
-  } else n.hidden = true;
+/* ============ data layer ============ */
+const LS = m => "salesRace.v3." + m;
+function localLoad(m) {
+  let months = []; try { months = JSON.parse(localStorage.getItem("salesRace.v3.months") || "[]"); } catch (e) {}
+  m = m || months.slice().sort().pop() || bootMonth();
+  let d = {}; try { d = JSON.parse(localStorage.getItem(LS(m)) || "{}") || {}; } catch (e) {}
+  return { ok: true, role: "admin", month: m, months, config: d.config || null, daily: d.daily || [], notes: d.notes || [], photos: d.photos || [] };
 }
-
-/* ---------- API (Google Apps Script) ---------- */
-async function apiGet() {
-  const r = await fetch(API + "?action=all&code=" + encodeURIComponent(code) + "&t=" + Date.now());
-  if (!r.ok) throw new Error("http_" + r.status);
+function localWrite(p) {
+  const m = p.month || S.month, d = localLoad(m);
+  const save = (mm, obj) => { try { localStorage.setItem(LS(mm), JSON.stringify(obj)); } catch (e) {} };
+  let photos = d.photos;
+  if (p.action === "saveDaily") {
+    let daily = d.daily.filter(r => !(r.date === p.date && p.rows.some(x => x.person === r.person)));
+    p.rows.forEach(x => { if (NUMF.some(f => x[f] != null)) daily.push({ id: p.date + "__" + x.person, month: m, date: p.date, team: p.team, person: x.person, ...x, updatedBy: p.by }); });
+    save(m, { ...d, daily });
+  } else if (p.action === "saveNotes") {
+    const id = `${m}__${p.week}__${p.team}`;
+    save(m, { ...d, notes: [...d.notes.filter(n => n.id !== id), { id, month: m, week: p.week, team: p.team, highlight: p.highlight, problem: p.problem, plan: p.plan, help: p.help, updatedBy: p.by }] });
+  } else if (p.action === "savePhoto") {
+    // photos are shared across months
+    try { const all = JSON.parse(localStorage.getItem("salesRace.v3.photos") || "[]").filter(x => x.id !== p.id); if (p.photo) all.push({ id: p.id, photo: p.photo }); localStorage.setItem("salesRace.v3.photos", JSON.stringify(all)); } catch (e) {}
+  } else if (p.action === "saveConfig") {
+    save(m, { ...d, config: JSON.parse(p.config) });
+    const ms = new Set(d.months); ms.add(m); try { localStorage.setItem("salesRace.v3.months", JSON.stringify([...ms])); } catch (e) {}
+  }
+  return { ok: true };
+}
+async function apiRead(m) {
+  if (!API) { const d = localLoad(m); try { d.photos = JSON.parse(localStorage.getItem("salesRace.v3.photos") || "[]"); } catch (e) {} return d; }
+  const r = await fetch(API + "?action=all&code=" + encodeURIComponent(code) + "&month=" + encodeURIComponent(m || "") + "&t=" + Date.now());
+  if (!r.ok) throw new Error("http");
   return r.json();
 }
-async function apiPost(payload) {
-  // ไม่ใส่ headers เพื่อให้เป็น simple request (ไม่ติด CORS ของ Apps Script)
-  const r = await fetch(API, { method: "POST", body: JSON.stringify({ ...payload, code }) });
-  if (!r.ok) throw new Error("http_" + r.status);
+async function apiWrite(p) {
+  if (!API) return localWrite(p);
+  const r = await fetch(API, { method: "POST", body: JSON.stringify({ ...p, code }) });
+  if (!r.ok) throw Object.assign(new Error("http"), { code: "network" });
   const d = await r.json();
-  if (!d.ok) { const e = new Error(d.error || "error"); e.code = d.error; throw e; }
+  if (!d.ok) throw Object.assign(new Error(d.error), { code: d.error });
   return d;
 }
-
-async function load(silent) {
-  if (!API || loading) return;
-  loading = true;
+function errText(e) {
+  const c = e && e.code;
+  return c === "unauthorized" ? "รหัสไม่ถูกต้อง กด 'เปลี่ยนรหัส' ที่เมนูซ้ายล่าง"
+    : c === "admin_only" ? "ต้องใช้รหัสแอดมินจึงจะทำรายการนี้ได้"
+    : c === "too_large" ? "ข้อมูลใหญ่เกินไป ลองลดขนาดรูปหรือจำนวนรายการ"
+    : "บันทึกไม่สำเร็จ ตรวจอินเทอร์เน็ตแล้วลองอีกครั้ง";
+}
+let loading = false;
+async function load(month, silent) {
+  if (loading) return; loading = true;
   try {
-    const d = await apiGet();
+    const d = await apiRead(month);
     if (!d.ok) {
       if (d.error === "unauthorized") { askCode(code ? "รหัสไม่ถูกต้อง ลองใหม่อีกครั้ง" : ""); return; }
       throw new Error(d.error);
     }
-    const ne = {}; (d.entries || []).forEach(e => { if (e && e.id) ne[e.id] = e; });
-    const nt = {}; (d.teams || []).forEach(t => { if (t && t.id) nt[t.id] = t; });
-    entries = ne; teamInfo = nt;
-    setSync("live");
-    render();
-    if (editing) updatePreview();
+    const m = d.month || month || bootMonth();
+    const changedMonth = m !== S.month;
+    S.month = m; S.role = d.role || "member";
+    S.months = [...new Set([...(d.months || []), m])];
+    S.cfg = normCfg(d.config, m); S.cal = calendar(S.cfg);
+    S.daily = {}; (d.daily || []).forEach(r => { if (r && r.date && r.person) S.daily[r.date + "__" + r.person] = r; });
+    S.notes = {}; (d.notes || []).forEach(n => { if (n && n.id) S.notes[n.id] = n; });
+    S.photos = {}; (d.photos || []).forEach(p => { if (p && p.id) S.photos[p.id] = p.photo; });
+    if (changedMonth || !S.day || !S.cal.days.some(x => x.ds === S.day)) {
+      S.day = defaultDay(); S.week = weekOf(S.day); S.entryDate = S.day;
+    }
+    if (S.week >= S.cal.weeks.length) S.week = 0;
+    setSync(API ? "live" : "local");
+    if (S.page === "entry" && S.dirty && silent) return;      // อย่าเขียนทับตอนซุปกำลังพิมพ์
+    if (S.page === "admin" && S.adminDirty && silent) return;
+    render(); entryCalc();
   } catch (e) {
-    if (!silent || mode !== "live") setSync("offline");
+    if (!silent || S.mode !== "live") setSync("offline");
   } finally { loading = false; }
 }
-
-function startPolling() {
-  clearInterval(pollT);
-  pollT = setInterval(() => { if (!document.hidden && !$("dlg").open) load(true); }, POLL_MS);
+function setSync(m) {
+  S.mode = m;
+  const el = $("sync");
+  el.className = "pill" + (m === "live" ? " live" : m === "local" ? " local" : "");
+  el.querySelector("span").textContent = { connecting: "กำลังเชื่อมต่อ…", live: "ออนไลน์ อัปเดตอัตโนมัติ", local: "โหมดทดลองในเครื่อง", offline: "เชื่อมต่อไม่ได้" }[m];
+  const n = $("notice");
+  if (m === "local") { n.innerHTML = "<b>โหมดทดลอง ยังไม่ได้เชื่อม Google Sheet</b>ใส่ apiUrl ใน config.js ก่อนแชร์ให้ซุป ตอนนี้ข้อมูลอยู่ในเครื่องนี้เท่านั้น และทุกคนเป็นแอดมิน"; n.hidden = false; }
+  else if (m === "offline") { n.innerHTML = "<b>เชื่อมต่อข้อมูลกลางไม่ได้</b>ตรวจอินเทอร์เน็ตแล้วรีเฟรชหน้า ถ้ายังไม่ได้ ให้เช็กว่า Deploy Apps Script เป็น New version แล้ว"; n.hidden = false; }
+  else n.hidden = true;
 }
-
-function askCode(msg) {
+function askCode(msg, sub) {
   $("gErr").hidden = !msg; $("gErr").textContent = msg || "";
+  $("gSub").textContent = sub || "ซุปใส่รหัสทีม แอดมินใส่รหัสแอดมิน เครื่องนี้จะจำไว้ให้";
+  $("gCancel").hidden = !S.cfg;
   $("gCode").value = "";
   if (!$("gate").open) $("gate").showModal();
   setTimeout(() => $("gCode").focus(), 30);
 }
 
-/* ---------- parsing ---------- */
-function parseNum(v) { const c = String(v).replace(/[,\s฿]/g, ""); if (c === "") return null; const n = Number(c); return isFinite(n) && n >= 0 ? n : NaN; }
-function parseTalk(v) {
-  const c = String(v).trim(); if (c === "") return null;
-  const m = c.match(/^(\d+):(\d{1,2})$/);
-  if (m) { const mm = +m[2]; return mm < 60 ? +m[1] + mm / 60 : NaN; }
-  const n = Number(c.replace(/,/g, "")); return isFinite(n) && n >= 0 ? n : NaN;
-}
-function readForm() {
-  const out = {}, bad = [];
-  Object.entries(NUM_FIELDS).forEach(([id, f]) => { const v = parseNum($(id).value); if (Number.isNaN(v)) bad.push(id); out[f] = Number.isNaN(v) ? null : v; });
-  const t = parseTalk($("fTalk").value); if (Number.isNaN(t)) bad.push("fTalk"); out.talk = Number.isNaN(t) ? null : t;
-  return { out, bad };
-}
-
-/* ---------- dialog ---------- */
-function updatePreview() {
-  if (!editing) return;
-  const { wi, ti } = editing, { out } = readForm();
-  const el = $("fPreview"), v = parseNum($("fSales").value);
-  if (v === null) el.textContent = "ยังไม่ได้กรอกยอด";
-  else if (Number.isNaN(v)) el.textContent = "กรอกเป็นตัวเลขเท่านั้น เช่น 450000 หรือ 450,000";
-  else {
-    const wt = weekTarget(ti, wi), prev = wi ? cumActual(ti, wi - 1) : 0, p = (prev + v) / cumTarget(ti, wi);
-    el.innerHTML = `เท่ากับ <b>${pct(v / wt)}</b> ของเป้าสัปดาห์ ยอดสะสมจะเป็น <b>${fmt(prev + v)}</b> (${pct(p)} ของเป้าสะสม, ${STATUS_TXT[statusOf(p, true)]})`;
-  }
-  const k = kpiOf(out, daysOf(wi));
-  $("kPrev").innerHTML = [["%ติดต่อได้", pct(k.rReach)], ["%คุยจบ", pct(k.rDone)], ["%Con", pct(k.rCon)], ["Talktime/คน/วัน", hm(k.talkPer)], ["ยอด/ออเดอร์", fmt(k.aov)]]
-    .map(([a, b]) => `<div><small>${a}</small><b>${b}</b></div>`).join("");
-  const w = [];
-  if (k.calls != null && k.reached != null && k.reached > k.calls) w.push("ได้คุยมากกว่าโทรออก");
-  if (k.reached != null && k.completed != null && k.completed > k.reached) w.push("คุยจบมากกว่าได้คุย");
-  if (k.completed != null && k.closed != null && k.closed > k.completed) w.push("ปิดการขายมากกว่าคุยจบ");
-  $("kWarn").hidden = !w.length;
-  $("kWarn").textContent = w.length ? "ตรวจตัวเลขอีกครั้ง: " + w.join(", ") : "";
-}
-
-function setDlgAvatar(ti) {
-  const p = pendingPhoto !== undefined ? pendingPhoto : photoOf(ti);
-  $("dAv").innerHTML = p ? `<img src="${p}" alt="">` : initial(ti);
-}
-
-function openForm(ti, wi) {
-  editing = { ti, wi }; pendingPhoto = undefined;
-  const t = CONFIG.teams[ti], w = CONFIG.weeks[wi], e = entries[key(wi, ti)] || {};
-  $("dWeek").textContent = `สัปดาห์ ${wi + 1}  ${w.label}  (${daysOf(wi)} วันทำงาน)`;
-  $("dTeam").textContent = "ทีม " + t.name;
-  $("fSup").value = supName(ti);
-  setDlgAvatar(ti);
-  $("sWeekTgt").textContent = fmt(weekTarget(ti, wi));
-  $("sCumTgt").textContent = fmt(cumTarget(ti, wi));
-  $("sPrev").textContent = fmt(wi ? cumActual(ti, wi - 1) : 0);
-  $("sMonth").textContent = fmt(t.target);
-  Object.entries(NUM_FIELDS).forEach(([id, f]) => { const v = val(e, f); $(id).value = v == null ? "" : v.toLocaleString("th-TH"); });
-  $("fTalk").value = val(e, "talk") == null ? "" : hm(val(e, "talk"));
-  $("fHigh").value = e.highlight || ""; $("fProb").value = e.problem || "";
-  $("fPlan").value = e.plan || ""; $("fHelp").value = e.help || "";
-  const when = e.updatedAt ? new Date(e.updatedAt) : null;
-  $("dMeta").textContent = when && !isNaN(when) ? `แก้ล่าสุด ${when.toLocaleString("th-TH", { dateStyle: "medium", timeStyle: "short" })}${e.updatedBy ? " โดย " + e.updatedBy : ""}` : "";
-  $("dErr").hidden = true;
-  updatePreview();
-  $("dlg").showModal();
-  setTimeout(() => $("fSales").focus(), 30);
-}
-
+/* ============ photos ============ */
+let photoTarget = null;
 function resizeImage(file) {
   return new Promise((res, rej) => {
     if (!file || !/^image\//.test(file.type)) return rej(new Error("type"));
     const url = URL.createObjectURL(file), img = new Image();
     img.onload = () => {
-      const S = 200, c = document.createElement("canvas"); c.width = c.height = S;
+      const Z = 200, c = document.createElement("canvas"); c.width = c.height = Z;
       const s = Math.min(img.width, img.height), x = (img.width - s) / 2, y = (img.height - s) / 2;
-      const ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, S, S);
-      ctx.drawImage(img, x, y, s, s, 0, 0, S, S);
-      URL.revokeObjectURL(url);
-      // Google Sheet เก็บได้ไม่เกิน 50,000 ตัวอักษรต่อช่อง จึงลดคุณภาพจนพอดี
-      let q = 0.8, out = c.toDataURL("image/jpeg", q);
-      while (out.length > 45000 && q > 0.3) { q -= 0.1; out = c.toDataURL("image/jpeg", q); }
+      const ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, Z, Z);
+      ctx.drawImage(img, x, y, s, s, 0, 0, Z, Z); URL.revokeObjectURL(url);
+      let q = .8, out = c.toDataURL("image/jpeg", q);
+      while (out.length > 45000 && q > .3) { q -= .1; out = c.toDataURL("image/jpeg", q); }
       res(out);
     };
     img.onerror = () => { URL.revokeObjectURL(url); rej(new Error("load")); };
     img.src = url;
   });
 }
-
-function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify({ entries, teamInfo })); } catch (e) {} }
-
-async function writeEntry(id, body) {
-  if (!API) { if (body) entries[id] = body; else delete entries[id]; saveLocal(); render(); return; }
-  if (body) await apiPost({ action: "saveEntry", entry: body });
-  else await apiPost({ action: "deleteEntry", id });
-  if (body) entries[id] = body; else delete entries[id];
-  render();
-}
-async function writeTeam(body) {
-  if (!API) { teamInfo[body.id] = body; saveLocal(); render(); return; }
-  await apiPost({ action: "saveTeam", team: body });
-  teamInfo[body.id] = body; render();
-}
-
-async function save(ev) {
-  ev.preventDefault();
-  if (!editing) return;
-  const { out, bad } = readForm();
-  if (bad.length) {
-    $("dErr").textContent = bad.includes("fTalk") ? "Talktime กรอกเป็น ชม.:นาที เช่น 12:30 หรือเป็นชั่วโมง เช่น 12.5" : "ช่องตัวเลขต้องเป็นตัวเลขไม่ติดลบ";
-    $("dErr").hidden = false; $(bad[0]).focus(); return;
-  }
-  const { wi, ti } = editing, t = CONFIG.teams[ti], id = key(wi, ti);
-  const sup = $("fSup").value.trim(), old = teamInfo[t.id] || {};
-  const texts = { highlight: $("fHigh").value.trim(), problem: $("fProb").value.trim(), plan: $("fPlan").value.trim(), help: $("fHelp").value.trim() };
-  const body = { id, week: CONFIG.weeks[wi].id, team: t.id, ...out, ...texts, updatedAt: new Date().toISOString(), updatedBy: sup || "" };
-  const empty = Object.values(out).every(v => v === null) && Object.values(texts).every(v => !v);
-  const teamChanged = sup !== (old.sup || "") || pendingPhoto !== undefined;
-  const hadEntry = !!entries[id];
-  $("bSave").disabled = true; $("bSave").textContent = "กำลังบันทึก…";
-  try {
-    if (teamChanged) await writeTeam({ id: t.id, sup, photo: pendingPhoto !== undefined ? pendingPhoto : (isImg(old.photo) ? old.photo : ""), updatedAt: new Date().toISOString() });
-    if (!empty || hadEntry) await writeEntry(id, empty ? null : body);
-    $("dlg").close();
-    toast(empty && hadEntry ? "ล้างผลของทีมนี้แล้ว" : `บันทึกผลทีม ${t.name} แล้ว`);
-    load(true);
-  } catch (e) {
-    $("dErr").textContent = e && e.code === "unauthorized" ? "รหัสทีมไม่ถูกต้อง รีเฟรชหน้าแล้วใส่รหัสใหม่" : "บันทึกไม่สำเร็จ ตรวจอินเทอร์เน็ตแล้วกดบันทึกอีกครั้ง";
-    $("dErr").hidden = false;
-  } finally { $("bSave").disabled = false; $("bSave").textContent = "บันทึกผล"; }
-}
-
-let toastT;
-function toast(msg) { const el = $("toast"); el.textContent = msg; el.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove("show"), 2400); }
-
-/* ---------- events ---------- */
-$("weeks").addEventListener("click", e => { const b = e.target.closest(".wk"); if (!b) return; sel = +b.dataset.w; render(); });
-$("lanes").addEventListener("click", e => { const b = e.target.closest(".lane"); if (b) openForm(+b.dataset.t, sel); });
-$("matrix").addEventListener("click", e => { const b = e.target.closest("button.cell"); if (b) openForm(+b.dataset.t, +b.dataset.w); });
-$("form").addEventListener("submit", save);
-$("bCancel").addEventListener("click", () => $("dlg").close());
-$("form").addEventListener("input", e => { if (e.target.matches(".kin,#fSales")) updatePreview(); });
-$("form").addEventListener("focusout", e => {
-  const id = e.target.id;
-  if (NUM_FIELDS[id]) { const v = parseNum(e.target.value); if (typeof v === "number" && !isNaN(v)) e.target.value = v.toLocaleString("th-TH"); }
-  if (id === "fTalk") { const v = parseTalk(e.target.value); if (typeof v === "number" && !isNaN(v)) e.target.value = hm(v); }
-});
-$("fPhoto").addEventListener("change", async e => {
+$("photoIn").addEventListener("change", async e => {
   const f = e.target.files && e.target.files[0]; e.target.value = "";
-  if (!f || !editing) return;
-  try { pendingPhoto = await resizeImage(f); setDlgAvatar(editing.ti); toast("ได้รูปแล้ว กดบันทึกผลเพื่อเก็บรูป"); }
-  catch (err) { $("dErr").textContent = "เปิดไฟล์รูปนี้ไม่ได้ ลองใช้ไฟล์ .jpg หรือ .png"; $("dErr").hidden = false; }
+  if (!f || !photoTarget) return;
+  try {
+    const data = await resizeImage(f);
+    await apiWrite({ action: "savePhoto", month: S.month, id: photoTarget, photo: data });
+    S.photos[photoTarget] = data; toast("อัปเดตรูปแล้ว");
+    if (!(S.page === "entry" && S.dirty) && !(S.page === "admin" && S.adminDirty)) { render(); entryCalc(); }
+    else document.querySelectorAll(`[data-photo="${photoTarget}"]`).forEach(b => b.innerHTML = `<img src="${data}" alt="">`);
+  } catch (err) { toast(err && err.code ? errText(err) : "เปิดไฟล์รูปไม่ได้ ลองใช้ .jpg หรือ .png"); }
 });
-$("dlg").addEventListener("close", () => { editing = null; pendingPhoto = undefined; });
-$("gForm").addEventListener("submit", ev => {
+
+/* ============ events ============ */
+let toastT;
+function toast(msg) { const el = $("toast"); el.textContent = msg; el.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove("show"), 2800); }
+function leaveGuard() {
+  if (S.page === "entry" && S.dirty && !confirm("มีข้อมูลที่ยังไม่บันทึก ต้องการออกจากหน้านี้ไหม")) return false;
+  if (S.page === "admin" && S.adminDirty && !confirm("การตั้งค่ายังไม่ได้บันทึก ต้องการออกจากหน้านี้ไหม")) return false;
+  S.dirty = false; S.adminDirty = false; S.draft = null; return true;
+}
+function go(page) {
+  if (page === "admin" && S.role !== "admin") { askCode("", "ใส่รหัสแอดมินเพื่อเข้าหน้าตั้งค่า"); S.wantAdmin = true; return; }
+  if (page !== S.page && !leaveGuard()) return;
+  S.page = page; render(); entryCalc(); window.scrollTo(0, 0);
+}
+$("nav").addEventListener("click", e => { const b = e.target.closest("[data-page]"); if (b) go(b.dataset.page); });
+$("ptype").addEventListener("click", e => { const b = e.target.closest("[data-p]"); if (!b) return; S.ptype = b.dataset.p; render(); });
+$("picker").addEventListener("click", e => {
+  const w = e.target.closest("[data-week]"), d = e.target.closest("[data-day]");
+  if (w) { S.week = +w.dataset.week; render(); }
+  if (d) { S.day = d.dataset.day; S.week = weekOf(S.day); render(); }
+});
+$("monthSel").addEventListener("change", e => { if (!leaveGuard()) { e.target.value = S.month; return; } load(e.target.value); });
+$("switchBtn").addEventListener("click", () => askCode("", "ใส่รหัสใหม่ ซุปใช้รหัสทีม แอดมินใช้รหัสแอดมิน"));
+$("gCancel").addEventListener("click", () => { $("gate").close(); S.wantAdmin = false; });
+$("gate").addEventListener("cancel", ev => { if (!S.cfg) ev.preventDefault(); });
+$("gForm").addEventListener("submit", async ev => {
   ev.preventDefault();
   code = $("gCode").value.trim();
   try { localStorage.setItem(CODE_KEY, code); } catch (e) {}
   $("gate").close();
-  load();
+  await load(S.cfg ? S.month : "");
+  if (S.wantAdmin) { S.wantAdmin = false; if (S.role === "admin") go("admin"); else toast("รหัสนี้ไม่ใช่รหัสแอดมิน"); }
 });
-$("gate").addEventListener("cancel", ev => ev.preventDefault());
-document.addEventListener("visibilitychange", () => { if (!document.hidden && API) load(true); });
 
-/* ---------- start ---------- */
-document.documentElement.style.setProperty("--brand", isHex(CONFIG.brand) ? CONFIG.brand : "#7A2BD6");
-document.title = "สนามยอดขาย " + CONFIG.month;
-document.querySelector(".hero h1").textContent = CONFIG.month;
-render();
-if (!API) {
-  try { const d = JSON.parse(localStorage.getItem(LS_KEY) || "{}"); entries = d.entries || {}; teamInfo = d.teamInfo || {}; } catch (e) {}
-  setSync("local"); render();
-} else {
+const page = $("page");
+page.addEventListener("click", e => {
+  const x = e.target;
+  const ph = x.closest("[data-photo]");
+  if (ph) { photoTarget = ph.dataset.photo; $("photoIn").click(); return; }
+  const et = x.closest("[data-eteam]");
+  if (et) { if (et.dataset.eteam !== S.entryTeam && !leaveGuard()) return; S.entryTeam = et.dataset.eteam; render(); entryCalc(); return; }
+  const ed = x.closest("[data-edate]");
+  if (ed) { if (ed.dataset.edate !== S.entryDate && !leaveGuard()) return; S.entryDate = ed.dataset.edate; render(); entryCalc(); return; }
+  if (x.closest("#saveEntry")) { saveEntry(); return; }
+  const gt = x.closest("[data-goto]"); if (gt) { e.preventDefault(); go(gt.dataset.goto); return; }
+  const pt = x.closest("[data-pteam]"); if (pt) { S.peopleTeam = pt.dataset.pteam; render(); return; }
+  const so = x.closest("[data-sort]"); if (so) { const k = so.dataset.sort; S.sort = { k, d: S.sort.k === k ? -S.sort.d : -1 }; render(); return; }
+  const sm = x.closest("[data-smode]"); if (sm) { S.sumMode = sm.dataset.smode; render(); return; }
+  if (x.closest("#askAdmin")) { S.wantAdmin = true; askCode("", "ใส่รหัสแอดมินเพื่อเข้าหน้าตั้งค่า"); return; }
+  // admin actions
+  if (S.page !== "admin" || !S.draft) return;
+  const reRender = () => { readAdminInputs(); adminMark(); render(); };
+  if (x.closest("#addTeam")) { readAdminInputs(); S.draft.teams.push({ id: uid("t"), name: "ทีมใหม่", sup: "", target: 0 }); adminMark(); render(); return; }
+  if (x.closest("#addPerson")) { readAdminInputs(); if (!S.draft.teams.length) { toast("เพิ่มทีมก่อน"); return; } S.draft.people.push({ id: uid("p"), name: "", team: S.draft.teams[0].id, target: null, active: true }); adminMark(); render(); const ins = document.querySelectorAll('[data-pi][data-f="name"]'); ins[ins.length - 1]?.focus(); return; }
+  const dt = x.closest("[data-deltam]");
+  if (dt) { readAdminInputs(); const t = S.draft.teams[+dt.dataset.deltam]; const n = S.draft.people.filter(p => p.team === t.id).length;
+    if (!confirm(`ลบทีม ${t.name}?${n ? ` เซลส์ ${n} คนในทีมนี้จะถูกลบด้วย` : ""} (ยอดที่กรอกไปแล้วยังอยู่ใน Google Sheet)`)) return;
+    S.draft.teams.splice(+dt.dataset.deltam, 1); S.draft.people = S.draft.people.filter(p => p.team !== t.id); adminMark(); render(); return; }
+  const dp = x.closest("[data-delp]");
+  if (dp) { readAdminInputs(); const p = S.draft.people[+dp.dataset.delp]; if (!confirm(`ลบ ${p.name || "เซลส์คนนี้"}? ถ้าแค่ลาออกกลางเดือน แนะนำให้เอาติ๊ก "ทำงานอยู่" ออกแทน เพื่อให้ยอดที่ทำไว้ยังนับ`)) return; S.draft.people.splice(+dp.dataset.delp, 1); adminMark(); render(); return; }
+  if (x.closest("#holAdd")) { const v = $("holIn").value; if (!v || !v.startsWith(S.month)) { toast("เลือกวันที่ในเดือนนี้"); return; } readAdminInputs(); if (!S.draft.holidays.includes(v)) S.draft.holidays.push(v); adminMark(); render(); return; }
+  const dh = x.closest("[data-delhol]"); if (dh) { readAdminInputs(); S.draft.holidays = S.draft.holidays.filter(h => h !== dh.dataset.delhol); adminMark(); render(); return; }
+  if (x.closest("#aSave")) { saveAdmin(); return; }
+  if (x.closest("#aReset")) { if (S.adminDirty && !confirm("ยกเลิกการแก้ไขทั้งหมด?")) return; S.draft = null; S.adminDirty = false; render(); return; }
+  if (x.closest("#newMonthBtn")) { createMonth(); return; }
+  if (x.closest("#csvBtn")) { downloadCsv(); return; }
+});
+page.addEventListener("input", e => {
+  if (e.target.matches(".ein")) { S.dirty = true; const m = $("saveMsg"); if (m) { m.textContent = "มีการแก้ไขที่ยังไม่บันทึก"; m.classList.add("dirty"); } entryCalc(); }
+  else if (e.target.matches("[data-note]")) { S.dirty = true; const m = $("saveMsg"); if (m) { m.textContent = "มีการแก้ไขที่ยังไม่บันทึก"; m.classList.add("dirty"); } }
+  else if (S.page === "admin" && e.target.closest(".main")) { adminMark(); if (e.target.id === "aBrand") document.documentElement.style.setProperty("--brand", e.target.value); }
+});
+page.addEventListener("change", e => { if (S.page === "admin" && (e.target.matches("[data-wd]") || (e.target.matches("select[data-pi]")))) { readAdminInputs(); adminMark(); render(); } });
+page.addEventListener("focusout", e => {
+  const i = e.target;
+  if (i.matches(".ein")) {
+    const v = i.dataset.f === "talk" ? parseTalk(i.value) : parseNum(i.value);
+    if (typeof v === "number" && !isNaN(v)) i.value = i.dataset.f === "talk" ? hm(v) : v.toLocaleString("th-TH");
+  }
+  if (i.matches('[data-f="target"]')) { const v = parseNum(i.value); if (typeof v === "number" && !isNaN(v)) i.value = v.toLocaleString("th-TH"); }
+});
+// Enter ในตารางกรอกผล = ไปช่องถัดลงไป
+page.addEventListener("keydown", e => {
+  if (e.key !== "Enter" || !e.target.matches(".ein")) return;
+  e.preventDefault();
+  const f = e.target.dataset.f, all = [...document.querySelectorAll(`.ein[data-f="${f}"]`)], i = all.indexOf(e.target);
+  (all[i + 1] || document.getElementById("saveEntry")).focus();
+});
+window.addEventListener("beforeunload", e => { if (S.dirty || S.adminDirty) { e.preventDefault(); e.returnValue = ""; } });
+document.addEventListener("visibilitychange", () => { if (!document.hidden && API) load(S.month, true); });
+
+/* ============ start ============ */
+(function start() {
+  const m = bootMonth();
+  if (!API) { setSync("local"); load(""); return; }
   setSync("connecting");
-  if (CONFIG.usePasscode && !code) askCode(""); else load();
-  startPolling();
-}
-
+  if (!code) { S.month = m; askCode(""); } else load("");
+  setInterval(() => { if (!document.hidden && code) load(S.month, true); }, POLL_MS);
+})();
 </script>
 </body>
 </html>
