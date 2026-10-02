@@ -4,7 +4,7 @@
 window.APP_CONFIG = {
   // 1) วาง URL ของ Google Apps Script ที่ลงท้ายด้วย /exec  (ดูวิธีใน README)
   //    ถ้าเว้นว่างไว้ เว็บจะเป็นโหมดทดลอง ข้อมูลอยู่ในเครื่องตัวเองเท่านั้น
-  apiUrl: "",
+  apiUrl: "https://script.google.com/macros/s/AKfycbzspLKEouGxUtRfIItATpcPjsPnBO3_DwrHfTs1QgPxLW1eEH5esHmpW2O36ssdlALI/exec",
 
   // 2) ให้ซุปใส่รหัสทีมก่อนเข้าใช้ (รหัสจริงตั้งในไฟล์ Code.gs)
   usePasscode: true,
