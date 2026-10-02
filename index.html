@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>สนามยอดขาย</title>
+<title>Performance CRM ggl</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Mitr:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -310,6 +310,21 @@ dialog::backdrop{background:rgba(20,8,36,.6)}
   .hero{padding:20px}
   .fstep{grid-template-columns:70px 1fr 74px;gap:10px}
 }
+/* bell & notifications */
+.bell{position:fixed;top:14px;right:18px;z-index:70}
+.bellbtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px rgba(20,4,50,.14);position:relative}
+.bellbtn svg{width:21px;height:21px}
+.bellbtn .bdg{position:absolute;top:-4px;right:-4px;min-width:19px;height:19px;border-radius:10px;background:#D92D20;color:#fff;font-size:11.5px;font-weight:700;display:grid;place-items:center;padding:0 5px}
+.bellpanel{position:fixed;top:64px;right:18px;z-index:70;width:min(390px,calc(100vw - 24px));max-height:min(560px,78vh);overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 50px rgba(20,4,50,.25);padding:8px}
+.bellpanel h4{margin:8px 10px 6px;font-size:12.5px;color:var(--muted);font-weight:600}
+.nitem{display:flex;gap:10px;padding:10px;align-items:flex-start}
+.nitem+.nitem{border-top:1px solid var(--line)}
+.nitem .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none;background:var(--soft);font-size:16px}
+.nitem b{font-size:13.5px}
+.nitem small{display:block;color:var(--muted);margin-top:2px;line-height:1.5}
+.nitem.warn .ic{background:#FEF0C7}.nitem.bad .ic{background:#FEE4E2}.nitem.good .ic{background:#D1FADF}
+.gradechip{display:inline-block;padding:1px 8px;border-radius:999px;background:var(--soft);font-weight:700;font-size:11.5px;vertical-align:1px}
+@media (max-width:900px){.bell{top:10px;right:12px}.bellpanel{top:58px;right:12px}}
 </style>
 </head>
 <body>
@@ -317,7 +332,7 @@ dialog::backdrop{background:rgba(20,8,36,.6)}
   <aside class="side" aria-label="เมนู">
     <div class="logo">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V4"/><path d="M4 4h12l-2 4 2 4H4"/></svg>
-      สนามยอดขาย
+      Performance CRM ggl
     </div>
     <div><span class="sl">เดือน</span><select id="monthSel" aria-label="เลือกเดือน"></select></div>
     <div id="periodBox">
@@ -334,6 +349,7 @@ dialog::backdrop{background:rgba(20,8,36,.6)}
     </div>
   </aside>
   <main class="main">
+    <div class="bell"><button class="bellbtn" id="bellBtn" aria-label="การแจ้งเตือน" aria-haspopup="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="bdg" id="bellBadge" hidden></span></button><div class="bellpanel" id="bellPanel" hidden></div></div>
     <div class="notice" id="notice" role="alert" hidden></div>
     <div id="page"></div>
   </main>
@@ -366,6 +382,9 @@ const POLL_MS = 30000;
 const ICON = {
   dash: '<path d="M3 13h8V3H3z"/><path d="M13 21h8V11h-8z"/><path d="M13 3v6h8V3z"/><path d="M3 21h8v-6H3z"/>',
   entry: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+  inc: '<circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3L8.5 13"/>',
+  catchup: '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
+  plan: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
   people: '<circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M17 4a4 4 0 0 1 0 8"/><path d="M22 21a6 6 0 0 0-4-5.6"/>',
   kpi: '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-6"/>',
   summary: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 10h18"/><path d="M9 4v17"/>',
@@ -373,7 +392,7 @@ const ICON = {
   admin: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'
 };
 const PAGES = [
-  ["dash", "ภาพรวม"], ["entry", "กรอกผลรายวัน"], ["people", "รายคน"], ["kpi", "KPI รายทีม"],
+  ["dash", "ภาพรวม"], ["entry", "กรอกผลรายวัน"], ["plan", "เป้าตามแคมเปญ"], ["catchup", "แผนเป้าทบ"], ["inc", "Incentive"], ["people", "รายคน"], ["kpi", "KPI รายทีม"],
   ["summary", "สรุปตามช่วงเวลา"], ["voices", "เสียงจากซุป"], ["admin", "ตั้งค่า (แอดมิน)"]
 ];
 
@@ -382,7 +401,7 @@ const S = {
   daily: {}, notes: {}, photos: {},
   page: "dash", ptype: "week", week: 0, day: null,
   entryTeam: null, entryDate: null, dirty: false,
-  peopleTeam: "all", sort: { k: "p", d: -1 }, sumMode: "team",
+  peopleTeam: "all", planTeam: null, cuTeam: null, sort: { k: "p", d: -1 }, sumMode: "team",
   draft: null, mode: "connecting"
 };
 let code = ""; try { code = localStorage.getItem(CODE_KEY) || ""; } catch (e) {}
@@ -439,6 +458,11 @@ function normCfg(c, month) {
   c.holidays = Array.isArray(c.holidays) ? c.holidays : [];
   c.workWeekdays = Array.isArray(c.workWeekdays) ? c.workWeekdays : d.workWeekdays;
   c.kpi = Object.assign({}, d.kpi, c.kpi || {});
+  c.campaigns = Array.isArray(c.campaigns) ? c.campaigns : [];
+  c.events = Array.isArray(c.events) ? c.events : [];
+  c.inc = Object.assign({ first: 500 }, c.inc || {});
+  c.inc.tiers = Array.isArray(c.inc.tiers) && c.inc.tiers.length ? c.inc.tiers.map(t => [num(t[0]) || 0, num(t[1]) || 0]) : [[350000, 2000], [400000, 2500], [500000, 3500], [600000, 4000], [700000, 5000]];
+  c.prob = Object.assign({ days: 30, target: 60000, wage: 400 }, c.prob || {});
   return c;
 }
 function calendar(cfg) {
@@ -536,6 +560,91 @@ const personPred = id => r => r.person === id;
 const allPred = () => true;
 const totalTarget = () => S.cfg.teams.reduce((s, t) => s + (num(t.target) || 0), 0);
 
+/* ============ campaign plan ============ */
+// plan = [[รายชื่อ, AOV, %Con], ...] เรียงตาม cfg.campaigns
+function planCalc(plan) {
+  const rows = (Array.isArray(plan) ? plan : []).map(x => {
+    const list = num(x && x[0]) || 0, aov = num(x && x[1]) || 0, con = num(x && x[2]) || 0;
+    const orders = list * con; return { list, aov, con, orders, sales: orders * aov };
+  });
+  const t = rows.reduce((a, r) => ({ list: a.list + r.list, orders: a.orders + r.orders, sales: a.sales + r.sales }), { list: 0, orders: 0, sales: 0 });
+  return { rows, ...t };
+}
+const hasPlan = x => Array.isArray(x && x.plan) && x.plan.length > 0;
+
+/* ============ เกรด / ทดลองงาน / กระดิ่งแจ้งเตือน ============ */
+function incCalc() {
+  const tiers = ((S.cfg.inc || {}).tiers || []).slice().sort((a, b) => (num(a[0]) || 0) - (num(b[0]) || 0));
+  const firstB = num((S.cfg.inc || {}).first) || 0;
+  const byP = {};
+  Object.values(S.daily).forEach(r => { (byP[r.person] = byP[r.person] || []).push(r); });
+  const people = S.cfg.people.filter(p => p.active !== false).map(p => {
+    const rs = (byP[p.id] || []).slice().sort((a, b) => a.date < b.date ? -1 : 1);
+    let cum = 0; const crossed = tiers.map(() => null);
+    rs.forEach(r => { cum += num(r.sales) || 0; tiers.forEach((t, i) => { if (crossed[i] === null && cum >= (num(t[0]) || Infinity)) crossed[i] = r.date; }); });
+    const tier = crossed.reduce((a, d, i) => d != null ? i : a, -1);
+    return { p, sales: cum, tier, crossed, reward: tier >= 0 ? num(tiers[tier][1]) || 0 : 0 };
+  });
+  const firsts = tiers.map((t, i) => {
+    const c = people.filter(x => x.crossed[i]).sort((a, b) => a.crossed[i] < b.crossed[i] ? -1 : 1);
+    if (!c.length) return null;
+    const d = c[0].crossed[i]; return { date: d, winners: c.filter(x => x.crossed[i] === d) };
+  });
+  people.forEach(x => { x.firstBonus = firsts.reduce((sm, f) => sm + (f && f.winners.includes(x) ? firstB : 0), 0); x.total = x.reward + x.firstBonus; });
+  return { tiers, firstB, people: people.sort((a, b) => b.sales - a.sales || b.total - a.total), firsts };
+}
+function addDays(ds, n) { const d = dsDate(ds); d.setDate(d.getDate() + n); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+function probInfo(p) {
+  const pr = S.cfg.prob || {}, start = p.probStart || S.month + "-01";
+  const nd = num(pr.days) || 30, end = addDays(start, nd - 1), t = todayStr();
+  let sales = 0;
+  for (const r of Object.values(S.daily)) if (r.person === p.id && r.date >= start && r.date <= end) sales += num(r.sales) || 0;
+  const target = num(pr.target) || 60000;
+  const daysLeft = t >= end ? 0 : Math.round((dsDate(end) - dsDate(t)) / 864e5);
+  return { start, end, sales, target, wage: num(pr.wage) || 0, pass: sales >= target, over: t > end, daysLeft };
+}
+function notifItems() {
+  const items = [], t = todayStr(), pt = personTargets();
+  const dayN = ds => Math.round((dsDate(ds) - dsDate(t)) / 864e5);
+  (S.cfg.events || []).slice().sort((a, b) => a.d < b.d ? -1 : 1).forEach(ev => {
+    const n = dayN(ev.d); if (n < 0 || n > 7) return;
+    items.push({ cls: n <= 1 ? "warn" : "", ic: "📌", b: ev.t, s: `${n === 0 ? "วันนี้" : n === 1 ? "พรุ่งนี้" : `อีก ${n} วัน`} · ${dShort(ev.d)}${ev.o ? ` · ผู้รับผิดชอบ: ซุป${ev.o}` : ""}` });
+  });
+  S.cfg.people.filter(p => p.active !== false && p.status === "prob").forEach(p => {
+    const pi = probInfo(p);
+    if (pi.pass) items.push({ cls: "good", ic: "🎉", b: `${p.name} ผ่านทดลองงานแล้ว`, s: `ทำได้ ${fmt(pi.sales)} / ${fmt(pi.target)} บาท (ครบกำหนด ${dShort(pi.end)})` });
+    else if (pi.over) items.push({ cls: "bad", ic: "⚠️", b: `${p.name} ครบทดลองงาน ยอดไม่ถึงเกณฑ์`, s: `ทำได้ ${fmt(pi.sales)} / ${fmt(pi.target)} บาท · ครบกำหนดเมื่อ ${dShort(pi.end)}` });
+    else if (pi.daysLeft <= 7) items.push({ cls: "warn", ic: "⏳", b: `${p.name} เหลือทดลองงาน ${pi.daysLeft} วัน`, s: `ทำได้ ${fmt(pi.sales)} / ${fmt(pi.target)} บาท · ขาดอีก ${fmt(Math.max(0, pi.target - pi.sales))} บาท` });
+  });
+  const elapsed = S.cal.work.filter(d => d <= t).length, totalW = S.cal.total || 1, left = S.cal.work.filter(d => d > t).length;
+  const I = incCalc(), got = I.people.filter(x => x.total > 0);
+  got.slice(0, 8).forEach(x => items.push({ cls: "good", ic: "🏆", b: `${x.p.name} ถึง Incentive ระดับ ${x.tier + 1}`, s: `ยอด ${fmt(x.sales)} บาท · รับ ${fmt(x.reward)}${x.firstBonus ? ` + คนแรก ${fmt(x.firstBonus)}` : ""} บาท` }));
+  if (got.length > 8) items.push({ cls: "good", ic: "🏆", b: `และอีก ${got.length - 8} คนถึงเกณฑ์ Incentive`, s: `ดูทั้งหมดที่หน้า Incentive · รวมจ่ายเดือนนี้ ${fmt(got.reduce((sm, x) => sm + x.total, 0))} บาท` });
+  S.cfg.people.filter(p => p.active !== false && p.status !== "prob").forEach(p => {
+    const tgt = pt[p.id] || 0; if (!tgt) return;
+    const r = perf(tgt, S.cal.work, personPred(p.id));
+    if (r.sales < tgt && elapsed >= totalW * .5 && r.p != null && r.p < S.cfg.near) items.push({ cls: "warn", ic: "📉", b: `${p.name} ตามเป้าไม่ทัน (${pct(r.p)})`, s: `ขาดอีก ${fmt(tgt - r.sales)} บาท · ต้องทำวันละ ${fmt(needPerDay(tgt, personPred(p.id)))} ใน ${left} วันที่เหลือ` });
+  });
+  S.cfg.teams.forEach(tm => {
+    const m = num(tm.target) || 0; if (!m) return;
+    const r = perf(m, S.cal.work, teamPred(tm.id));
+    if (elapsed >= 3 && r.p != null && r.p < S.cfg.near) items.push({ cls: "warn", ic: "🚩", b: `ทีม ${tm.name} ต่ำกว่าเป้าสะสม (${pct(r.p)})`, s: `${tm.sup ? `ผู้รับผิดชอบ: ซุป${tm.sup} · ` : ""}เป้าทบ ${fmt(needPerDay(m, teamPred(tm.id)))} บาท/วัน (แผนเดิม ${fmt(m / totalW)})` });
+  });
+  return items.slice(0, 30);
+}
+function renderBell() {
+  const el = $("bellBadge"); if (!el || !S.cfg) return;
+  const n = notifItems().length;
+  el.hidden = !n; el.textContent = n > 9 ? "9+" : n;
+}
+function renderBellPanel() {
+  if (!S.cfg) return;
+  const items = notifItems();
+  $("bellPanel").innerHTML = `<h4>การแจ้งเตือน · ${esc(thMonth(S.month))}</h4>` + (items.length
+    ? items.map(i => `<div class="nitem ${i.cls}"><span class="ic">${i.ic}</span><div><b>${esc(i.b)}</b><small>${esc(i.s)}</small></div></div>`).join("")
+    : '<div class="nitem"><span class="ic">✅</span><div><b>ไม่มีเรื่องต้องตามตอนนี้</b><small>วันสำคัญ ทดลองงาน Incentive และทีมที่หลุดเป้า จะเด้งที่นี่อัตโนมัติ</small></div></div>');
+}
+
 /* ============ avatars & photos ============ */
 function photo(kind, id) { const p = S.photos[kind + ":" + id]; return isImg(p) ? p : null; }
 function avatar(kind, id, name, size, opts = {}) {
@@ -581,9 +690,10 @@ function miniCal(sel, attr, dotFn) {
 function render() {
   if (!S.cfg) return;
   document.documentElement.style.setProperty("--brand", isHex(S.cfg.brand) ? S.cfg.brand : "#7A2BD6");
-  document.title = "สนามยอดขาย " + thMonth(S.month);
+  document.title = "Performance CRM ggl · " + thMonth(S.month);
+  renderBell(); if ($("bellPanel") && !$("bellPanel").hidden) renderBellPanel();
   renderSide();
-  const f = { dash: pageDash, entry: pageEntry, people: pagePeople, kpi: pageKpi, summary: pageSummary, voices: pageVoices, admin: pageAdmin }[S.page];
+  const f = { dash: pageDash, entry: pageEntry, plan: pagePlan, catchup: pageCatchup, inc: pageInc, people: pagePeople, kpi: pageKpi, summary: pageSummary, voices: pageVoices, admin: pageAdmin }[S.page];
   $("page").innerHTML = f();
   afterRender();
 }
@@ -677,7 +787,7 @@ function funnelHtml(P) {
   const k = agg(P.days, allPred);
   const steps = [["โทรออก", k.calls, null, ""], ["ได้คุย", k.reached, k.rReach, "ติดต่อได้"], ["คุยจบ", k.completed, k.rDone, "คุยจบ"], ["ปิดการขาย", k.closed, k.rCon, "%Con"]];
   const max = k.calls || Math.max(...steps.map(s => s[1] || 0)) || 1;
-  const fun = steps.map(([l, v, r, rl]) => `<div class="fstep"><span class="l">${l}</span><span class="fbar"><i style="width:${v ? Math.max(4, Math.min(100, v / max * 100)) : 0}%"></i><em class="num">${v == null ? "" : fmt(v)}</em></span><span class="r num">${r == null ? "" : `<b>${pct(r)}</b>${rl}`}</span></div>`).join("");
+  const fun = steps.map(([l, v, r, rl]) => { const w = v ? Math.max(4, Math.min(100, v / max * 100)) : 0; return `<div class="fstep"><span class="l">${l}</span><span class="fbar"><i style="width:${w}%"></i><em class="num" ${w < 18 ? `style="left:calc(${w}% + 8px);color:var(--ink);text-shadow:none"` : ""}>${v == null ? "" : fmt(v)}</em></span><span class="r num">${r == null ? "" : `<b>${pct(r)}</b>${rl}`}</span></div>`; }).join("");
   const side = [["%Con ทั้งทีม", pct(k.rCon)], ["Talktime รวม", k.talk == null ? "—" : hm(k.talk) + " ชม."], ["Talktime / คน / วัน", k.talkPer == null ? "—" : hm(k.talkPer) + " ชม."], ["โทร / คน / วัน", k.callsPer == null ? "—" : fmt1(k.callsPer) + " สาย"], ["ยอดเฉลี่ยต่อออเดอร์", fmt(k.aov)], ["ลูกค้าใหม่", fmt(k.newCust)]]
     .map(([a, b]) => `<div><small>${a}</small><b class="num">${b}</b></div>`).join("");
   return `<section class="sec"><div class="sech"><div><h2>Funnel การโทรทั้งทีม</h2><p>จากสายที่โทรออกจนถึงออเดอร์ที่ปิดได้</p></div></div>
@@ -701,7 +811,7 @@ function pageEntry() {
       const shown = v == null ? "" : f === "talk" ? hm(v) : v.toLocaleString("th-TH");
       return `<td><input class="ein ${cls}" data-p="${esc(p.id)}" data-f="${f}" value="${shown}" inputmode="${f === "talk" ? "decimal" : "numeric"}" placeholder="${f === "talk" ? "0:00" : "0"}" aria-label="${esc(p.name)} ${f}"></td>`;
     };
-    return `<tr data-row="${esc(p.id)}"><td><span class="tn">${personAv(p, 34, { edit: true })}<span>${esc(p.name)}<br><small>เป้าวันละ ${fmt((pt[p.id] || 0) / (S.cal.total || 1))}</small></span></span></td>
+    return `<tr data-row="${esc(p.id)}"><td><span class="tn">${personAv(p, 34, { edit: true })}<span>${esc(p.name)}<br><small>เป้าวันละ ${fmt((pt[p.id] || 0) / (S.cal.total || 1))}${hasPlan(p) ? ` · ${fmt1(planCalc(p.plan).orders / (S.cal.total || 1))} ออเดอร์` : ""}</small></span></span></td>
       ${inp("sales", "wide")}${inp("calls")}${inp("reached")}${inp("completed")}${inp("closed")}${inp("talk")}${inp("newCust")}
       <td class="num" data-calc="${esc(p.id)}">—</td></tr>`;
   }).join("");
@@ -773,6 +883,100 @@ async function saveEntry() {
     await load(S.month, true);
   } catch (e) { toast(errText(e)); }
   finally { const b = $("saveEntry"); if (b) { b.disabled = false; b.textContent = `บันทึกผลวันที่ ${dShort(ds)}`; } }
+}
+
+/* ---------- campaign plan page ---------- */
+function pagePlan() {
+  const camps = S.cfg.campaigns || [];
+  const head = `<div class="ph"><div><h1>เป้าตามแคมเปญ</h1><p>`;
+  if (!camps.length) return head + `เป้าออเดอร์และยอดขายแยกตามถังรายชื่อ</p></div></div><div class="panel"><p class="empty">ยังไม่มีแผนแคมเปญ ${S.role === "admin" ? 'แอดมินนำเข้าได้ที่ <a href="#" data-goto="admin">หน้าตั้งค่า</a>' : "รอแอดมินนำเข้าแผน"}</p></div>`;
+  const teams = S.cfg.teams.filter(t => hasPlan(t) || S.cfg.people.some(p => p.team === t.id && hasPlan(p)));
+  if (!S.planTeam || !teams.some(t => t.id === S.planTeam)) S.planTeam = teams[0] ? teams[0].id : null;
+  const t = teamById(S.planTeam), P = periodInfo(), f = P.days.length / (S.cal.total || 1);
+  const unit = S.ptype === "day" ? "ต่อวัน" : S.ptype === "week" ? "ทั้งสัปดาห์" : "ทั้งเดือน";
+  const pt = personTargets();
+  const cell = r => `<td class="num"><b>${fmt1(r.orders * f)}</b><br><small>${fmt(r.sales * f)}</small></td>`;
+  const row = (label, av, plan, perfRes, cls = "") => {
+    const c = planCalc(plan);
+    return `<tr class="${cls}"><td><span class="tn">${av}<span>${label}</span></span></td>${camps.map((_, i) => cell(c.rows[i] || { orders: 0, sales: 0 })).join("")}
+      <td class="num">${fmt(c.list * f)}</td><td class="num"><b>${fmt1(c.orders * f)}</b></td><td class="num"><b>${fmt(c.sales * f)}</b></td>
+      <td class="num">${perfRes ? fmt(perfRes.sales) : ""}</td><td>${perfRes ? `<span class="chip ${perfRes.status}">${perfRes.p == null ? "รอกรอก" : pct(perfRes.p)}</span>` : ""}</td></tr>`;
+  };
+  const ppl = S.cfg.people.filter(p => p.team === t.id && hasPlan(p) && p.active !== false);
+  const body = ppl.map(p => row(`${esc(p.name)}${p.username ? `<br><small>${esc(p.username)}</small>` : ""}`, personAv(p, 30), p.plan, perf(pt[p.id] || 0, P.days, personPred(p.id)))).join("")
+    + (hasPlan(t) ? row(`แผนรวมทีม ${esc(t.name)}`, teamAv(t, 30), t.plan, perf(num(t.target) || 0, P.days, teamPred(t.id)), "total") : "");
+  // สัดส่วนยอดตามแคมเปญของทีม
+  const tc = planCalc(hasPlan(t) ? t.plan : []), maxS = Math.max(...tc.rows.map(r => r.sales), 1);
+  const bars = tc.rows.map((r, i) => `<div class="fstep" style="grid-template-columns:minmax(120px,240px) 1fr 150px"><span class="l" style="font-weight:500">${esc(camps[i] || "")}</span>${(() => { const w = Math.max(r.sales ? 3 : 0, r.sales / maxS * 100); return `<span class="fbar"><i style="width:${w}%"></i><em class="num" ${w < 22 ? `style="left:calc(${w}% + 8px);color:var(--ink);text-shadow:none"` : ""}>${fmt1(r.orders * f)} ออเดอร์</em></span>`; })()}<span class="r num"><b>${fmt(r.sales * f)}</b>${pct(tc.sales ? r.sales / tc.sales : null)} ของทีม</span></div>`).join("");
+  return head + `${esc(P.title)} · ตัวเลขเป็นเป้า${unit} คิดจากแผนเดือน ÷ ${S.cal.total} วันทำงาน × ${P.days.length} วัน</p></div>
+    <div class="chips">${teams.map(x => `<button data-planteam="${esc(x.id)}" aria-pressed="${x.id === t.id}">${esc(x.name)}</button>`).join("")}</div></div>
+    ${hasPlan(t) ? `<section class="sec"><div class="sech"><div><h2>ทีม ${esc(t.name)} แยกตามแคมเปญ</h2><p>ความยาวแถบ = ยอดขายเป้าของแคมเปญนั้น</p></div></div><div class="panel" style="padding:18px 22px">${bars}</div></section>` : ""}
+    <section class="sec"><div class="sech"><div><h2>เป้ารายคนตามแคมเปญ</h2><p>ตัวหนา = ออเดอร์, ตัวเล็ก = ยอดขาย (บาท) · ยอดจริงและ % เทียบเป้าถึงวันนี้</p></div></div>
+    <div class="panel scroll"><table><thead><tr><th>เซลส์</th>${camps.map(c => `<th style="white-space:normal;min-width:92px">${esc(c)}</th>`).join("")}<th>รายชื่อ<br>ที่ต้องโทร</th><th>ออเดอร์<br>รวม</th><th>ยอดขาย<br>เป้า</th><th>ยอดจริง</th><th>% เป้า</th></tr></thead><tbody>${body}</tbody></table></div></section>`;
+}
+
+/* ---------- catch-up plan ---------- */
+function pageCatchup() {
+  const t = todayStr(), totalW = S.cal.total || 1;
+  const elapsed = S.cal.work.filter(d => d <= t).length, left = S.cal.work.filter(d => d > t).length;
+  const pt = personTargets();
+  const aovOf = x => { if (!hasPlan(x)) return 2500; const c = planCalc(x.plan); return c.orders ? c.sales / c.orders : 2500; };
+  const row = (label, av, m, pred, aov, cls = "") => {
+    const r = perf(m, S.cal.work, pred);
+    const gap = r.toDate - r.sales, needNew = left ? Math.max(0, m - r.sales) / left : null, base = m / totalW;
+    return `<tr class="${cls}"><td><span class="tn">${av}<span>${label}</span></span></td>
+      <td class="num">${fmt(m)}</td><td class="num">${fmt(r.toDate)}</td><td class="num">${fmt(r.sales)}</td>
+      <td class="num" style="font-weight:600;color:${gap > 1 ? "#D92D20" : "#039855"}">${gap > 1 ? "−" + fmt(gap) : "+" + fmt(Math.max(0, -gap))}</td>
+      <td><span class="chip ${r.status}">${r.p == null ? "รอกรอก" : pct(r.p)}</span></td>
+      <td class="num">${fmt(base)}</td>
+      <td class="num"><b>${needNew == null ? "—" : fmt(needNew)}</b>${needNew != null && needNew > base + 1 ? `<br><small style="color:#D92D20">ทบ +${fmt(needNew - base)}/วัน</small>` : ""}</td>
+      <td class="num">${needNew == null ? "—" : fmt1(needNew / aov)}</td></tr>`;
+  };
+  const head = `<thead><tr><th></th><th>เป้าเดือน</th><th>เป้าสะสม<br>ถึงวันนี้</th><th>ทำได้จริง</th><th>ขาด / เกิน</th><th>% เป้า</th><th>แผนเดิม<br>บาท/วัน</th><th>เป้าทบ<br>บาท/วัน</th><th>≈ ออเดอร์<br>/วัน</th></tr></thead>`;
+  const teams = S.cfg.teams.map(tm => row(`${esc(tm.name)}${tm.sup ? `<br><small>ซุป ${esc(tm.sup)}</small>` : ""}`, teamAv(tm, 30), num(tm.target) || 0, teamPred(tm.id), aovOf(tm))).join("")
+    + row("รวมทุกทีม", "", totalTarget(), allPred, 2500, "total");
+  const tsel = S.cfg.teams;
+  if (!S.cuTeam || !tsel.some(x => x.id === S.cuTeam)) S.cuTeam = tsel[0] && tsel[0].id;
+  const tm = teamById(S.cuTeam);
+  const ppl = S.cfg.people.filter(p => p.team === tm.id && p.active !== false)
+    .map(p => row(`${esc(p.name)} ${p.status === "prob" ? '<span class="gradechip">ทดลองงาน</span>' : ""}`, personAv(p, 30), pt[p.id] || 0, personPred(p.id), aovOf(p))).join("");
+  return `<div class="ph"><div><h1>แผนเป้าทบ</h1><p>ผ่านไป ${elapsed} จาก ${totalW} วันทำงาน เหลือ ${left} วัน · ใครตามหลังแผน ระบบคำนวณยอดที่ต้องทำต่อวันใหม่ (ทำเพิ่ม/ทำทบ) ให้อัตโนมัติ</p></div></div>
+    <section class="sec"><div class="sech"><div><h2>รายทีม</h2><p>เป้าทบ = (เป้าเดือน − ทำได้แล้ว) ÷ วันทำงานที่เหลือ · ออเดอร์/วันคิดจาก AOV ตามแผนแคมเปญ</p></div></div>
+    <div class="panel scroll"><table>${head}<tbody>${teams}</tbody></table></div></section>
+    <section class="sec"><div class="sech"><div><h2>รายคน</h2><p>แถบเตือนที่กระดิ่งจะแจ้งคนที่ตามเป้าไม่ทันให้เองเมื่อผ่านครึ่งเดือน</p></div></div>
+    <div class="chips">${tsel.map(x => `<button data-cuteam="${esc(x.id)}" aria-pressed="${x.id === tm.id}">${esc(x.name)}</button>`).join("")}</div>
+    <div class="panel scroll"><table>${head}<tbody>${ppl || '<tr><td colspan="9" class="empty">ทีมนี้ยังไม่มีรายชื่อเซลส์</td></tr>'}</tbody></table></div></section>`;
+}
+
+/* ---------- incentive ---------- */
+function pageInc() {
+  const I = incCalc(), totalW = S.cal.total || 1;
+  const head = `<div class="ph"><div><h1>Incentive ${esc(thMonth(S.month))}</h1><p>ยอดขายสะสมทั้งเดือนถึงระดับไหน รับตามระดับสูงสุด · คนแรกที่ถึงแต่ละระดับรับเพิ่ม ${fmt(I.firstB)} บาท</p></div></div>`;
+  if (!I.tiers.length) return head + `<div class="panel"><p class="empty">ยังไม่ได้ตั้งระดับ Incentive ${S.role === "admin" ? 'ตั้งได้ที่ <a href="#" data-goto="admin">หน้าตั้งค่า</a>' : "รอแอดมินตั้งค่า"}</p></div>`;
+  const payout = I.people.reduce((sm, x) => sm + x.total, 0), gotN = I.people.filter(x => x.total > 0).length;
+  const salesAll = I.people.reduce((sm, x) => sm + x.sales, 0);
+  const fig = (l, v) => `<div style="flex:1;min-width:150px"><small style="color:var(--muted)">${l}</small><div class="num" style="font-size:24px;font-weight:700">${v}</div></div>`;
+  const tierRows = I.tiers.map((t, i) => {
+    const f = I.firsts[i], doneN = I.people.filter(x => x.tier >= i).length;
+    return `<tr><td>ระดับ ${i + 1}</td><td class="num">${fmt(t[0])}</td><td class="num">${fmt(t[0] / totalW)}</td><td class="num"><b>${fmt(t[1])}</b></td><td class="num">+${fmt(I.firstB)}</td><td class="num"><b>${fmt((num(t[1]) || 0) + I.firstB)}</b></td><td class="num">${doneN || "—"}</td><td class="tl-left">${f ? `${f.winners.map(w => esc(w.p.name)).join(", ")} <small style="color:var(--muted)">(${esc(dShort(f.date))})</small>` : "ยังไม่มี"}</td></tr>`;
+  }).join("");
+  const board = I.people.map((x, i) => {
+    const nxt = I.tiers[x.tier + 1];
+    return `<tr class="${x.total ? "" : ""}"><td><span class="tn"><span class="rank">${i + 1}</span>${personAv(x.p, 32)}<span>${esc(x.p.name)}<br><small>${esc((teamById(x.p.team) || {}).name || "")}</small></span></span></td>
+      <td class="num">${fmt(x.sales)}</td>
+      <td>${x.tier >= 0 ? `<span class="chip hit">ระดับ ${x.tier + 1}</span>` : '<span class="chip wait">ยังไม่ถึง</span>'}</td>
+      <td class="num">${x.reward ? fmt(x.reward) : "—"}</td>
+      <td class="num">${x.firstBonus ? "+" + fmt(x.firstBonus) : "—"}</td>
+      <td class="num"><b>${x.total ? fmt(x.total) : "—"}</b></td>
+      <td class="tl-left"><small>${nxt ? `ขาด ${fmt(Math.max(0, (num(nxt[0]) || 0) - x.sales))} ถึงระดับ ${x.tier + 2}` : "ระดับสูงสุดแล้ว 🎉"}</small></td></tr>`;
+  }).join("");
+  return head + `<div class="panel" style="display:flex;gap:18px;flex-wrap:wrap;padding:18px 22px;margin-bottom:22px">
+      ${fig("งบ Incentive ที่ต้องจ่ายตอนนี้", fmt(payout) + " บาท")}${fig("คนที่ถึงเกณฑ์แล้ว", gotN + " คน")}${fig("คิดเป็น % ของยอดขาย", salesAll ? pct(payout / salesAll) : "—")}
+    </div>
+    <section class="sec"><div class="sech"><div><h2>ระดับรางวัล</h2><p>${S.role === "admin" ? 'แก้ระดับและเงินรางวัลได้ที่ <a href="#" data-goto="admin">หน้าตั้งค่า</a>' : "แอดมินเป็นผู้กำหนดระดับ"}</p></div></div>
+    <div class="panel scroll"><table><thead><tr><th>ระดับ</th><th>ยอดขาย/เดือน</th><th>≈ ยอด/วัน</th><th>Incentive</th><th>คนแรก</th><th>รวมสูงสุด</th><th>ถึงแล้ว</th><th class="tl-left">ผู้ทำได้คนแรก</th></tr></thead><tbody>${tierRows}</tbody></table></div></section>
+    <section class="sec"><div class="sech"><div><h2>อันดับเซลส์เดือนนี้</h2><p>เรียงตามยอดขายสะสม นับจากข้อมูลที่ซุปกรอกรายวัน</p></div></div>
+    <div class="panel scroll"><table><thead><tr><th>เซลส์</th><th>ยอดสะสม</th><th>ระดับ</th><th>Incentive</th><th>โบนัสคนแรก</th><th>รวมรับ</th><th class="tl-left">ระดับถัดไป</th></tr></thead><tbody>${board || '<tr><td colspan="7" class="empty">ยังไม่มีรายชื่อเซลส์</td></tr>'}</tbody></table></div></section>`;
 }
 
 /* ---------- people ---------- */
@@ -877,6 +1081,7 @@ function pageAdmin() {
   const peopleRows = D.people.map((p, i) => `<tr><td><span class="tn">${personAv(p, 30, { edit: true })}<input class="in" data-pi="${i}" data-f="name" value="${esc(p.name)}" aria-label="ชื่อเซลส์"></span></td>
     <td><select class="in" data-pi="${i}" data-f="team" aria-label="ทีม">${D.teams.map(t => `<option value="${esc(t.id)}" ${t.id === p.team ? "selected" : ""}>${esc(t.name)}</option>`).join("")}</select></td>
     <td><input class="in num" data-pi="${i}" data-f="target" value="${num(p.target) == null ? "" : num(p.target).toLocaleString("th-TH")}" placeholder="อัตโนมัติ ${fmt(pt[p.id])}" inputmode="numeric" aria-label="เป้าเดือน"></td>
+    <td><select class="in" data-pi="${i}" data-f="status" aria-label="สถานะ" style="min-width:104px"><option value="">ปกติ</option><option value="prob" ${p.status === "prob" ? "selected" : ""}>ทดลองงาน</option></select>${p.status === "prob" ? `<input class="in" type="date" data-pi="${i}" data-f="probStart" value="${esc(p.probStart || "")}" aria-label="วันเริ่มงาน" title="วันเริ่มงาน" style="margin-top:6px">` : ""}</td>
     <td><label style="display:inline-flex;gap:6px;align-items:center"><input type="checkbox" data-pi="${i}" data-f="active" ${p.active !== false ? "checked" : ""}>ทำงานอยู่</label></td>
     <td><button class="btn danger" data-delp="${i}">ลบ</button></td></tr>`).join("");
   const K = D.kpi || {};
@@ -899,7 +1104,7 @@ function pageAdmin() {
     <div class="panel scroll"><table class="atable"><thead><tr><th>ชื่อทีม</th><th class="tl-left">ชื่อซุป</th><th>เป้าทั้งเดือน (บาท)</th><th>เซลส์</th><th></th></tr></thead><tbody>${teamRows}</tbody></table></div></section>
 
   <section class="sec"><div class="sech"><div><h2>รายชื่อเซลส์และเป้ารายคน</h2><p>เว้นเป้าว่างไว้ ระบบจะแบ่งเป้าที่เหลือของทีมให้เท่ากันอัตโนมัติ กดวงกลมเพื่อใส่รูป</p></div><button class="btn ghost" id="addPerson">+ เพิ่มเซลส์</button></div>
-    <div class="panel scroll">${D.people.length ? `<table class="atable"><thead><tr><th>ชื่อเซลส์</th><th class="tl-left">ทีม</th><th>เป้าทั้งเดือน (บาท)</th><th class="tl-left">สถานะ</th><th></th></tr></thead><tbody>${peopleRows}</tbody></table>` : '<p class="empty">ยังไม่มีรายชื่อ กด "+ เพิ่มเซลส์"</p>'}</div></section>
+    <div class="panel scroll">${D.people.length ? `<table class="atable"><thead><tr><th>ชื่อเซลส์</th><th class="tl-left">ทีม</th><th>เป้าทั้งเดือน (บาท)</th><th class="tl-left">สถานะ</th><th></th><th></th></tr></thead><tbody>${peopleRows}</tbody></table>` : '<p class="empty">ยังไม่มีรายชื่อ กด "+ เพิ่มเซลส์"</p>'}</div></section>
 
   <section class="sec"><div class="sech"><div><h2>เป้า KPI ต่อคน</h2><p>ใช้เทียบสีในหน้ารายคนและ KPI รายทีม เว้นว่างได้ถ้ายังไม่ต้องการตั้ง</p></div></div>
     <div class="panel form"><div class="frow">
@@ -908,6 +1113,39 @@ function pageAdmin() {
       <div><label class="l" for="kReach">%ติดต่อได้</label><input class="in" id="kReach" data-kpi="rReach" value="${num(K.rReach) == null ? "" : Math.round(num(K.rReach) * 1000) / 10}" inputmode="decimal"></div>
       <div><label class="l" for="kCon">%Con</label><input class="in" id="kCon" data-kpi="rCon" value="${num(K.rCon) == null ? "" : Math.round(num(K.rCon) * 1000) / 10}" inputmode="decimal"></div>
     </div></div></section>
+
+  <section class="sec"><div class="sech"><div><h2>วันสำคัญ & กระดิ่งแจ้งเตือน</h2><p>กระดิ่งมุมขวาบนจะแจ้งล่วงหน้า 7 วัน พร้อมชื่อซุปผู้รับผิดชอบ ทุกคนเห็นเหมือนกัน</p></div></div>
+    <div class="panel form">
+      <div class="frow">
+        <div><label class="l" for="evDate">วันที่</label><input class="in" type="date" id="evDate"></div>
+        <div style="flex:1;min-width:220px"><label class="l" for="evTitle">เรื่อง</label><input class="in" id="evTitle" placeholder="เช่น ประชุมสรุปยอดกลางเดือน / ส่งรายงาน HR"></div>
+        <div><label class="l" for="evOwner">ผู้รับผิดชอบ (ซุป)</label><input class="in" id="evOwner" list="supList" placeholder="ชื่อซุป"><datalist id="supList">${[...new Set(D.teams.map(x => x.sup).filter(Boolean))].map(x => `<option value="${esc(x)}">`).join("")}</datalist></div>
+        <div><button class="btn ghost" id="evAdd">+ เพิ่ม</button></div>
+      </div>
+      ${(D.events || []).length ? `<table class="atable"><thead><tr><th>วันที่</th><th class="tl-left">เรื่อง</th><th class="tl-left">ผู้รับผิดชอบ</th><th></th></tr></thead><tbody>${(D.events || []).slice().sort((a, b) => a.d < b.d ? -1 : 1).map(ev => `<tr><td>${esc(dShort(ev.d))}</td><td class="tl-left">${esc(ev.t)}</td><td class="tl-left">${ev.o ? "ซุป" + esc(ev.o) : "—"}</td><td><button class="btn danger" data-delev="${esc(ev.id)}">ลบ</button></td></tr>`).join("")}</tbody></table>` : '<p class="hint">ยังไม่มีวันสำคัญ เพิ่มได้เลยด้านบน</p>'}
+    </div></section>
+
+  <section class="sec"><div class="sech"><div><h2>ทดลองงาน & Incentive</h2><p>ตั้งสถานะ "ทดลองงาน" รายคนได้ที่ตารางรายชื่อเซลส์ด้านบน · ระดับ Incentive ใช้กับเซลส์ทุกคน</p></div></div>
+    <div class="panel form">
+      <span class="l">เงื่อนไขผ่านทดลองงาน (ใช้กับทุกคนที่สถานะทดลองงาน)</span>
+      <div class="frow">
+        <div><label class="l" for="prDays">ระยะเวลา (วัน)</label><input class="in" id="prDays" data-prob="days" value="${num((D.prob || {}).days) ?? 30}" inputmode="numeric"></div>
+        <div><label class="l" for="prTarget">ยอดขายขั้นต่ำ (บาท)</label><input class="in" id="prTarget" data-prob="target" value="${(num((D.prob || {}).target) ?? 60000).toLocaleString("th-TH")}" inputmode="numeric"></div>
+        <div><label class="l" for="prWage">ค่าแรงรายวัน (บาท)</label><input class="in" id="prWage" data-prob="wage" value="${(num((D.prob || {}).wage) ?? 400).toLocaleString("th-TH")}" inputmode="numeric"></div>
+      </div>
+      <p class="hint">นับยอดสะสมตั้งแต่ "วันเริ่มงาน" ของแต่ละคน · ผ่านเกณฑ์ ใกล้ครบ 7 วันสุดท้าย หรือครบแล้วไม่ถึง กระดิ่งจะแจ้งอัตโนมัติ</p>
+      <span class="l" style="margin-top:14px;display:block">ระดับ Incentive ตามยอดขายสะสมต่อเดือน</span>
+      <div class="scroll"><table class="atable" style="max-width:560px"><thead><tr><th>ระดับ</th><th>ยอดขาย/เดือน (บาท)</th><th>Incentive (บาท)</th><th></th></tr></thead><tbody>${((D.inc || {}).tiers || []).map((t, i) => `<tr><td class="num">${i + 1}</td><td><input class="in num" data-ti="${i}" data-tf="min" value="${num(t[0]) == null ? "" : num(t[0]).toLocaleString("th-TH")}" inputmode="numeric" aria-label="ยอดขั้นต่ำ"></td><td><input class="in num" data-ti="${i}" data-tf="inc" value="${num(t[1]) == null ? "" : num(t[1]).toLocaleString("th-TH")}" inputmode="numeric" aria-label="เงินรางวัล"></td><td><button class="btn danger" data-delti="${i}">ลบ</button></td></tr>`).join("")}</tbody></table></div>
+      <div class="frow"><div><button class="btn ghost" id="addTier">+ เพิ่มระดับ</button></div>
+      <div><label class="l" for="incFirst">รางวัลผู้ทำได้คนแรกต่อระดับ (บาท)</label><input class="in" id="incFirst" data-incfirst value="${(num((D.inc || {}).first) ?? 500).toLocaleString("th-TH")}" inputmode="numeric"></div></div>
+      <p class="hint">ถึงหลายระดับรับตามระดับสูงสุด · คนแรกที่ยอดสะสมถึงแต่ละระดับในเดือนรับเพิ่มอัตโนมัติ ดูสรุปจ่ายได้ที่หน้า Incentive</p>
+    </div></section>
+
+  <section class="sec"><div class="sech"><div><h2>นำเข้าแผนแคมเปญ</h2><p>${(D.campaigns || []).length ? `ตอนนี้มีแผน ${D.campaigns.length} แคมเปญ, เซลส์ที่มีแผน ${D.people.filter(hasPlan).length} คน` : "ยังไม่มีแผนแคมเปญ"} · นำเข้าแล้วตรวจตัวเลขก่อนกดบันทึก</p></div></div>
+    <div class="panel form"><div class="frow">
+      <div style="flex:1;min-width:260px"><label class="l" for="planFile">ไฟล์แผน (.json)</label><input class="in" type="file" id="planFile" accept=".json,application/json"></div>
+      <div><button class="btn ghost" id="planImport">นำเข้าแผน</button></div>
+    </div><p class="hint">ทีมจับคู่ตามรหัสทีม เซลส์จับคู่ตามชื่อหรือ username ถ้าไม่เจอจะเพิ่มเป็นคนใหม่ เป้าเดือนของทีมและรายคนจะถูกแทนด้วยยอดรวมตามแผน</p></div></section>
 
   <section class="sec"><div class="sech"><div><h2>เริ่มเดือนใหม่</h2><p>คัดลอกทีม รายชื่อ เป้า และเป้า KPI ของเดือนนี้ไปตั้งต้นเดือนใหม่ ข้อมูลเดือนเก่ายังดูย้อนหลังได้</p></div></div>
     <div class="panel form"><div class="frow"><div><label class="l" for="newMonth">เดือนใหม่</label><input class="in" type="month" id="newMonth"></div><div><button class="btn ghost" id="newMonthBtn">สร้างเดือนนี้</button></div></div></div></section>
@@ -938,6 +1176,16 @@ function readAdminInputs() {
     if (Number.isNaN(v)) { errs.push(i); return; }
     D.kpi[k] = v == null ? null : (k === "rReach" || k === "rCon") ? v / 100 : v;
   });
+  document.querySelectorAll("[data-prob]").forEach(i => {
+    const v = parseNum(i.value); if (Number.isNaN(v) || v === null) { errs.push(i); return; }
+    D.prob = D.prob || {}; D.prob[i.dataset.prob] = v;
+  });
+  document.querySelectorAll("[data-ti]").forEach(i => {
+    const t = ((D.inc || {}).tiers || [])[+i.dataset.ti]; if (!t) return;
+    const v = parseNum(i.value); if (Number.isNaN(v)) errs.push(i); else t[i.dataset.tf === "min" ? 0 : 1] = v || 0;
+  });
+  const fb = document.querySelector("[data-incfirst]");
+  if (fb) { const v = parseNum(fb.value); if (Number.isNaN(v)) errs.push(fb); else { D.inc = D.inc || {}; D.inc.first = v || 0; } }
   const wd = [...document.querySelectorAll("[data-wd]")].filter(i => i.checked).map(i => +i.dataset.wd);
   if (document.querySelector("[data-wd]")) D.workWeekdays = wd;
   return errs;
@@ -948,6 +1196,7 @@ async function saveAdmin() {
   const D = S.draft;
   if (D.teams.some(t => !t.name)) { toast("ทุกทีมต้องมีชื่อ"); return; }
   if (D.people.some(p => !p.name)) { toast("เซลส์ทุกคนต้องมีชื่อ"); return; }
+  if (D.inc) D.inc.tiers = (D.inc.tiers || []).filter(t => num(t[0]) > 0).sort((a, b) => num(a[0]) - num(b[0]));
   if (!D.workWeekdays.length) { toast("ต้องมีวันทำงานอย่างน้อย 1 วันต่อสัปดาห์"); return; }
   const btn = $("aSave"); btn.disabled = true; btn.textContent = "กำลังบันทึก…";
   try {
@@ -971,6 +1220,31 @@ async function createMonth() {
     toast(`สร้าง ${thMonth(m)} แล้ว อย่าลืมเพิ่มวันหยุดของเดือนนี้`);
     await load(m);
   } catch (e) { toast(errText(e)); }
+}
+async function importPlan() {
+  const f = $("planFile").files && $("planFile").files[0];
+  if (!f) { toast("เลือกไฟล์แผน .json ก่อน"); return; }
+  let J; try { J = JSON.parse(await f.text()); } catch (e) { toast("อ่านไฟล์ไม่ได้ ต้องเป็นไฟล์ .json ที่ได้จาก Claude"); return; }
+  if (!J || J.type !== "salesrace-plan" || !Array.isArray(J.teams) || !Array.isArray(J.people)) { toast("ไฟล์นี้ไม่ใช่ไฟล์แผนแคมเปญ"); return; }
+  if (J.month && J.month !== S.month && !confirm(`ไฟล์นี้เป็นแผนของ ${thMonth(J.month)} แต่ตอนนี้กำลังตั้งค่า ${thMonth(S.month)} ต้องการนำเข้าต่อไหม`)) return;
+  readAdminInputs();
+  const D = S.draft, norm = v => String(v || "").replace(/\s+/g, "").toLowerCase(), map = {};
+  let addT = 0, addP = 0, updP = 0;
+  D.campaigns = Array.isArray(J.campaigns) ? J.campaigns.map(String) : [];
+  J.teams.forEach(jt => {
+    let t = D.teams.find(x => x.id === jt.id) || D.teams.find(x => norm(x.name) === norm(jt.name));
+    if (!t) { t = { id: jt.id && !D.teams.some(x => x.id === jt.id) ? jt.id : uid("t"), name: jt.name, sup: "", target: 0 }; D.teams.push(t); addT++; }
+    t.plan = jt.plan; t.target = Math.round(planCalc(jt.plan).sales); map[jt.id] = t.id;
+  });
+  J.people.forEach(jp => {
+    const tid = map[jp.team] || jp.team;
+    let p = D.people.find(x => (jp.username && x.username === jp.username) || norm(x.name) === norm(jp.name));
+    if (!p) { p = { id: uid("p"), name: jp.name, team: tid, active: true }; D.people.push(p); addP++; } else updP++;
+    p.team = tid; p.username = jp.username || p.username || ""; p.plan = jp.plan;
+    p.target = Math.round(planCalc(jp.plan).sales); p.active = jp.active !== false;
+  });
+  adminMark(); render();
+  toast(`นำเข้าแล้ว: เพิ่มเซลส์ใหม่ ${addP} คน อัปเดต ${updP} คน${addT ? ` เพิ่มทีม ${addT} ทีม` : ""} ตรวจแล้วกดบันทึกการตั้งค่า`);
 }
 function downloadCsv() {
   const head = ["วันที่", "ทีม", "เซลส์", "ยอดขาย", "โทรออก", "ได้คุย", "คุยจบ", "ปิดการขาย", "Talktime (ชม.)", "ลูกค้าใหม่"];
@@ -1132,6 +1406,8 @@ $("picker").addEventListener("click", e => {
 });
 $("monthSel").addEventListener("change", e => { if (!leaveGuard()) { e.target.value = S.month; return; } load(e.target.value); });
 $("switchBtn").addEventListener("click", () => askCode("", "ใส่รหัสใหม่ ซุปใช้รหัสทีม แอดมินใช้รหัสแอดมิน"));
+$("bellBtn").addEventListener("click", e => { e.stopPropagation(); const bp = $("bellPanel"); bp.hidden = !bp.hidden; if (!bp.hidden) renderBellPanel(); });
+document.addEventListener("click", e => { const bp = $("bellPanel"); if (bp && !bp.hidden && !e.target.closest(".bell")) bp.hidden = true; });
 $("gCancel").addEventListener("click", () => { $("gate").close(); S.wantAdmin = false; });
 $("gate").addEventListener("cancel", ev => { if (!S.cfg) ev.preventDefault(); });
 $("gForm").addEventListener("submit", async ev => {
@@ -1154,6 +1430,7 @@ page.addEventListener("click", e => {
   if (ed) { if (ed.dataset.edate !== S.entryDate && !leaveGuard()) return; S.entryDate = ed.dataset.edate; render(); entryCalc(); return; }
   if (x.closest("#saveEntry")) { saveEntry(); return; }
   const gt = x.closest("[data-goto]"); if (gt) { e.preventDefault(); go(gt.dataset.goto); return; }
+  const plt = x.closest("[data-planteam]"); if (plt) { S.planTeam = plt.dataset.planteam; render(); return; }
   const pt = x.closest("[data-pteam]"); if (pt) { S.peopleTeam = pt.dataset.pteam; render(); return; }
   const so = x.closest("[data-sort]"); if (so) { const k = so.dataset.sort; S.sort = { k, d: S.sort.k === k ? -S.sort.d : -1 }; render(); return; }
   const sm = x.closest("[data-smode]"); if (sm) { S.sumMode = sm.dataset.smode; render(); return; }
@@ -1174,6 +1451,12 @@ page.addEventListener("click", e => {
   if (x.closest("#aSave")) { saveAdmin(); return; }
   if (x.closest("#aReset")) { if (S.adminDirty && !confirm("ยกเลิกการแก้ไขทั้งหมด?")) return; S.draft = null; S.adminDirty = false; render(); return; }
   if (x.closest("#newMonthBtn")) { createMonth(); return; }
+  if (x.closest("#planImport")) { importPlan(); return; }
+  if (x.closest("#evAdd")) { const d = $("evDate").value, ti = $("evTitle").value.trim(); if (!d || !ti) { toast("ใส่วันที่และเรื่องก่อน"); return; } readAdminInputs(); (S.draft.events = S.draft.events || []).push({ id: uid("e"), d, t: ti, o: $("evOwner").value.trim() }); adminMark(); render(); return; }
+  const de = x.closest("[data-delev]"); if (de) { readAdminInputs(); S.draft.events = (S.draft.events || []).filter(ev => ev.id !== de.dataset.delev); adminMark(); render(); return; }
+  if (x.closest("#addTier")) { readAdminInputs(); S.draft.inc = S.draft.inc || { first: 500, tiers: [] }; S.draft.inc.tiers.push([0, 0]); adminMark(); render(); return; }
+  const dti = x.closest("[data-delti]"); if (dti) { readAdminInputs(); S.draft.inc.tiers.splice(+dti.dataset.delti, 1); adminMark(); render(); return; }
+  const cu = x.closest("[data-cuteam]"); if (cu) { S.cuTeam = cu.dataset.cuteam; render(); return; }
   if (x.closest("#csvBtn")) { downloadCsv(); return; }
 });
 page.addEventListener("input", e => {
