@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>สนามยอดขาย ตุลาคม 2569</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Mitr:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --brand:#7A2BD6;
+  --brand-deep:color-mix(in srgb,var(--brand) 58%,#12021f);
+  --brand-hi:color-mix(in srgb,var(--brand) 70%,#ffffff);
+  --accent:var(--brand);
+  --accent-ink:#FFFFFF;
+  --bg:color-mix(in srgb,var(--brand) 6%,#FFFFFF);
+  --surface:#FFFFFF;
+  --soft:color-mix(in srgb,var(--brand) 10%,#FFFFFF);
+  --ink:#1F1433; --muted:#6F6388;
+  --line:color-mix(in srgb,var(--brand) 14%,#FFFFFF);
+  --track:color-mix(in srgb,var(--brand) 11%,#FFFFFF);
+  --hit:#0FA97A; --near:#E08A00; --miss:#E43B72; --wait:#BDB3D3;
+  --hit-soft:#D8F5EA; --near-soft:#FDEFD2; --miss-soft:#FDE1EB; --wait-soft:#F1EEF7;
+  --display:"Mitr","Anuphan","Noto Sans Thai",Tahoma,sans-serif;
+  --body:"Anuphan","Noto Sans Thai",Tahoma,sans-serif;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --accent:color-mix(in srgb,var(--brand) 55%,#ffffff); --accent-ink:#150a24;
+    --bg:color-mix(in srgb,var(--brand) 12%,#0B0614);
+    --surface:color-mix(in srgb,var(--brand) 16%,#130B20);
+    --soft:color-mix(in srgb,var(--brand) 28%,#130B20);
+    --ink:#F4EEFF; --muted:#AFA2C9;
+    --line:color-mix(in srgb,var(--brand) 30%,#130B20);
+    --track:color-mix(in srgb,var(--brand) 26%,#130B20);
+    --hit:#2AD6A0; --near:#FFB83D; --miss:#FF6A9A; --wait:#5A4F74;
+    --hit-soft:#10392E; --near-soft:#3C2C0E; --miss-soft:#40162B; --wait-soft:#241C36;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --accent:color-mix(in srgb,var(--brand) 55%,#ffffff); --accent-ink:#150a24;
+  --bg:color-mix(in srgb,var(--brand) 12%,#0B0614);
+  --surface:color-mix(in srgb,var(--brand) 16%,#130B20);
+  --soft:color-mix(in srgb,var(--brand) 28%,#130B20);
+  --ink:#F4EEFF; --muted:#AFA2C9;
+  --line:color-mix(in srgb,var(--brand) 30%,#130B20);
+  --track:color-mix(in srgb,var(--brand) 26%,#130B20);
+  --hit:#2AD6A0; --near:#FFB83D; --miss:#FF6A9A; --wait:#5A4F74;
+  --hit-soft:#10392E; --near-soft:#3C2C0E; --miss-soft:#40162B; --wait-soft:#241C36;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.num{font-variant-numeric:tabular-nums}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1220px;margin:0 auto;padding:0 20px}
+img{max-width:100%}
+
+/* avatar */
+.av{flex:none;border-radius:50%;overflow:hidden;display:inline-grid;place-items:center;background:var(--soft);color:var(--accent);font-family:var(--display);font-weight:600;border:2px solid var(--surface);box-shadow:0 0 0 2px var(--c,var(--line))}
+.av img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ---------- hero ---------- */
+.hero{background:radial-gradient(120% 150% at 100% 0%,var(--brand) 0%,var(--brand-deep) 60%);color:#fff;padding:26px 0 36px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto -10% -60% -10%;height:120%;background:repeating-linear-gradient(180deg,rgba(255,255,255,.07) 0 2px,transparent 2px 46px);transform:perspective(600px) rotateX(58deg);transform-origin:bottom;pointer-events:none}
+.hero .wrap{position:relative;z-index:1}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:500;font-size:15px;opacity:.9;display:flex;align-items:center;gap:8px}
+.brand svg{width:22px;height:22px}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pill{font-size:13px;padding:5px 12px 5px 10px;border-radius:999px;background:rgba(255,255,255,.15);display:inline-flex;align-items:center;gap:8px;border:0;color:#fff}
+button.pill{cursor:pointer}
+button.pill:hover{background:rgba(255,255,255,.24)}
+.pill i{width:8px;height:8px;border-radius:50%;background:#FFD66B;display:inline-block}
+.pill.live i{background:#5CF2BE;box-shadow:0 0 0 4px rgba(92,242,190,.25)}
+.pill.local i{background:#FFB0C8}
+.pill .sw{width:14px;height:14px;border-radius:4px;background:var(--brand);box-shadow:0 0 0 2px #fff}
+.notice{margin-top:16px;background:#fff;color:#2a1240;border-radius:14px;padding:12px 16px;font-size:15px;line-height:1.5;max-width:760px;border-left:6px solid var(--near)}
+.notice b{display:block;font-family:var(--display);font-weight:600;font-size:16px}
+.hero h1{font-family:var(--display);font-weight:700;font-size:clamp(44px,8vw,92px);line-height:1;margin:22px 0 6px;letter-spacing:-.01em}
+.hero .sub{font-size:17px;opacity:.88;margin:0 0 26px;max-width:62ch}
+.weeks{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.wk{border:1.5px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:14px;padding:8px 14px;cursor:pointer;text-align:left;min-width:108px}
+.wk b{display:block;font-family:var(--display);font-weight:600;font-size:17px;line-height:1.2}
+.wk span{font-size:13px;opacity:.8}
+.wk:hover{background:rgba(255,255,255,.1)}
+.wk[aria-pressed="true"]{background:#fff;color:var(--brand-deep);border-color:#fff}
+.overall{display:grid;grid-template-columns:1fr auto;gap:18px 32px;align-items:end}
+.figs{display:flex;gap:28px;flex-wrap:wrap}
+.fig small{display:block;font-size:13px;opacity:.78}
+.fig strong{font-family:var(--display);font-weight:600;font-size:clamp(22px,3vw,32px);line-height:1.15}
+.bigpct{font-family:var(--display);font-weight:700;font-size:clamp(56px,9vw,104px);line-height:.9;text-align:right}
+.bigpct small{display:block;font-family:var(--body);font-weight:500;font-size:14px;opacity:.82;margin-top:8px}
+.htrack{grid-column:1/-1;margin-top:8px}
+
+/* track */
+.track{position:relative;display:block;height:18px;border-radius:999px;background:var(--track)}
+.hero .track{height:26px;background:rgba(255,255,255,.15)}
+.fill{position:absolute;display:block;left:0;top:0;bottom:0;border-radius:999px;background:var(--c,var(--accent));width:0;transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.hero .fill{background:linear-gradient(90deg,var(--brand-hi),#fff)}
+.runner{position:absolute;display:block;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:var(--surface);border:3px solid var(--c,var(--accent));transition:left .9s cubic-bezier(.2,.8,.2,1)}
+.hero .runner{width:34px;height:34px;margin:-17px 0 0 -17px;border:0;background:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(20,4,50,.35);color:var(--brand-deep)}
+.hero .runner svg{width:20px;height:20px}
+.pace{position:absolute;display:block;top:-6px;bottom:-6px;width:0;border-left:2px dashed var(--ink);opacity:.5}
+.hero .pace{border-color:#fff;opacity:.9;top:-10px;bottom:-10px}
+.ticks{position:relative;height:22px;margin-top:6px;font-size:12px;color:rgba(255,255,255,.72)}
+.ticks span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.ticks span:last-child{transform:translateX(-100%)}
+@media (prefers-reduced-motion:reduce){.fill,.runner,.fbar i{transition:none}}
+
+/* sections */
+main{padding:36px 0 60px}
+.sec{margin-bottom:46px}
+.sech{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.sech h2{font-family:var(--display);font-weight:600;font-size:26px;margin:0;line-height:1.2}
+.sech p{margin:2px 0 0;color:var(--muted);font-size:14px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:22px}
+
+/* stars */
+.stars{display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden}
+.star{padding:22px 20px;border-left:1px solid var(--line);display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.star:first-child{border-left:0}
+.star .t{font-size:14px;color:var(--muted);font-weight:600}
+.star .row{display:flex;align-items:center;gap:12px}
+.star .row b{font-family:var(--display);font-weight:500;font-size:18px;line-height:1.25;display:block}
+.star .row small{color:var(--muted);font-size:13px}
+.star .v{font-family:var(--display);font-weight:600;font-size:30px;line-height:1;color:var(--accent)}
+.star.none .v{color:var(--wait);font-size:18px}
+.star .av{--c:var(--accent)}
+
+/* lanes */
+.lanes{overflow:hidden}
+.lane{display:grid;grid-template-columns:minmax(210px,260px) 1fr minmax(170px,200px) 110px;gap:20px;align-items:center;padding:14px 22px;border:0;border-top:1px solid var(--line);background:none;width:100%;text-align:left;cursor:pointer}
+.lane:first-child{border-top:0}
+.lane:hover{background:color-mix(in srgb,var(--brand) 5%,transparent)}
+.who{display:flex;align-items:center;gap:12px;min-width:0}
+.who .txt{min-width:0}
+.who b{font-family:var(--display);font-weight:500;font-size:18px;display:block;line-height:1.25}
+.who small{color:var(--muted);font-size:13px;display:block;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lane .nums{font-size:14px;color:var(--muted);line-height:1.35}
+.lane .nums b{color:var(--ink);font-size:16px;font-weight:600}
+.lane .act{display:flex;justify-content:flex-end}
+.chip{display:inline-flex;align-items:center;font-size:12.5px;font-weight:600;padding:2px 10px;border-radius:999px;white-space:nowrap;margin-top:4px}
+.chip.hit{background:var(--hit-soft);color:var(--hit)}
+.chip.near{background:var(--near-soft);color:var(--near)}
+.chip.miss{background:var(--miss-soft);color:var(--miss)}
+.chip.wait{background:var(--wait-soft);color:var(--muted)}
+.fillbtn{font-size:14px;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:6px}
+.fillbtn svg{width:16px;height:16px}
+
+/* funnel */
+.funnelwrap{display:grid;grid-template-columns:1.3fr 1fr;gap:0}
+.funnel{padding:22px 24px;border-right:1px solid var(--line)}
+.fstep{display:grid;grid-template-columns:90px 1fr 92px;gap:14px;align-items:center;margin-bottom:10px}
+.fstep .l{font-weight:600;font-size:15px}
+.fbar{height:34px;background:var(--track);border-radius:10px;position:relative;overflow:hidden}
+.fbar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--brand-deep),var(--brand));border-radius:10px;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+.fbar em{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-style:normal;font-weight:600;font-size:14px;color:#fff;mix-blend-mode:normal;text-shadow:0 1px 2px rgba(0,0,0,.25)}
+.fstep .r{font-size:13px;color:var(--muted);text-align:right;line-height:1.3}
+.fstep .r b{display:block;color:var(--ink);font-size:16px}
+.fside{padding:22px 24px;display:grid;grid-template-columns:1fr 1fr;gap:18px 20px;align-content:start}
+.fside div small{display:block;color:var(--muted);font-size:13px}
+.fside div b{font-family:var(--display);font-weight:600;font-size:26px;line-height:1.2}
+
+/* tables */
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:15px}
+.kpi table{min-width:1180px}
+.mx table{min-width:780px}
+th,td{padding:11px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th{font-weight:600;font-size:12.5px;color:var(--muted);background:var(--surface);line-height:1.3;vertical-align:bottom}
+th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--surface);z-index:1}
+tbody tr:last-child td{border-bottom:0}
+tr.total td,tr.total td:first-child{font-weight:700;background:color-mix(in srgb,var(--brand) 8%,var(--surface))}
+td .tn{display:flex;align-items:center;gap:10px}
+td.up{color:var(--hit);font-weight:600}
+td.down{color:var(--miss);font-weight:600}
+td.na{color:var(--wait)}
+.cell{display:inline-block;min-width:74px;text-align:center;padding:4px 8px;border-radius:9px;font-weight:600;cursor:pointer;border:0;background:none}
+.cell.hit{background:var(--hit-soft);color:var(--hit)}
+.cell.near{background:var(--near-soft);color:var(--near)}
+.cell.miss{background:var(--miss-soft);color:var(--miss)}
+.cell.wait{color:var(--wait)}
+.cell.static{cursor:default}
+
+/* voices */
+.voices{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.col{padding:18px 20px}
+.col h3{font-family:var(--display);font-weight:500;font-size:18px;margin:0 0 12px;display:flex;align-items:center;gap:8px}
+.col h3 i{width:10px;height:10px;border-radius:50%}
+.note{display:flex;gap:10px;padding:12px 0;border-top:1px dashed var(--line)}
+.note:first-of-type{border-top:0;padding-top:0}
+.note b{font-weight:600;font-size:14px}
+.note p{margin:1px 0 0;font-size:15px;white-space:pre-wrap;overflow-wrap:anywhere}
+.note small{color:var(--muted);font-size:12px}
+.empty{color:var(--muted);font-size:14px;margin:0}
+
+/* dialog */
+dialog{border:0;padding:0;border-radius:24px;width:min(760px,calc(100vw - 20px));max-height:calc(100% - 20px);background:var(--surface);color:var(--ink);box-shadow:0 30px 80px rgba(20,4,50,.4)}
+dialog::backdrop{background:rgba(20,8,36,.6)}
+.dlg{display:flex;flex-direction:column;max-height:calc(100vh - 20px)}
+.dhead{background:radial-gradient(120% 160% at 100% 0%,var(--brand) 0%,var(--brand-deep) 70%);color:#fff;padding:20px 24px}
+.dtop{display:flex;gap:16px;align-items:center;margin-bottom:14px}
+.photo{position:relative;cursor:pointer;flex:none}
+.photo .av{width:76px;height:76px;font-size:30px;border-color:rgba(255,255,255,.9);box-shadow:none;background:rgba(255,255,255,.18);color:#fff}
+.photo span{position:absolute;right:-4px;bottom:-2px;background:#fff;color:var(--brand-deep);border-radius:999px;font-size:11px;font-weight:700;padding:2px 7px}
+.photo input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.dtop small{opacity:.82;font-size:14px}
+.dtop h3{font-family:var(--display);font-weight:600;font-size:26px;margin:0;line-height:1.2}
+.supin{margin-top:6px;background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.3);color:#fff;border-radius:10px;padding:5px 10px;width:min(280px,100%);font-size:15px}
+.supin::placeholder{color:rgba(255,255,255,.65)}
+.supin:focus{outline:none;border-color:#fff}
+.dstats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.dstats div{background:rgba(255,255,255,.13);border-radius:12px;padding:8px 10px}
+.dstats small{display:block;font-size:12px;opacity:.82}
+.dstats b{font-family:var(--display);font-weight:500;font-size:17px}
+.dbody{padding:18px 24px;overflow:auto}
+.grp{font-family:var(--display);font-weight:500;font-size:17px;margin:6px 0 10px;color:var(--accent)}
+label{display:block;font-weight:600;font-size:14px;margin:0 0 5px}
+label small{font-weight:400;color:var(--muted)}
+.field{margin-bottom:14px}
+.money{display:flex;align-items:center;border:2px solid var(--line);border-radius:14px;padding:0 14px;background:var(--bg)}
+.money:focus-within{border-color:var(--accent)}
+.money input{border:0;background:transparent;font-family:var(--display);font-size:28px;font-weight:600;padding:8px 0;width:100%;outline:none}
+.money span{color:var(--muted);font-size:15px}
+.preview{margin-top:6px;font-size:14px;color:var(--muted)}
+.kgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:0 12px}
+.kin{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:8px 12px;background:var(--bg);font-family:var(--display);font-size:20px;font-weight:500}
+.kin:focus{border-color:var(--accent);outline:none}
+.kprev{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;background:var(--soft);border-radius:14px;padding:10px 12px;margin:2px 0 8px}
+.kprev small{display:block;font-size:12px;color:var(--muted);line-height:1.3}
+.kprev b{font-family:var(--display);font-weight:600;font-size:18px}
+.warn{color:var(--near);font-size:13px;margin:0 0 12px}
+textarea{width:100%;min-height:62px;resize:vertical;border:1.5px solid var(--line);border-radius:12px;padding:9px 12px;background:var(--bg);line-height:1.5}
+textarea:focus{border-color:var(--accent);outline:none}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.dfoot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 24px;border-top:1px solid var(--line);flex-wrap:wrap}
+.dfoot .meta{font-size:13px;color:var(--muted)}
+.btn{border:0;border-radius:12px;padding:11px 20px;font-weight:600;cursor:pointer}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent;color:var(--muted)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.err{color:var(--miss);font-size:14px;margin:0 0 12px}
+
+/* theme dialog */
+#gate{width:min(420px,calc(100vw - 20px))}
+.tbody{padding:22px 24px}
+.tbody h3{font-family:var(--display);font-weight:600;font-size:22px;margin:0 0 4px}
+.tbody p{color:var(--muted);font-size:14px;margin:0 0 16px}
+.swatches{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.swatches button{width:40px;height:40px;border-radius:12px;border:3px solid var(--surface);box-shadow:0 0 0 1.5px var(--line);cursor:pointer}
+.swatches button[aria-pressed="true"]{box-shadow:0 0 0 3px var(--ink)}
+.custom{display:flex;align-items:center;gap:12px}
+.custom input[type=color]{width:48px;height:40px;border:0;background:none;padding:0;cursor:pointer}
+.custom input[type=text]{border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;width:130px;background:var(--bg);font-family:var(--display)}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,140px);background:var(--ink);color:var(--bg);padding:11px 20px;border-radius:999px;font-weight:600;font-size:14px;transition:transform .25s;z-index:10}
+.toast.show{transform:translate(-50%,0)}
+footer{color:var(--muted);font-size:13px;padding-bottom:30px;max-width:80ch}
+
+@media (max-width:980px){
+  .stars{grid-template-columns:1fr 1fr}
+  .star:nth-child(3){border-left:0}
+  .star:nth-child(n+3){border-top:1px solid var(--line)}
+  .funnelwrap{grid-template-columns:1fr}
+  .funnel{border-right:0;border-bottom:1px solid var(--line)}
+}
+@media (max-width:860px){
+  .lane{grid-template-columns:1fr auto;gap:10px 14px}
+  .lane .trackwrap{grid-column:1/-1;order:3}
+  .lane .nums{order:2;text-align:right}
+  .lane .act{display:none}
+  .voices{grid-template-columns:1fr}
+  .overall{grid-template-columns:1fr}
+  .bigpct{text-align:left}
+  .kgrid{grid-template-columns:repeat(2,1fr)}
+  .kprev{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:560px){
+  .wrap{padding:0 14px}
+  .wk{min-width:0;flex:1 1 30%}
+  .dstats{grid-template-columns:1fr 1fr}
+  .grid2{grid-template-columns:1fr}
+  .stars{grid-template-columns:1fr}
+  .star{border-left:0!important;border-top:1px solid var(--line)}
+  .star:first-child{border-top:0}
+  .lane{padding:14px 16px}
+  .fstep{grid-template-columns:70px 1fr 74px;gap:10px}
+  .fside{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V4"/><path d="M4 4h12l-2 4 2 4H4"/></svg>
+        สนามยอดขาย ทีมเซลส์
+      </div>
+      <div class="tools">
+        <div class="pill" id="sync" role="status"><i></i><span>กำลังเชื่อมต่อ…</span></div>
+      </div>
+    </div>
+    <div class="notice" id="notice" role="alert" hidden></div>
+    <h1>ตุลาคม 2569</h1>
+    <p class="sub">ซุปกดชื่อทีมตัวเองเพื่อกรอกยอดขายและ KPI ของสัปดาห์ ใส่รูปตัวเองได้ที่ฟอร์มเดียวกัน ระบบคำนวณยอดสะสม เป้า และ %Con ให้อัตโนมัติ</p>
+
+    <div class="weeks" id="weeks" role="group" aria-label="เลือกสัปดาห์"></div>
+
+    <div class="overall">
+      <div class="figs">
+        <div class="fig"><small>ยอดสะสมทั้งทีม</small><strong class="num" id="oCum">0</strong></div>
+        <div class="fig"><small>เป้าสะสมถึงสัปดาห์นี้</small><strong class="num" id="oTgt">0</strong></div>
+        <div class="fig"><small>เป้าทั้งเดือน</small><strong class="num" id="oMonth">0</strong></div>
+      </div>
+      <div class="bigpct num" id="oPct">0%</div>
+      <div class="htrack">
+        <div class="track" id="oTrack">
+          <span class="fill"></span><span class="pace"></span>
+          <span class="runner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="14" cy="4" r="2"/><path d="M8 21l3-6 3 2 2 5"/><path d="M6 12l3-4 5 1 3 3 3 1"/></svg></span>
+        </div>
+        <div class="ticks" id="oTicks"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="sec">
+    <div class="sech"><div><h2 id="starTitle">ดาวเด่นประจำสัปดาห์</h2><p>คัดจากทีมที่กรอกผลสัปดาห์นี้แล้ว</p></div></div>
+    <div class="panel stars" id="stars"></div>
+  </section>
+
+  <section class="sec">
+    <div class="sech">
+      <div><h2 id="laneTitle">ลู่วิ่งรายทีม</h2><p>แถบคือยอดสะสมเทียบเป้าทั้งเดือน เส้นประคือจุดที่ควรไปถึงในสัปดาห์นี้</p></div>
+      <div class="legend">
+        <span><i style="background:var(--hit)"></i>ถึงเป้า</span>
+        <span><i style="background:var(--near)"></i>ใกล้เป้า (90% ขึ้นไป)</span>
+        <span><i style="background:var(--miss)"></i>ต่ำกว่าเป้า</span>
+        <span><i style="background:var(--wait)"></i>รอกรอก</span>
+      </div>
+    </div>
+    <div class="panel lanes" id="lanes"></div>
+  </section>
+
+  <section class="sec">
+    <div class="sech"><div><h2 id="funTitle">Funnel การโทรทั้งทีม</h2><p>จากสายที่โทรออกจนถึงออเดอร์ที่ปิดได้ของทุกทีมรวมกัน</p></div></div>
+    <div class="panel funnelwrap">
+      <div class="funnel" id="funnel"></div>
+      <div class="fside" id="fside"></div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sech">
+      <div><h2 id="kpiTitle">KPI รายทีม</h2><p>ตัวเลขสีเขียวดีกว่าค่ารวมทั้งทีมเกิน 10% สีชมพูต่ำกว่าเกิน 10%</p></div>
+    </div>
+    <div class="panel scroll kpi"><table id="kpi"></table></div>
+  </section>
+
+  <section class="sec">
+    <div class="sech"><div><h2>% เป้าสะสม ทุกสัปดาห์</h2><p>กดช่องไหนก็ได้เพื่อเปิดฟอร์มของทีมและสัปดาห์นั้น</p></div></div>
+    <div class="panel scroll mx"><table id="matrix"></table></div>
+  </section>
+
+  <section class="sec">
+    <div class="sech"><div><h2 id="voiceTitle">เสียงจากซุป</h2><p>รวมทุกข้อความที่ซุปเขียนไว้ในสัปดาห์ที่เลือก</p></div></div>
+    <div class="voices" id="voices"></div>
+  </section>
+
+  <footer>
+    วิธีคิด: เป้าสะสมคิดจากวันทำงานสะสม ÷ 25 วัน (3, 9, 14, 19, 25 วัน) %ติดต่อได้ = ได้คุย ÷ โทร, %คุยจบ = คุยจบ ÷ ได้คุย, %Con = ปิด ÷ คุยจบ, Talktime และโทรต่อคนต่อวัน หารด้วยจำนวนเซลส์ × วันทำงานของสัปดาห์นั้น
+  </footer>
+</main>
+
+<dialog id="dlg" aria-labelledby="dTeam">
+  <form class="dlg" method="dialog" id="form">
+    <div class="dhead">
+      <div class="dtop">
+        <label class="photo" title="เปลี่ยนรูปซุป">
+          <span class="av" id="dAv"></span><span>รูป</span>
+          <input type="file" id="fPhoto" accept="image/*" aria-label="อัปโหลดรูปซุป">
+        </label>
+        <div>
+          <small id="dWeek"></small>
+          <h3 id="dTeam"></h3>
+          <input class="supin" id="fSup" placeholder="ชื่อซุปของทีมนี้" aria-label="ชื่อซุป" maxlength="40">
+        </div>
+      </div>
+      <div class="dstats">
+        <div><small>เป้าสัปดาห์นี้</small><b class="num" id="sWeekTgt"></b></div>
+        <div><small>เป้าสะสม</small><b class="num" id="sCumTgt"></b></div>
+        <div><small>ยอดสะสมก่อนหน้า</small><b class="num" id="sPrev"></b></div>
+        <div><small>เป้าทั้งเดือน</small><b class="num" id="sMonth"></b></div>
+      </div>
+    </div>
+    <div class="dbody">
+      <p class="err" id="dErr" hidden></p>
+
+      <div class="grp">ยอดขาย</div>
+      <div class="field">
+        <label for="fSales">ยอดขายสัปดาห์นี้ <small>(เฉพาะสัปดาห์นี้ ไม่ใช่ยอดสะสม)</small></label>
+        <div class="money"><input id="fSales" inputmode="numeric" autocomplete="off" placeholder="0"><span>บาท</span></div>
+        <div class="preview num" id="fPreview"></div>
+      </div>
+
+      <div class="grp">KPI การโทร</div>
+      <div class="kgrid">
+        <div class="field"><label for="fHeads">เซลส์ที่ทำงาน <small>(คน)</small></label><input class="kin num" id="fHeads" inputmode="numeric" placeholder="0"></div>
+        <div class="field"><label for="fCalls">โทรออก <small>(สาย)</small></label><input class="kin num" id="fCalls" inputmode="numeric" placeholder="0"></div>
+        <div class="field"><label for="fReach">ได้คุย <small>(สาย)</small></label><input class="kin num" id="fReach" inputmode="numeric" placeholder="0"></div>
+        <div class="field"><label for="fDone">คุยจบ <small>(สาย)</small></label><input class="kin num" id="fDone" inputmode="numeric" placeholder="0"></div>
+        <div class="field"><label for="fClose">ปิดการขาย <small>(ออเดอร์)</small></label><input class="kin num" id="fClose" inputmode="numeric" placeholder="0"></div>
+        <div class="field"><label for="fTalk">Talktime รวม <small>(ชม.:นาที)</small></label><input class="kin num" id="fTalk" inputmode="decimal" placeholder="0:00"></div>
+        <div class="field"><label for="fNew">ลูกค้าใหม่ <small>(ราย)</small></label><input class="kin num" id="fNew" inputmode="numeric" placeholder="0"></div>
+        <div class="field"><label for="fPipe">คาดว่าปิดได้สัปดาห์หน้า <small>(บาท)</small></label><input class="kin num" id="fPipe" inputmode="numeric" placeholder="0"></div>
+      </div>
+      <div class="kprev num" id="kPrev"></div>
+      <p class="warn" id="kWarn" hidden></p>
+
+      <div class="grp">สรุปสัปดาห์</div>
+      <div class="grid2">
+        <div class="field"><label for="fHigh">จุดเด่น / สิ่งที่ทำได้ดี</label><textarea id="fHigh" placeholder="เช่น ปิดลูกค้าใหม่ได้ 3 ราย"></textarea></div>
+        <div class="field"><label for="fProb">ปัญหา / อุปสรรค</label><textarea id="fProb" placeholder="เช่น ลูกค้า 2 รายเลื่อนสั่งของ"></textarea></div>
+        <div class="field"><label for="fPlan">แผนสัปดาห์หน้า</label><textarea id="fPlan" placeholder="เช่น โทรตามลูกค้าที่เลื่อน นัดเดโม่ 5 ราย"></textarea></div>
+        <div class="field"><label for="fHelp">อยากให้หัวหน้าช่วย</label><textarea id="fHelp" placeholder="เช่น ขออนุมัติส่วนลดพิเศษ 1 ดีล"></textarea></div>
+      </div>
+    </div>
+    <div class="dfoot">
+      <span class="meta" id="dMeta"></span>
+      <div>
+        <button type="button" class="btn ghost" id="bCancel">ปิด</button>
+        <button type="submit" class="btn primary" id="bSave">บันทึกผล</button>
+      </div>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="gate" aria-labelledby="gTitle">
+  <form class="tbody" id="gForm">
+    <h3 id="gTitle">ใส่รหัสทีมเพื่อเข้าใช้งาน</h3>
+    <p>ขอรหัสจากหัวหน้าทีม ใส่ครั้งเดียว เครื่องนี้จะจำไว้ให้</p>
+    <input class="kin" id="gCode" type="password" autocomplete="current-password" aria-label="รหัสทีม" style="width:100%">
+    <p class="err" id="gErr" hidden style="margin-top:12px"></p>
+    <div style="display:flex;justify-content:flex-end;margin-top:16px"><button type="submit" class="btn primary">เข้าใช้งาน</button></div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="config.js"></script>
+<script>
+const CONFIG = window.APP_CONFIG;
+const API = (CONFIG.apiUrl || "").trim();
+const LS_KEY = "salesRace." + CONFIG.storageKey;
+const CODE_KEY = "salesRace.code";
+const STATUS_TXT = { hit: "ถึงเป้า", near: "ใกล้เป้า", miss: "ต่ำกว่าเป้า", wait: "รอกรอก" };
+const NUM_FIELDS = { fSales: "sales", fHeads: "heads", fCalls: "calls", fReach: "reached", fDone: "completed", fClose: "closed", fNew: "newCust", fPipe: "pipeline" };
+const POLL_MS = 30000;
+
+let entries = {}, teamInfo = {};
+let mode = "connecting";
+let code = ""; try { code = localStorage.getItem(CODE_KEY) || ""; } catch (e) {}
+let sel = detectWeek();
+let editing = null, pendingPhoto = undefined, pollT = null, loading = false;
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const fmt = n => n == null || isNaN(n) ? "—" : Math.round(n).toLocaleString("th-TH");
+const fmt1 = n => n == null || isNaN(n) ? "—" : n.toLocaleString("th-TH", { maximumFractionDigits: 1 });
+const fmtM = n => (n / 1e6).toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " ล้าน";
+const pct = p => p == null || !isFinite(p) ? "—" : (p * 100).toLocaleString("th-TH", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + "%";
+const hm = h => { if (h == null || !isFinite(h)) return "—"; const m = Math.round(h * 60); return Math.floor(m / 60) + ":" + String(m % 60).padStart(2, "0"); };
+const key = (wi, ti) => CONFIG.weeks[wi].id + "__" + CONFIG.teams[ti].id;
+const isHex = v => typeof v === "string" && /^#[0-9a-fA-F]{6}$/.test(v);
+const isImg = v => typeof v === "string" && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(v);
+
+function detectWeek() {
+  const t = new Date();
+  const today = t.getFullYear() + "-" + String(t.getMonth() + 1).padStart(2, "0") + "-" + String(t.getDate()).padStart(2, "0");
+  const i = CONFIG.weeks.findIndex(w => today <= w.end);
+  return i === -1 ? CONFIG.weeks.length - 1 : i;
+}
+
+/* ---------- maths ---------- */
+const share = wi => wi < 0 ? 0 : CONFIG.weeks[wi].cum / CONFIG.totalDays;
+const daysOf = wi => CONFIG.weeks[wi].cum - (wi ? CONFIG.weeks[wi - 1].cum : 0);
+const cumTarget = (ti, wi) => CONFIG.teams[ti].target * share(wi);
+const weekTarget = (ti, wi) => cumTarget(ti, wi) - cumTarget(ti, wi - 1);
+const val = (e, f) => { if (!e) return null; const v = e[f]; if (v === null || v === undefined || v === "") return null; const n = Number(v); return isFinite(n) ? n : null; };
+const sales = (ti, wi) => val(entries[key(wi, ti)], "sales");
+function cumActual(ti, wi) { let s = 0; for (let j = 0; j <= wi; j++) s += sales(ti, j) || 0; return s; }
+const statusOf = (p, filled) => !filled ? "wait" : p >= CONFIG.hit ? "hit" : p >= CONFIG.near ? "near" : "miss";
+function teamState(ti, wi) {
+  const ct = cumTarget(ti, wi), ca = cumActual(ti, wi), filled = sales(ti, wi) !== null;
+  const p = ct ? ca / ct : 0, left = CONFIG.totalDays - CONFIG.weeks[wi].cum;
+  return { ct, ca, p, filled, status: statusOf(p, filled), perDay: left > 0 ? Math.max(0, CONFIG.teams[ti].target - ca) / left : null, monthP: ca / CONFIG.teams[ti].target };
+}
+function totalState(wi) {
+  let ct = 0, ca = 0, n = 0, month = 0;
+  CONFIG.teams.forEach((t, ti) => { ct += cumTarget(ti, wi); ca += cumActual(ti, wi); month += t.target; if (sales(ti, wi) !== null) n++; });
+  const p = ct ? ca / ct : 0;
+  return { ct, ca, p, n, month, status: statusOf(p, n > 0) };
+}
+const div = (a, b) => a == null || b == null || !b ? null : a / b;
+function kpiOf(e, days) {
+  const g = f => val(e, f);
+  const heads = g("heads"), calls = g("calls"), reached = g("reached"), completed = g("completed"), closed = g("closed"), talk = g("talk"), s = g("sales");
+  const hd = heads && days ? heads * days : null;
+  return {
+    heads, calls, reached, completed, closed, talk, sales: s, newCust: g("newCust"), pipeline: g("pipeline"),
+    rReach: div(reached, calls), rDone: div(completed, reached), rCon: div(closed, completed),
+    talkPer: div(talk, hd), callsPer: div(calls, hd), aov: div(s, closed)
+  };
+}
+const teamKpi = (ti, wi) => kpiOf(entries[key(wi, ti)], daysOf(wi));
+function totalKpi(wi) {
+  const sum = { heads: null, calls: null, reached: null, completed: null, closed: null, talk: null, sales: null, newCust: null, pipeline: null };
+  let hTalk = 0, hCalls = 0, sClose = 0, cClose = 0;
+  CONFIG.teams.forEach((t, ti) => {
+    const e = entries[key(wi, ti)];
+    Object.keys(sum).forEach(f => { const v = val(e, f); if (v !== null) sum[f] = (sum[f] || 0) + v; });
+    const h = val(e, "heads");
+    if (h && val(e, "talk") !== null) hTalk += h;
+    if (h && val(e, "calls") !== null) hCalls += h;
+    if (val(e, "sales") !== null && val(e, "closed")) { sClose += val(e, "sales"); cClose += val(e, "closed"); }
+  });
+  const d = daysOf(wi);
+  return {
+    ...sum,
+    rReach: div(sum.reached, sum.calls), rDone: div(sum.completed, sum.reached), rCon: div(sum.closed, sum.completed),
+    talkPer: div(sum.talk, hTalk * d), callsPer: div(sum.calls, hCalls * d), aov: div(sClose, cClose)
+  };
+}
+
+/* ---------- avatars ---------- */
+function supName(ti) { const t = teamInfo[CONFIG.teams[ti].id]; return t && t.sup ? String(t.sup) : ""; }
+function photoOf(ti) { const t = teamInfo[CONFIG.teams[ti].id]; return t && isImg(t.photo) ? t.photo : null; }
+function initial(ti) { const s = supName(ti) || CONFIG.teams[ti].name; return esc([...s.trim()][0] || "?"); }
+function avatar(ti, size, ring) {
+  const p = photoOf(ti);
+  return `<span class="av" style="width:${size}px;height:${size}px;font-size:${Math.round(size * .42)}px;${ring ? "--c:" + ring : ""}">${p ? `<img src="${p}" alt="">` : initial(ti)}</span>`;
+}
+
+/* ---------- render ---------- */
+function setTrack(el, cumVal, monthVal, paceShare, status) {
+  const w = Math.min(1, monthVal ? cumVal / monthVal : 0) * 100;
+  el.style.setProperty("--c", `var(--${status})`);
+  el.querySelector(".fill").style.width = w + "%";
+  el.querySelector(".runner").style.left = Math.max(w, 1.2) + "%";
+  el.querySelector(".pace").style.left = paceShare * 100 + "%";
+}
+
+function renderWeeks() {
+  $("weeks").innerHTML = CONFIG.weeks.map((w, i) =>
+    `<button class="wk" aria-pressed="${i === sel}" data-w="${i}"><b>สัปดาห์ ${i + 1}</b><span>${esc(w.label)}</span></button>`).join("");
+}
+
+function renderHero() {
+  const s = totalState(sel);
+  $("oCum").textContent = fmtM(s.ca);
+  $("oTgt").textContent = fmtM(s.ct);
+  $("oMonth").textContent = fmtM(s.month);
+  $("oPct").innerHTML = `${s.n ? Math.round(s.p * 100) : 0}%<small>ของเป้าสะสม กรอกแล้ว ${s.n}/${CONFIG.teams.length} ทีม</small>`;
+  const tr = $("oTrack"), w = Math.min(100, s.ca / s.month * 100);
+  tr.querySelector(".fill").style.width = w + "%";
+  tr.querySelector(".runner").style.left = Math.max(w, 1.5) + "%";
+  tr.querySelector(".pace").style.left = share(sel) * 100 + "%";
+  $("oTicks").innerHTML = CONFIG.weeks.map((w, i) => `<span style="left:${share(i) * 100}%">W${i + 1}</span>`).join("");
+}
+
+function renderStars() {
+  $("starTitle").textContent = `ดาวเด่นประจำสัปดาห์ ${sel + 1}`;
+  const filled = CONFIG.teams.map((t, ti) => ti).filter(ti => entries[key(sel, ti)]);
+  const best = fn => { let b = null; filled.forEach(ti => { const v = fn(ti); if (v != null && isFinite(v) && (b === null || v > b.v)) b = { ti, v }; }); return b; };
+  const awards = [
+    { t: "เข้าเป้าสะสมสูงสุด", b: best(ti => sales(ti, sel) !== null ? teamState(ti, sel).p : null), f: v => pct(v) },
+    { t: "%Con สูงสุด", b: best(ti => teamKpi(ti, sel).rCon), f: v => pct(v) },
+    { t: "Talktime ต่อคนต่อวันสูงสุด", b: best(ti => teamKpi(ti, sel).talkPer), f: v => hm(v) + " ชม." },
+    { t: "โทรต่อคนต่อวันสูงสุด", b: best(ti => teamKpi(ti, sel).callsPer), f: v => fmt1(v) + " สาย" }
+  ];
+  $("stars").innerHTML = awards.map(a => a.b ? `
+    <div class="star">
+      <span class="t">${a.t}</span>
+      <div class="row">${avatar(a.b.ti, 56)}<div><b>${esc(CONFIG.teams[a.b.ti].name)}</b><small>${esc(supName(a.b.ti) || " ")}</small></div></div>
+      <span class="v num">${a.f(a.b.v)}</span>
+    </div>` : `
+    <div class="star none"><span class="t">${a.t}</span><span class="v">รอข้อมูล</span></div>`).join("");
+}
+
+function renderLanes() {
+  const w = CONFIG.weeks[sel];
+  $("laneTitle").textContent = `ลู่วิ่งรายทีม สัปดาห์ ${sel + 1} (${w.label})`;
+  $("lanes").innerHTML = CONFIG.teams.map((t, ti) => {
+    const s = teamState(ti, sel), sup = supName(ti);
+    return `<button class="lane" data-t="${ti}" aria-label="กรอกผลของทีม ${esc(t.name)} สัปดาห์ ${sel + 1}">
+      <span class="who">${avatar(ti, 46, `var(--${s.status})`)}<span class="txt"><b>${esc(t.name)}</b><small>${sup ? "ซุป " + esc(sup) : "ยังไม่ได้ใส่ชื่อซุป"}</small><span class="chip ${s.status}">${STATUS_TXT[s.status]}${s.filled ? " " + Math.round(s.p * 100) + "%" : ""}</span></span></span>
+      <span class="trackwrap"><span class="track"><span class="fill"></span><span class="pace"></span><span class="runner"></span></span></span>
+      <span class="nums num"><b>${fmt(s.ca)}</b> / ${fmt(s.ct)}<br>${s.perDay === null ? "สัปดาห์สุดท้ายของเดือน" : "ต้องทำวันละ " + fmt(s.perDay)}</span>
+      <span class="act"><span class="fillbtn">${entries[key(sel, ti)] ? "แก้ไขผล" : "กรอกผล"}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg></span></span>
+    </button>`;
+  }).join("");
+  $("lanes").querySelectorAll(".lane").forEach(el => {
+    const ti = +el.dataset.t, s = teamState(ti, sel);
+    setTrack(el.querySelector(".track"), s.ca, CONFIG.teams[ti].target, share(sel), s.status);
+  });
+}
+
+function renderFunnel() {
+  $("funTitle").textContent = `Funnel การโทรทั้งทีม สัปดาห์ ${sel + 1}`;
+  const k = totalKpi(sel);
+  const steps = [
+    { l: "โทรออก", v: k.calls, r: null, rl: "" },
+    { l: "ได้คุย", v: k.reached, r: k.rReach, rl: "ติดต่อได้" },
+    { l: "คุยจบ", v: k.completed, r: k.rDone, rl: "คุยจบ" },
+    { l: "ปิดการขาย", v: k.closed, r: k.rCon, rl: "%Con" }
+  ];
+  const max = k.calls || Math.max(...steps.map(s => s.v || 0)) || 1;
+  $("funnel").innerHTML = steps.map(s => {
+    const w = s.v ? Math.max(4, Math.min(100, s.v / max * 100)) : 0;
+    return `<div class="fstep"><span class="l">${s.l}</span><span class="fbar"><i style="width:${w}%"></i><em class="num">${s.v == null ? "" : fmt(s.v)}</em></span><span class="r num">${s.r == null ? "" : `<b>${pct(s.r)}</b>${s.rl}`}</span></div>`;
+  }).join("") + (k.calls == null ? `<p class="empty">ยังไม่มีทีมกรอก KPI การโทรในสัปดาห์นี้</p>` : "");
+  const items = [
+    ["%Con ทั้งทีม", pct(k.rCon)], ["Talktime รวม", hm(k.talk) + (k.talk != null ? " ชม." : "")],
+    ["Talktime / คน / วัน", k.talkPer == null ? "—" : hm(k.talkPer) + " ชม."], ["โทร / คน / วัน", k.callsPer == null ? "—" : fmt1(k.callsPer) + " สาย"],
+    ["ยอดเฉลี่ยต่อออเดอร์", fmt(k.aov)], ["ลูกค้าใหม่", fmt(k.newCust)]
+  ];
+  $("fside").innerHTML = items.map(([a, b]) => `<div><small>${a}</small><b class="num">${b}</b></div>`).join("");
+}
+
+function renderKpi() {
+  $("kpiTitle").textContent = `KPI รายทีม สัปดาห์ ${sel + 1}`;
+  const cols = [
+    ["คน", "heads", fmt, 0], ["โทร", "calls", fmt, 0], ["ได้คุย", "reached", fmt, 0], ["คุยจบ", "completed", fmt, 0], ["ปิด", "closed", fmt, 0],
+    ["%ติดต่อได้", "rReach", pct, 1], ["%คุยจบ", "rDone", pct, 1], ["%Con", "rCon", pct, 1],
+    ["Talktime<br>รวม (ชม.)", "talk", hm, 0], ["Talktime<br>/คน/วัน", "talkPer", hm, 1], ["โทร<br>/คน/วัน", "callsPer", fmt1, 1],
+    ["ยอดเฉลี่ย<br>/ออเดอร์", "aov", fmt, 1], ["ลูกค้าใหม่", "newCust", fmt, 0], ["คาดว่าปิดได้<br>สัปดาห์หน้า", "pipeline", fmt, 0]
+  ];
+  const tot = totalKpi(sel);
+  const cls = (v, avg, cmp) => v == null ? "na" : (!cmp || !avg) ? "" : v >= avg * 1.1 ? "up" : v <= avg * 0.9 ? "down" : "";
+  const head = `<thead><tr><th>ทีม</th>${cols.map(c => `<th>${c[0]}</th>`).join("")}</tr></thead>`;
+  const rows = CONFIG.teams.map((t, ti) => {
+    const k = teamKpi(ti, sel);
+    return `<tr><td><span class="tn">${avatar(ti, 30)}${esc(t.name)}</span></td>${cols.map(c => `<td class="num ${cls(k[c[1]], tot[c[1]], c[3])}">${c[2](k[c[1]])}</td>`).join("")}</tr>`;
+  }).join("");
+  $("kpi").innerHTML = head + `<tbody>${rows}<tr class="total"><td>รวมทั้งหมด</td>${cols.map(c => `<td class="num">${c[2](tot[c[1]])}</td>`).join("")}</tr></tbody>`;
+}
+
+function renderMatrix() {
+  const head = `<thead><tr><th>ทีม</th><th>เป้าทั้งเดือน</th>${CONFIG.weeks.map((w, i) => `<th>W${i + 1}<br>${esc(w.label)}</th>`).join("")}<th>ยอดสะสม<br>ล่าสุด</th><th>% ของ<br>เป้าเดือน</th></tr></thead>`;
+  const rows = CONFIG.teams.map((t, ti) => {
+    const cells = CONFIG.weeks.map((w, wi) => {
+      const s = teamState(ti, wi);
+      return `<td><button class="cell ${s.status}" data-t="${ti}" data-w="${wi}" aria-label="${esc(t.name)} สัปดาห์ ${wi + 1}">${s.filled ? pct(s.p) : "—"}</button></td>`;
+    }).join("");
+    const last = teamState(ti, CONFIG.weeks.length - 1);
+    return `<tr><td><span class="tn">${avatar(ti, 30)}${esc(t.name)}</span></td><td class="num">${fmt(t.target)}</td>${cells}<td class="num">${fmt(last.ca)}</td><td class="num">${pct(last.monthP)}</td></tr>`;
+  }).join("");
+  const tc = CONFIG.weeks.map((w, wi) => { const s = totalState(wi); return `<td><span class="cell static ${s.status}">${s.n ? pct(s.p) : "—"}</span></td>`; }).join("");
+  const lt = totalState(CONFIG.weeks.length - 1);
+  $("matrix").innerHTML = head + `<tbody>${rows}<tr class="total"><td>รวมทั้งหมด</td><td class="num">${fmt(lt.month)}</td>${tc}<td class="num">${fmt(lt.ca)}</td><td class="num">${pct(lt.ca / lt.month)}</td></tr></tbody>`;
+}
+
+function renderVoices() {
+  $("voiceTitle").textContent = `เสียงจากซุป สัปดาห์ ${sel + 1}`;
+  const cols = [
+    { f: "problem", h: "ปัญหา / อุปสรรค", c: "var(--miss)" },
+    { f: "help", h: "อยากให้หัวหน้าช่วย", c: "var(--near)" },
+    { f: "plan", h: "แผนสัปดาห์หน้า", c: "var(--hit)" }
+  ];
+  $("voices").innerHTML = cols.map(col => {
+    const notes = CONFIG.teams.map((t, ti) => ({ t, ti, e: entries[key(sel, ti)] }))
+      .filter(x => x.e && String(x.e[col.f] || "").trim())
+      .map(x => {
+        const who = supName(x.ti);
+        return `<div class="note">${avatar(x.ti, 34)}<div><b>${esc(x.t.name)}</b>${who ? ` <small>${esc(who)}</small>` : ""}<p>${esc(x.e[col.f])}</p></div></div>`;
+      }).join("");
+    return `<div class="panel col"><h3><i style="background:${col.c}"></i>${col.h}</h3>${notes || `<p class="empty">ยังไม่มีทีมไหนเขียนในสัปดาห์นี้</p>`}</div>`;
+  }).join("");
+}
+
+function render() { renderWeeks(); renderHero(); renderStars(); renderLanes(); renderFunnel(); renderKpi(); renderMatrix(); renderVoices(); }
+
+function setSync(m, extra) {
+  mode = m;
+  const el = $("sync");
+  el.className = "pill" + (m === "live" ? " live" : m === "local" ? " local" : "");
+  el.querySelector("span").textContent = {
+    connecting: "กำลังเชื่อมต่อ…",
+    live: "ออนไลน์ อัปเดตอัตโนมัติ",
+    local: "โหมดทดลอง บันทึกในเครื่องนี้",
+    offline: "เชื่อมต่อไม่ได้"
+  }[m];
+  const n = $("notice");
+  if (m === "local") {
+    n.innerHTML = "<b>ยังไม่ได้เชื่อมกับ Google Sheet</b>ใส่ apiUrl ในไฟล์ config.js ตามคู่มือ README ก่อนแชร์ให้ซุป ตอนนี้ข้อมูลที่กรอกจะอยู่ในเครื่องนี้เท่านั้น";
+    n.hidden = false;
+  } else if (m === "offline") {
+    n.innerHTML = "<b>เชื่อมต่อข้อมูลกลางไม่ได้</b>" + esc(extra || "ตรวจอินเทอร์เน็ตแล้วรีเฟรชหน้านี้");
+    n.hidden = false;
+  } else n.hidden = true;
+}
+
+/* ---------- API (Google Apps Script) ---------- */
+async function apiGet() {
+  const r = await fetch(API + "?action=all&code=" + encodeURIComponent(code) + "&t=" + Date.now());
+  if (!r.ok) throw new Error("http_" + r.status);
+  return r.json();
+}
+async function apiPost(payload) {
+  // ไม่ใส่ headers เพื่อให้เป็น simple request (ไม่ติด CORS ของ Apps Script)
+  const r = await fetch(API, { method: "POST", body: JSON.stringify({ ...payload, code }) });
+  if (!r.ok) throw new Error("http_" + r.status);
+  const d = await r.json();
+  if (!d.ok) { const e = new Error(d.error || "error"); e.code = d.error; throw e; }
+  return d;
+}
+
+async function load(silent) {
+  if (!API || loading) return;
+  loading = true;
+  try {
+    const d = await apiGet();
+    if (!d.ok) {
+      if (d.error === "unauthorized") { askCode(code ? "รหัสไม่ถูกต้อง ลองใหม่อีกครั้ง" : ""); return; }
+      throw new Error(d.error);
+    }
+    const ne = {}; (d.entries || []).forEach(e => { if (e && e.id) ne[e.id] = e; });
+    const nt = {}; (d.teams || []).forEach(t => { if (t && t.id) nt[t.id] = t; });
+    entries = ne; teamInfo = nt;
+    setSync("live");
+    render();
+    if (editing) updatePreview();
+  } catch (e) {
+    if (!silent || mode !== "live") setSync("offline");
+  } finally { loading = false; }
+}
+
+function startPolling() {
+  clearInterval(pollT);
+  pollT = setInterval(() => { if (!document.hidden && !$("dlg").open) load(true); }, POLL_MS);
+}
+
+function askCode(msg) {
+  $("gErr").hidden = !msg; $("gErr").textContent = msg || "";
+  $("gCode").value = "";
+  if (!$("gate").open) $("gate").showModal();
+  setTimeout(() => $("gCode").focus(), 30);
+}
+
+/* ---------- parsing ---------- */
+function parseNum(v) { const c = String(v).replace(/[,\s฿]/g, ""); if (c === "") return null; const n = Number(c); return isFinite(n) && n >= 0 ? n : NaN; }
+function parseTalk(v) {
+  const c = String(v).trim(); if (c === "") return null;
+  const m = c.match(/^(\d+):(\d{1,2})$/);
+  if (m) { const mm = +m[2]; return mm < 60 ? +m[1] + mm / 60 : NaN; }
+  const n = Number(c.replace(/,/g, "")); return isFinite(n) && n >= 0 ? n : NaN;
+}
+function readForm() {
+  const out = {}, bad = [];
+  Object.entries(NUM_FIELDS).forEach(([id, f]) => { const v = parseNum($(id).value); if (Number.isNaN(v)) bad.push(id); out[f] = Number.isNaN(v) ? null : v; });
+  const t = parseTalk($("fTalk").value); if (Number.isNaN(t)) bad.push("fTalk"); out.talk = Number.isNaN(t) ? null : t;
+  return { out, bad };
+}
+
+/* ---------- dialog ---------- */
+function updatePreview() {
+  if (!editing) return;
+  const { wi, ti } = editing, { out } = readForm();
+  const el = $("fPreview"), v = parseNum($("fSales").value);
+  if (v === null) el.textContent = "ยังไม่ได้กรอกยอด";
+  else if (Number.isNaN(v)) el.textContent = "กรอกเป็นตัวเลขเท่านั้น เช่น 450000 หรือ 450,000";
+  else {
+    const wt = weekTarget(ti, wi), prev = wi ? cumActual(ti, wi - 1) : 0, p = (prev + v) / cumTarget(ti, wi);
+    el.innerHTML = `เท่ากับ <b>${pct(v / wt)}</b> ของเป้าสัปดาห์ ยอดสะสมจะเป็น <b>${fmt(prev + v)}</b> (${pct(p)} ของเป้าสะสม, ${STATUS_TXT[statusOf(p, true)]})`;
+  }
+  const k = kpiOf(out, daysOf(wi));
+  $("kPrev").innerHTML = [["%ติดต่อได้", pct(k.rReach)], ["%คุยจบ", pct(k.rDone)], ["%Con", pct(k.rCon)], ["Talktime/คน/วัน", hm(k.talkPer)], ["ยอด/ออเดอร์", fmt(k.aov)]]
+    .map(([a, b]) => `<div><small>${a}</small><b>${b}</b></div>`).join("");
+  const w = [];
+  if (k.calls != null && k.reached != null && k.reached > k.calls) w.push("ได้คุยมากกว่าโทรออก");
+  if (k.reached != null && k.completed != null && k.completed > k.reached) w.push("คุยจบมากกว่าได้คุย");
+  if (k.completed != null && k.closed != null && k.closed > k.completed) w.push("ปิดการขายมากกว่าคุยจบ");
+  $("kWarn").hidden = !w.length;
+  $("kWarn").textContent = w.length ? "ตรวจตัวเลขอีกครั้ง: " + w.join(", ") : "";
+}
+
+function setDlgAvatar(ti) {
+  const p = pendingPhoto !== undefined ? pendingPhoto : photoOf(ti);
+  $("dAv").innerHTML = p ? `<img src="${p}" alt="">` : initial(ti);
+}
+
+function openForm(ti, wi) {
+  editing = { ti, wi }; pendingPhoto = undefined;
+  const t = CONFIG.teams[ti], w = CONFIG.weeks[wi], e = entries[key(wi, ti)] || {};
+  $("dWeek").textContent = `สัปดาห์ ${wi + 1}  ${w.label}  (${daysOf(wi)} วันทำงาน)`;
+  $("dTeam").textContent = "ทีม " + t.name;
+  $("fSup").value = supName(ti);
+  setDlgAvatar(ti);
+  $("sWeekTgt").textContent = fmt(weekTarget(ti, wi));
+  $("sCumTgt").textContent = fmt(cumTarget(ti, wi));
+  $("sPrev").textContent = fmt(wi ? cumActual(ti, wi - 1) : 0);
+  $("sMonth").textContent = fmt(t.target);
+  Object.entries(NUM_FIELDS).forEach(([id, f]) => { const v = val(e, f); $(id).value = v == null ? "" : v.toLocaleString("th-TH"); });
+  $("fTalk").value = val(e, "talk") == null ? "" : hm(val(e, "talk"));
+  $("fHigh").value = e.highlight || ""; $("fProb").value = e.problem || "";
+  $("fPlan").value = e.plan || ""; $("fHelp").value = e.help || "";
+  const when = e.updatedAt ? new Date(e.updatedAt) : null;
+  $("dMeta").textContent = when && !isNaN(when) ? `แก้ล่าสุด ${when.toLocaleString("th-TH", { dateStyle: "medium", timeStyle: "short" })}${e.updatedBy ? " โดย " + e.updatedBy : ""}` : "";
+  $("dErr").hidden = true;
+  updatePreview();
+  $("dlg").showModal();
+  setTimeout(() => $("fSales").focus(), 30);
+}
+
+function resizeImage(file) {
+  return new Promise((res, rej) => {
+    if (!file || !/^image\//.test(file.type)) return rej(new Error("type"));
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => {
+      const S = 200, c = document.createElement("canvas"); c.width = c.height = S;
+      const s = Math.min(img.width, img.height), x = (img.width - s) / 2, y = (img.height - s) / 2;
+      const ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, S, S);
+      ctx.drawImage(img, x, y, s, s, 0, 0, S, S);
+      URL.revokeObjectURL(url);
+      // Google Sheet เก็บได้ไม่เกิน 50,000 ตัวอักษรต่อช่อง จึงลดคุณภาพจนพอดี
+      let q = 0.8, out = c.toDataURL("image/jpeg", q);
+      while (out.length > 45000 && q > 0.3) { q -= 0.1; out = c.toDataURL("image/jpeg", q); }
+      res(out);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error("load")); };
+    img.src = url;
+  });
+}
+
+function saveLocal() { try { localStorage.setItem(LS_KEY, JSON.stringify({ entries, teamInfo })); } catch (e) {} }
+
+async function writeEntry(id, body) {
+  if (!API) { if (body) entries[id] = body; else delete entries[id]; saveLocal(); render(); return; }
+  if (body) await apiPost({ action: "saveEntry", entry: body });
+  else await apiPost({ action: "deleteEntry", id });
+  if (body) entries[id] = body; else delete entries[id];
+  render();
+}
+async function writeTeam(body) {
+  if (!API) { teamInfo[body.id] = body; saveLocal(); render(); return; }
+  await apiPost({ action: "saveTeam", team: body });
+  teamInfo[body.id] = body; render();
+}
+
+async function save(ev) {
+  ev.preventDefault();
+  if (!editing) return;
+  const { out, bad } = readForm();
+  if (bad.length) {
+    $("dErr").textContent = bad.includes("fTalk") ? "Talktime กรอกเป็น ชม.:นาที เช่น 12:30 หรือเป็นชั่วโมง เช่น 12.5" : "ช่องตัวเลขต้องเป็นตัวเลขไม่ติดลบ";
+    $("dErr").hidden = false; $(bad[0]).focus(); return;
+  }
+  const { wi, ti } = editing, t = CONFIG.teams[ti], id = key(wi, ti);
+  const sup = $("fSup").value.trim(), old = teamInfo[t.id] || {};
+  const texts = { highlight: $("fHigh").value.trim(), problem: $("fProb").value.trim(), plan: $("fPlan").value.trim(), help: $("fHelp").value.trim() };
+  const body = { id, week: CONFIG.weeks[wi].id, team: t.id, ...out, ...texts, updatedAt: new Date().toISOString(), updatedBy: sup || "" };
+  const empty = Object.values(out).every(v => v === null) && Object.values(texts).every(v => !v);
+  const teamChanged = sup !== (old.sup || "") || pendingPhoto !== undefined;
+  const hadEntry = !!entries[id];
+  $("bSave").disabled = true; $("bSave").textContent = "กำลังบันทึก…";
+  try {
+    if (teamChanged) await writeTeam({ id: t.id, sup, photo: pendingPhoto !== undefined ? pendingPhoto : (isImg(old.photo) ? old.photo : ""), updatedAt: new Date().toISOString() });
+    if (!empty || hadEntry) await writeEntry(id, empty ? null : body);
+    $("dlg").close();
+    toast(empty && hadEntry ? "ล้างผลของทีมนี้แล้ว" : `บันทึกผลทีม ${t.name} แล้ว`);
+    load(true);
+  } catch (e) {
+    $("dErr").textContent = e && e.code === "unauthorized" ? "รหัสทีมไม่ถูกต้อง รีเฟรชหน้าแล้วใส่รหัสใหม่" : "บันทึกไม่สำเร็จ ตรวจอินเทอร์เน็ตแล้วกดบันทึกอีกครั้ง";
+    $("dErr").hidden = false;
+  } finally { $("bSave").disabled = false; $("bSave").textContent = "บันทึกผล"; }
+}
+
+let toastT;
+function toast(msg) { const el = $("toast"); el.textContent = msg; el.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove("show"), 2400); }
+
+/* ---------- events ---------- */
+$("weeks").addEventListener("click", e => { const b = e.target.closest(".wk"); if (!b) return; sel = +b.dataset.w; render(); });
+$("lanes").addEventListener("click", e => { const b = e.target.closest(".lane"); if (b) openForm(+b.dataset.t, sel); });
+$("matrix").addEventListener("click", e => { const b = e.target.closest("button.cell"); if (b) openForm(+b.dataset.t, +b.dataset.w); });
+$("form").addEventListener("submit", save);
+$("bCancel").addEventListener("click", () => $("dlg").close());
+$("form").addEventListener("input", e => { if (e.target.matches(".kin,#fSales")) updatePreview(); });
+$("form").addEventListener("focusout", e => {
+  const id = e.target.id;
+  if (NUM_FIELDS[id]) { const v = parseNum(e.target.value); if (typeof v === "number" && !isNaN(v)) e.target.value = v.toLocaleString("th-TH"); }
+  if (id === "fTalk") { const v = parseTalk(e.target.value); if (typeof v === "number" && !isNaN(v)) e.target.value = hm(v); }
+});
+$("fPhoto").addEventListener("change", async e => {
+  const f = e.target.files && e.target.files[0]; e.target.value = "";
+  if (!f || !editing) return;
+  try { pendingPhoto = await resizeImage(f); setDlgAvatar(editing.ti); toast("ได้รูปแล้ว กดบันทึกผลเพื่อเก็บรูป"); }
+  catch (err) { $("dErr").textContent = "เปิดไฟล์รูปนี้ไม่ได้ ลองใช้ไฟล์ .jpg หรือ .png"; $("dErr").hidden = false; }
+});
+$("dlg").addEventListener("close", () => { editing = null; pendingPhoto = undefined; });
+$("gForm").addEventListener("submit", ev => {
+  ev.preventDefault();
+  code = $("gCode").value.trim();
+  try { localStorage.setItem(CODE_KEY, code); } catch (e) {}
+  $("gate").close();
+  load();
+});
+$("gate").addEventListener("cancel", ev => ev.preventDefault());
+document.addEventListener("visibilitychange", () => { if (!document.hidden && API) load(true); });
+
+/* ---------- start ---------- */
+document.documentElement.style.setProperty("--brand", isHex(CONFIG.brand) ? CONFIG.brand : "#7A2BD6");
+document.title = "สนามยอดขาย " + CONFIG.month;
+document.querySelector(".hero h1").textContent = CONFIG.month;
+render();
+if (!API) {
+  try { const d = JSON.parse(localStorage.getItem(LS_KEY) || "{}"); entries = d.entries || {}; teamInfo = d.teamInfo || {}; } catch (e) {}
+  setSync("local"); render();
+} else {
+  setSync("connecting");
+  if (CONFIG.usePasscode && !code) askCode(""); else load();
+  startPolling();
+}
+
+</script>
+</body>
+</html>
