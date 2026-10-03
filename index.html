@@ -323,6 +323,13 @@ dialog::backdrop{background:rgba(20,8,36,.6)}
 .nitem b{font-size:13.5px}
 .nitem small{display:block;color:var(--muted);margin-top:2px;line-height:1.5}
 .nitem.warn .ic{background:#FEF0C7}.nitem.bad .ic{background:#FEE4E2}.nitem.good .ic{background:#D1FADF}
+.reply{margin-top:9px;padding:9px 12px;border-radius:10px;background:var(--soft);border-left:3px solid var(--brand)}
+.reply b{font-size:12px;color:var(--brand-deep)}
+.reply p{margin:3px 0 0;white-space:pre-wrap}
+.ein.auto{background:var(--soft);color:var(--muted);pointer-events:none}
+.btn.sm{padding:6px 12px;font-size:12.5px;border-radius:9px}
+.note .acts{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
+.okbadge{display:inline-flex;align-items:center;gap:6px;margin-top:9px;padding:5px 11px;border-radius:999px;background:#D1FADF;color:#054F31;font-weight:600;font-size:12.5px}
 .gradechip{display:inline-block;padding:1px 8px;border-radius:999px;background:var(--soft);font-weight:700;font-size:11.5px;vertical-align:1px}
 @media (max-width:900px){.bell{top:10px;right:12px}.bellpanel{top:58px;right:12px}}
 </style>
@@ -376,12 +383,13 @@ dialog::backdrop{background:rgba(20,8,36,.6)}
 const BOOT = window.APP_CONFIG || {};
 const API = String(BOOT.apiUrl || "").trim();
 const CODE_KEY = "salesRace.code";
-const NUMF = ["sales", "calls", "reached", "completed", "closed", "talk", "newCust"];
+const NUMF = ["newSales", "newOrders", "oldSales", "oldOrders", "sales", "calls", "reached", "completed", "closed", "talk", "newCust"];
 const STATUS_TXT = { hit: "ถึงเป้า", near: "ใกล้เป้า", miss: "ต่ำกว่าเป้า", wait: "รอกรอก" };
 const POLL_MS = 30000;
 const ICON = {
   dash: '<path d="M3 13h8V3H3z"/><path d="M13 21h8V11h-8z"/><path d="M13 3v6h8V3z"/><path d="M3 21h8v-6H3z"/>',
   entry: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+  hit: '<path d="M12 2l2.9 6.26 6.9 1.01-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.9-1.01z"/>',
   inc: '<circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3L8.5 13"/>',
   catchup: '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
   plan: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
@@ -392,7 +400,7 @@ const ICON = {
   admin: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'
 };
 const PAGES = [
-  ["dash", "ภาพรวม"], ["entry", "กรอกผลรายวัน"], ["plan", "เป้าตามแคมเปญ"], ["catchup", "แผนเป้าทบ"], ["inc", "Incentive"], ["people", "รายคน"], ["kpi", "KPI รายทีม"],
+  ["dash", "ภาพรวม"], ["entry", "กรอกผลรายวัน"], ["plan", "เป้าตามแคมเปญ"], ["catchup", "แผนเป้าทบ"], ["inc", "Incentive"], ["hit", "Hit Target"], ["people", "รายคน"], ["kpi", "KPI รายทีม"],
   ["summary", "สรุปตามช่วงเวลา"], ["voices", "เสียงจากซุป"], ["admin", "ตั้งค่า (แอดมิน)"]
 ];
 
@@ -401,7 +409,7 @@ const S = {
   daily: {}, notes: {}, photos: {},
   page: "dash", ptype: "week", week: 0, day: null,
   entryTeam: null, entryDate: null, dirty: false,
-  peopleTeam: "all", planTeam: null, cuTeam: null, sort: { k: "p", d: -1 }, sumMode: "team",
+  peopleTeam: "all", planTeam: null, cuTeam: null, replyKey: null, sort: { k: "p", d: -1 }, sumMode: "team",
   draft: null, mode: "connecting"
 };
 let code = ""; try { code = localStorage.getItem(CODE_KEY) || ""; } catch (e) {}
@@ -463,6 +471,10 @@ function normCfg(c, month) {
   c.inc = Object.assign({ first: 500 }, c.inc || {});
   c.inc.tiers = Array.isArray(c.inc.tiers) && c.inc.tiers.length ? c.inc.tiers.map(t => [num(t[0]) || 0, num(t[1]) || 0]) : [[350000, 2000], [400000, 2500], [500000, 3500], [600000, 4000], [700000, 5000]];
   c.prob = Object.assign({ days: 30, target: 60000, wage: 400 }, c.prob || {});
+  c.pbi = Object.assign({ url: "" }, c.pbi || {});
+  c.hitboard = Object.assign({ url: "https://docs.google.com/spreadsheets/d/1DvKYyhEge8TF-PQA7daiO4kf63hIqbd-XVohckiOZds/edit?gid=1447612684#gid=1447612684" }, c.hitboard || {});
+  c.replies = c.replies && typeof c.replies === "object" ? c.replies : {};
+  c.approvals = c.approvals && typeof c.approvals === "object" ? c.approvals : {};
   return c;
 }
 function calendar(cfg) {
@@ -530,6 +542,9 @@ function agg(days, pred) {
   a.rReach = a.calls ? d(a.reached, a.calls) : null;
   a.rDone = a.reached ? d(a.completed, a.reached) : null;
   a.rCon = a.completed ? d(a.closed, a.completed) : null;
+  a.rConNew = a.newCust ? d(a.newOrders, a.newCust) : null;
+  const oldDone = a.completed != null && a.newCust != null ? Math.max(0, a.completed - a.newCust) : a.completed;
+  a.rConOld = oldDone ? d(a.oldOrders, oldDone) : null;
   a.talkPer = a.talk != null ? d(a.talk, a.pdTalk) : null;
   a.callsPer = a.calls != null ? d(a.calls, a.pdCalls) : null;
   a.aov = a.closed ? d(a.sales, a.closed) : null;
@@ -693,7 +708,7 @@ function render() {
   document.title = "Performance CRM ggl · " + thMonth(S.month);
   renderBell(); if ($("bellPanel") && !$("bellPanel").hidden) renderBellPanel();
   renderSide();
-  const f = { dash: pageDash, entry: pageEntry, plan: pagePlan, catchup: pageCatchup, inc: pageInc, people: pagePeople, kpi: pageKpi, summary: pageSummary, voices: pageVoices, admin: pageAdmin }[S.page];
+  const f = { dash: pageDash, entry: pageEntry, plan: pagePlan, catchup: pageCatchup, inc: pageInc, hit: pageHit, people: pagePeople, kpi: pageKpi, summary: pageSummary, voices: pageVoices, admin: pageAdmin }[S.page];
   $("page").innerHTML = f();
   afterRender();
 }
@@ -785,7 +800,7 @@ function lanesHtml(P) {
 
 function funnelHtml(P) {
   const k = agg(P.days, allPred);
-  const steps = [["โทรออก", k.calls, null, ""], ["ได้คุย", k.reached, k.rReach, "ติดต่อได้"], ["คุยจบ", k.completed, k.rDone, "คุยจบ"], ["ปิดการขาย", k.closed, k.rCon, "%Con"]];
+  const steps = [["โทรออก", k.calls, null, ""], ["ได้คุย", k.reached, k.rReach, "ติดต่อได้"], ["คุยจบ", k.completed, k.rDone, "คุยจบ"], ["จำนวนออเดอร์", k.closed, k.rCon, "%Con"]];
   const max = k.calls || Math.max(...steps.map(s => s[1] || 0)) || 1;
   const fun = steps.map(([l, v, r, rl]) => { const w = v ? Math.max(4, Math.min(100, v / max * 100)) : 0; return `<div class="fstep"><span class="l">${l}</span><span class="fbar"><i style="width:${w}%"></i><em class="num" ${w < 18 ? `style="left:calc(${w}% + 8px);color:var(--ink);text-shadow:none"` : ""}>${v == null ? "" : fmt(v)}</em></span><span class="r num">${r == null ? "" : `<b>${pct(r)}</b>${rl}`}</span></div>`; }).join("");
   const side = [["%Con ทั้งทีม", pct(k.rCon)], ["Talktime รวม", k.talk == null ? "—" : hm(k.talk) + " ชม."], ["Talktime / คน / วัน", k.talkPer == null ? "—" : hm(k.talkPer) + " ชม."], ["โทร / คน / วัน", k.callsPer == null ? "—" : fmt1(k.callsPer) + " สาย"], ["ยอดเฉลี่ยต่อออเดอร์", fmt(k.aov)], ["ลูกค้าใหม่", fmt(k.newCust)]]
@@ -812,8 +827,11 @@ function pageEntry() {
       return `<td><input class="ein ${cls}" data-p="${esc(p.id)}" data-f="${f}" value="${shown}" inputmode="${f === "talk" ? "decimal" : "numeric"}" placeholder="${f === "talk" ? "0:00" : "0"}" aria-label="${esc(p.name)} ${f}"></td>`;
     };
     return `<tr data-row="${esc(p.id)}"><td><span class="tn">${personAv(p, 34, { edit: true })}<span>${esc(p.name)}<br><small>เป้าวันละ ${fmt((pt[p.id] || 0) / (S.cal.total || 1))}${hasPlan(p) ? ` · ${fmt1(planCalc(p.plan).orders / (S.cal.total || 1))} ออเดอร์` : ""}</small></span></span></td>
-      ${inp("sales", "wide")}${inp("calls")}${inp("reached")}${inp("completed")}${inp("closed")}${inp("talk")}${inp("newCust")}
-      <td class="num" data-calc="${esc(p.id)}">—</td></tr>`;
+      ${inp("newSales", "wide")}${inp("newOrders")}${inp("oldSales", "wide")}${inp("oldOrders")}
+      <td><input class="ein auto" data-p="${esc(p.id)}" data-f="sales" value="${num(r.sales) == null ? "" : num(r.sales).toLocaleString("th-TH")}" readonly tabindex="-1" aria-label="${esc(p.name)} ยอดขายรวม"></td>
+      <td><input class="ein auto" data-p="${esc(p.id)}" data-f="closed" value="${num(r.closed) == null ? "" : num(r.closed).toLocaleString("th-TH")}" readonly tabindex="-1" aria-label="${esc(p.name)} จำนวนออเดอร์"></td>
+      ${inp("calls")}${inp("reached")}${inp("completed")}${inp("talk")}${inp("newCust")}
+      <td class="num" data-calc="${esc(p.id)}">—</td><td class="num" data-calcold="${esc(p.id)}">—</td></tr>`;
   }).join("");
   const note = S.notes[`${S.month}__${wk ? wk.id : "W1"}__${t.id}`] || {};
   return `<div class="ph"><div><h1>กรอกผลรายวัน</h1><p>เลือกทีมและวันที่ แล้วกรอกตัวเลขของเซลส์แต่ละคน ช่องที่เว้นว่างจะไม่ถูกนับ</p></div></div>
@@ -825,7 +843,7 @@ function pageEntry() {
     <div class="panel ehcard pcal"><span class="l" style="display:block;font-weight:600;margin-bottom:8px">เลือกวันที่ (จุดเขียว = กรอกแล้ว)</span>${miniCal(ds, "edate", d => Object.values(S.daily).some(r => r.date === d && r.team === t.id))}</div>
   </div>
   <section class="sec"><div class="panel scroll">
-    ${people.length ? `<table class="etable"><thead><tr><th>เซลส์</th><th>ยอดขาย (บาท)</th><th>โทรออก</th><th>ได้คุย</th><th>คุยจบ</th><th>ปิดการขาย</th><th>Talktime<br>(ชม.:นาที)</th><th>ลูกค้าใหม่</th><th>%Con</th></tr></thead>
+    ${people.length ? `<table class="etable"><thead><tr><th>เซลส์</th><th>ยอดใหม่ (บาท)</th><th>ออเดอร์<br>ใหม่</th><th>ยอดเก่า (บาท)</th><th>ออเดอร์<br>เก่า</th><th>ยอดขายรวม</th><th>จำนวน<br>ออเดอร์</th><th>โทรออก</th><th>ได้คุย</th><th>คุยจบ</th><th>Talktime<br>(ชม.:นาที)</th><th>ลูกค้าใหม่<br>(คน)</th><th>%Con<br>ใหม่</th><th>%Con<br>เก่า</th></tr></thead>
     <tbody>${rowsHtml}<tr class="total" id="etotal"></tr></tbody></table>`
     : `<p class="empty">ทีมนี้ยังไม่มีรายชื่อเซลส์ ${S.role === "admin" ? 'ไปเพิ่มได้ที่ <a href="#" data-goto="admin">หน้าตั้งค่า</a>' : "แจ้งแอดมินให้เพิ่มรายชื่อ"}</p>`}
   </div></section>
@@ -849,13 +867,22 @@ function entryCalc() {
       v[i.dataset.f] = Number.isNaN(x) ? null : x;
       if (v[i.dataset.f] != null) sum[i.dataset.f] = (sum[i.dataset.f] || 0) + v[i.dataset.f];
     });
-    const c = row.querySelector(`[data-calc]`);
-    c.textContent = v.completed ? pct((v.closed || 0) / v.completed) : "—";
+    const hasSplit = ["newSales", "oldSales", "newOrders", "oldOrders"].some(f => v[f] != null);
+    if (hasSplit) {
+      v.sales = (v.newSales || 0) + (v.oldSales || 0); v.closed = (v.newOrders || 0) + (v.oldOrders || 0);
+      const si = row.querySelector('[data-f="sales"]'), ci = row.querySelector('[data-f="closed"]');
+      si.value = v.sales.toLocaleString("th-TH"); ci.value = v.closed.toLocaleString("th-TH");
+      sum.sales = (sum.sales || 0) + v.sales; sum.closed = (sum.closed || 0) + v.closed;
+    }
+    row.querySelector(`[data-calc]`).textContent = v.newCust ? pct((v.newOrders || 0) / v.newCust) : "—";
+    const od = v.completed != null ? Math.max(0, v.completed - (v.newCust || 0)) : null;
+    row.querySelector(`[data-calcold]`).textContent = od ? pct((v.oldOrders || 0) / od) : "—";
   });
   const t = teamById(S.entryTeam), dt = (num(t.target) || 0) / (S.cal.total || 1);
+  const odT = sum.completed != null ? Math.max(0, sum.completed - (sum.newCust || 0)) : null;
   tr.innerHTML = `<td>รวมทีม ${sum.sales != null && dt ? `<small>(${pct(sum.sales / dt)} ของเป้าวัน)</small>` : ""}</td>` +
-    ["sales", "calls", "reached", "completed", "closed"].map(f => `<td class="num">${fmt(sum[f])}</td>`).join("") +
-    `<td class="num">${sum.talk == null ? "—" : hm(sum.talk)}</td><td class="num">${fmt(sum.newCust)}</td><td class="num">${sum.completed ? pct((sum.closed || 0) / sum.completed) : "—"}</td>`;
+    ["newSales", "newOrders", "oldSales", "oldOrders", "sales", "closed", "calls", "reached", "completed"].map(f => `<td class="num">${fmt(sum[f])}</td>`).join("") +
+    `<td class="num">${sum.talk == null ? "—" : hm(sum.talk)}</td><td class="num">${fmt(sum.newCust)}</td><td class="num">${sum.newCust ? pct((sum.newOrders || 0) / sum.newCust) : "—"}</td><td class="num">${odT ? pct((sum.oldOrders || 0) / odT) : "—"}</td>`;
 }
 async function saveEntry() {
   const ds = S.entryDate, t = teamById(S.entryTeam), wk = S.cal.weeks[weekOf(ds)];
@@ -887,15 +914,21 @@ async function saveEntry() {
 
 /* ---------- campaign plan page ---------- */
 function pagePlan() {
+  const pbi = ((S.cfg.pbi || {}).url || "").trim();
+  if (pbi) {
+    const safe = /^https:\/\/app\.powerbi\.com\//.test(pbi);
+    return `<div class="ph"><div><h1>เป้าตามแคมเปญ</h1><p>ข้อมูลสดจาก Power BI ของบริษัท${S.role === "admin" ? ` · เปลี่ยนลิงก์ได้ที่ <a href="#" data-goto="admin">หน้าตั้งค่า</a>` : ""}</p></div></div>
+      ${safe ? `<div class="panel" style="padding:0;overflow:hidden"><iframe src="${esc(pbi)}" title="Power BI" style="display:block;width:100%;height:min(78vh,900px);border:0" allowfullscreen loading="lazy"></iframe></div>
+      <p class="hint" style="margin-top:10px">ถ้าขึ้นให้ลงชื่อเข้าใช้ ให้ล็อกอินบัญชี Microsoft ขององค์กรในเบราว์เซอร์นี้ครั้งเดียว · <a href="${esc(pbi)}" target="_blank" rel="noopener">เปิดใน Power BI เต็มจอ</a>` : `<div class="panel"><p class="empty">ลิงก์ Power BI ไม่ถูกต้อง ต้องขึ้นต้นด้วย https://app.powerbi.com/ แก้ได้ที่หน้าตั้งค่า</p></div>`}`;
+  }
   const camps = S.cfg.campaigns || [];
   const head = `<div class="ph"><div><h1>เป้าตามแคมเปญ</h1><p>`;
   if (!camps.length) return head + `เป้าออเดอร์และยอดขายแยกตามถังรายชื่อ</p></div></div><div class="panel"><p class="empty">ยังไม่มีแผนแคมเปญ ${S.role === "admin" ? 'แอดมินนำเข้าได้ที่ <a href="#" data-goto="admin">หน้าตั้งค่า</a>' : "รอแอดมินนำเข้าแผน"}</p></div>`;
   const teams = S.cfg.teams.filter(t => hasPlan(t) || S.cfg.people.some(p => p.team === t.id && hasPlan(p)));
   if (!S.planTeam || !teams.some(t => t.id === S.planTeam)) S.planTeam = teams[0] ? teams[0].id : null;
-  const t = teamById(S.planTeam), P = periodInfo(), f = P.days.length / (S.cal.total || 1);
-  const unit = S.ptype === "day" ? "ต่อวัน" : S.ptype === "week" ? "ทั้งสัปดาห์" : "ทั้งเดือน";
+  const t = teamById(S.planTeam), f = 1, W = S.cal.work;
   const pt = personTargets();
-  const cell = r => `<td class="num"><b>${fmt1(r.orders * f)}</b><br><small>${fmt(r.sales * f)}</small></td>`;
+  const cell = r => `<td class="num"><b>${fmt1(r.orders)}</b><br><small>${fmt(r.sales)}</small></td>`;
   const row = (label, av, plan, perfRes, cls = "") => {
     const c = planCalc(plan);
     return `<tr class="${cls}"><td><span class="tn">${av}<span>${label}</span></span></td>${camps.map((_, i) => cell(c.rows[i] || { orders: 0, sales: 0 })).join("")}
@@ -903,15 +936,18 @@ function pagePlan() {
       <td class="num">${perfRes ? fmt(perfRes.sales) : ""}</td><td>${perfRes ? `<span class="chip ${perfRes.status}">${perfRes.p == null ? "รอกรอก" : pct(perfRes.p)}</span>` : ""}</td></tr>`;
   };
   const ppl = S.cfg.people.filter(p => p.team === t.id && hasPlan(p) && p.active !== false);
-  const body = ppl.map(p => row(`${esc(p.name)}${p.username ? `<br><small>${esc(p.username)}</small>` : ""}`, personAv(p, 30), p.plan, perf(pt[p.id] || 0, P.days, personPred(p.id)))).join("")
-    + (hasPlan(t) ? row(`แผนรวมทีม ${esc(t.name)}`, teamAv(t, 30), t.plan, perf(num(t.target) || 0, P.days, teamPred(t.id)), "total") : "");
+  const sumPpl = ppl.reduce((a, p) => { const c = planCalc(p.plan); a.list += c.list; a.orders += c.orders; a.sales += c.sales; return a; }, { list: 0, orders: 0, sales: 0 });
+  const teamSales = hasPlan(t) ? planCalc(t.plan).sales : 0;
+  const diff = teamSales - sumPpl.sales;
+  const body = ppl.map(p => row(`${esc(p.name)}${p.username ? `<br><small>${esc(p.username)}</small>` : ""}`, personAv(p, 30), p.plan, perf(pt[p.id] || 0, W, personPred(p.id)))).join("")
+    + (hasPlan(t) ? row(`แผนรวมทีม ${esc(t.name)}`, teamAv(t, 30), t.plan, perf(num(t.target) || 0, W, teamPred(t.id)), "total") : "");
   // สัดส่วนยอดตามแคมเปญของทีม
   const tc = planCalc(hasPlan(t) ? t.plan : []), maxS = Math.max(...tc.rows.map(r => r.sales), 1);
-  const bars = tc.rows.map((r, i) => `<div class="fstep" style="grid-template-columns:minmax(120px,240px) 1fr 150px"><span class="l" style="font-weight:500">${esc(camps[i] || "")}</span>${(() => { const w = Math.max(r.sales ? 3 : 0, r.sales / maxS * 100); return `<span class="fbar"><i style="width:${w}%"></i><em class="num" ${w < 22 ? `style="left:calc(${w}% + 8px);color:var(--ink);text-shadow:none"` : ""}>${fmt1(r.orders * f)} ออเดอร์</em></span>`; })()}<span class="r num"><b>${fmt(r.sales * f)}</b>${pct(tc.sales ? r.sales / tc.sales : null)} ของทีม</span></div>`).join("");
-  return head + `${esc(P.title)} · ตัวเลขเป็นเป้า${unit} คิดจากแผนเดือน ÷ ${S.cal.total} วันทำงาน × ${P.days.length} วัน</p></div>
+  const bars = tc.rows.map((r, i) => `<div class="fstep" style="grid-template-columns:minmax(120px,240px) 1fr 150px"><span class="l" style="font-weight:500">${esc(camps[i] || "")}</span>${(() => { const w = Math.max(r.sales ? 3 : 0, r.sales / maxS * 100); return `<span class="fbar"><i style="width:${w}%"></i><em class="num" ${w < 22 ? `style="left:calc(${w}% + 8px);color:var(--ink);text-shadow:none"` : ""}>${fmt1(r.orders)} ออเดอร์</em></span>`; })()}<span class="r num"><b>${fmt(r.sales)}</b>${pct(tc.sales ? r.sales / tc.sales : null)} ของทีม</span></div>`).join("");
+  return head + `ตัวเลขทุกช่องเป็น<b>เป้าทั้งเดือน</b>ตามชีตแผน (ไม่เปลี่ยนตามมุมมองซ้ายมือ) · เฉลี่ยหารได้ ${S.cal.total} วันทำงาน · ยอดจริงเทียบเป้าสะสมถึงวันนี้</p></div>
     <div class="chips">${teams.map(x => `<button data-planteam="${esc(x.id)}" aria-pressed="${x.id === t.id}">${esc(x.name)}</button>`).join("")}</div></div>
     ${hasPlan(t) ? `<section class="sec"><div class="sech"><div><h2>ทีม ${esc(t.name)} แยกตามแคมเปญ</h2><p>ความยาวแถบ = ยอดขายเป้าของแคมเปญนั้น</p></div></div><div class="panel" style="padding:18px 22px">${bars}</div></section>` : ""}
-    <section class="sec"><div class="sech"><div><h2>เป้ารายคนตามแคมเปญ</h2><p>ตัวหนา = ออเดอร์, ตัวเล็ก = ยอดขาย (บาท) · ยอดจริงและ % เทียบเป้าถึงวันนี้</p></div></div>
+    <section class="sec"><div class="sech"><div><h2>เป้ารายคนตามแคมเปญ</h2><p>ตัวหนา = ออเดอร์, ตัวเล็ก = ยอดขาย (บาท) ทั้งเดือน · % เทียบเป้าสะสมถึงวันนี้${hasPlan(t) && Math.abs(diff) > 1 ? ` · <b style="color:#B54708">หมายเหตุ: แผนรวมทีม ${fmt(teamSales)} ${diff > 0 ? "มากกว่า" : "น้อยกว่า"}ผลรวมรายคน ${fmt(sumPpl.sales)} อยู่ ${fmt(Math.abs(diff))} บาท (ตามชีตต้นทาง)</b>` : ""}</p></div></div>
     <div class="panel scroll"><table><thead><tr><th>เซลส์</th>${camps.map(c => `<th style="white-space:normal;min-width:92px">${esc(c)}</th>`).join("")}<th>รายชื่อ<br>ที่ต้องโทร</th><th>ออเดอร์<br>รวม</th><th>ยอดขาย<br>เป้า</th><th>ยอดจริง</th><th>% เป้า</th></tr></thead><tbody>${body}</tbody></table></div></section>`;
 }
 
@@ -979,13 +1015,26 @@ function pageInc() {
     <div class="panel scroll"><table><thead><tr><th>เซลส์</th><th>ยอดสะสม</th><th>ระดับ</th><th>Incentive</th><th>โบนัสคนแรก</th><th>รวมรับ</th><th class="tl-left">ระดับถัดไป</th></tr></thead><tbody>${board || '<tr><td colspan="7" class="empty">ยังไม่มีรายชื่อเซลส์</td></tr>'}</tbody></table></div></section>`;
 }
 
+/* ---------- hit target dashboard ---------- */
+function pageHit() {
+  const raw = ((S.cfg.hitboard || {}).url || "").trim();
+  const head = `<div class="ph"><div><h1>Hit Target 🎯</h1><p>แดชบอร์ดสดจาก Google Sheet อัปเดตอัตโนมัติทุก 1 นาที${S.role === "admin" ? ` · เปลี่ยนลิงก์ได้ที่ <a href="#" data-goto="admin">หน้าตั้งค่า</a>` : ""}</p></div></div>`;
+  if (!raw) return head + `<div class="panel"><p class="empty">ยังไม่ได้ใส่ลิงก์ชีต Hit Target ${S.role === "admin" ? "ใส่ได้ที่หน้าตั้งค่า" : "รอแอดมินตั้งค่า"}</p></div>`;
+  let src = raw;
+  const m = raw.match(/docs\.google\.com\/spreadsheets\/d\/([\w-]+)/), g = raw.match(/[#?&]gid=(\d+)/);
+  if (m) src = `https://docs.google.com/spreadsheets/d/${m[1]}/preview?rm=minimal${g ? `&gid=${g[1]}` : ""}#gid=${g ? g[1] : "0"}`;
+  return head + `<div class="panel" style="padding:0;overflow:hidden"><iframe id="hitFrame" src="${esc(src)}" title="Hit Target" style="display:block;width:100%;height:min(80vh,950px);border:0" loading="lazy"></iframe></div>
+    <p class="hint" style="margin-top:10px">ถ้าขึ้นให้ขอสิทธิ์ ให้เจ้าของชีตตั้งแชร์เป็น "ทุกคนที่มีลิงก์ - ผู้มีสิทธิ์ดู" · <a href="${esc(raw)}" target="_blank" rel="noopener">เปิดชีตเต็มจอ</a></p>`;
+}
+setInterval(() => { const f = $("hitFrame"); if (f && S.page === "hit") { const u = new URL(f.src); u.searchParams.set("ts", Date.now()); f.src = u.toString(); } }, 60000);
+
 /* ---------- people ---------- */
 function pagePeople() {
   const P = periodInfo(), pt = personTargets();
   const list = S.cfg.people.filter(p => (S.peopleTeam === "all" || p.team === S.peopleTeam) && (p.active !== false || agg(P.days, personPred(p.id)).n));
   const rows = list.map(p => {
     const r = perf(pt[p.id] || 0, P.days, personPred(p.id)), a = r.a;
-    return { p, r, a, k: { p: r.p ?? -1, sales: r.sales, calls: a.calls ?? -1, rCon: a.rCon ?? -1, talkPer: a.talkPer ?? -1, callsPer: a.callsPer ?? -1, closed: a.closed ?? -1 } };
+    return { p, r, a, k: { p: r.p ?? -1, sales: r.sales, calls: a.calls ?? -1, rCon: a.rCon ?? -1, rConNew: a.rConNew ?? -1, rConOld: a.rConOld ?? -1, newSales: a.newSales ?? -1, oldSales: a.oldSales ?? -1, talkPer: a.talkPer ?? -1, callsPer: a.callsPer ?? -1, closed: a.closed ?? -1 } };
   });
   const { k, d } = S.sort;
   rows.sort((x, y) => (x.k[k] - y.k[k]) * d);
@@ -995,14 +1044,15 @@ function pagePeople() {
     const t = teamById(x.p.team) || {}, a = x.a;
     return `<tr><td><span class="tn"><span class="rank">${i + 1}</span>${personAv(x.p, 32)}<span>${esc(x.p.name)}<br><small>${esc(t.name || "")}</small></span></span></td>
       <td class="num">${fmt(x.r.sales)}</td><td class="num">${fmt(x.r.toDate)}</td><td><span class="chip ${x.r.status}">${x.r.p == null ? "รอกรอก" : pct(x.r.p)}</span></td>
+      <td class="num">${fmt(a.newSales)}<br><small>${fmt(a.newOrders)} ออเดอร์</small></td><td class="num">${fmt(a.oldSales)}<br><small>${fmt(a.oldOrders)} ออเดอร์</small></td>
       <td class="num">${fmt(a.calls)}</td><td class="num">${fmt(a.reached)}</td><td class="num">${fmt(a.completed)}</td><td class="num">${fmt(a.closed)}</td>
-      <td class="num ${kcls(a.rReach, K.rReach)}">${pct(a.rReach)}</td><td class="num ${kcls(a.rCon, K.rCon)}">${pct(a.rCon)}</td>
+      <td class="num ${kcls(a.rReach, K.rReach)}">${pct(a.rReach)}</td><td class="num ${kcls(a.rCon, K.rCon)}">${pct(a.rCon)}</td><td class="num">${pct(a.rConNew)}</td><td class="num">${pct(a.rConOld)}</td>
       <td class="num">${a.talk == null ? "—" : hm(a.talk)}</td><td class="num ${kcls(a.talkPer, K.talkPerDay)}">${a.talkPer == null ? "—" : hm(a.talkPer)}</td>
       <td class="num ${kcls(a.callsPer, K.callsPerDay)}">${fmt1(a.callsPer)}</td><td class="num">${a.dates.size}</td></tr>`;
   }).join("");
   return `<div class="ph"><div><h1>ผลงานรายคน</h1><p>${esc(P.title)} · กดหัวตารางเพื่อเรียงลำดับ</p></div>
     <div class="chips">${[["all", "ทุกทีม"], ...S.cfg.teams.map(t => [t.id, t.name])].map(([id, n]) => `<button data-pteam="${esc(id)}" aria-pressed="${S.peopleTeam === id}">${esc(n)}</button>`).join("")}</div></div>
-    <div class="panel scroll">${rows.length ? `<table><thead><tr><th>เซลส์</th>${th("sales", "ยอดขาย")}<th>เป้าถึงวันนี้</th>${th("p", "% เป้า")}${th("calls", "โทร")}<th>ได้คุย</th><th>คุยจบ</th>${th("closed", "ปิด")}<th>%ติดต่อได้</th>${th("rCon", "%Con")}<th>Talktime</th>${th("talkPer", "Talktime<br>/วัน")}${th("callsPer", "โทร<br>/วัน")}<th>วันที่กรอก</th></tr></thead><tbody>${body}</tbody></table>` : '<p class="empty">ยังไม่มีรายชื่อเซลส์ แอดมินเพิ่มได้ที่หน้าตั้งค่า</p>'}</div>
+    <div class="panel scroll">${rows.length ? `<table><thead><tr><th>เซลส์</th>${th("sales", "ยอดขาย")}<th>เป้าถึงวันนี้</th>${th("p", "% เป้า")}${th("newSales", "ยอดใหม่")}${th("oldSales", "ยอดเก่า")}${th("calls", "โทร")}<th>ได้คุย</th><th>คุยจบ</th>${th("closed", "ออเดอร์")}<th>%ติดต่อได้</th>${th("rCon", "%Con")}${th("rConNew", "%Con<br>ใหม่")}${th("rConOld", "%Con<br>เก่า")}<th>Talktime</th>${th("talkPer", "Talktime<br>/วัน")}${th("callsPer", "โทร<br>/วัน")}<th>วันที่กรอก</th></tr></thead><tbody>${body}</tbody></table>` : '<p class="empty">ยังไม่มีรายชื่อเซลส์ แอดมินเพิ่มได้ที่หน้าตั้งค่า</p>'}</div>
     ${kpiNote()}`;
 }
 function kcls(v, target) { target = num(target); if (v == null) return "na"; if (!target) return ""; return v >= target ? "up" : v < target * 0.9 ? "down" : ""; }
@@ -1021,14 +1071,15 @@ function pageKpi() {
   const row = (name, avHtml, m, pred, cls = "") => {
     const r = perf(m, P.days, pred), a = r.a;
     return `<tr class="${cls}"><td><span class="tn">${avHtml}${name}</span></td><td class="num">${fmt(r.sales)}</td><td><span class="chip ${r.status}">${r.p == null ? "รอกรอก" : pct(r.p)}</span></td>
+      <td class="num">${fmt(a.newSales)}<br><small>${fmt(a.newOrders)} ออเดอร์</small></td><td class="num">${fmt(a.oldSales)}<br><small>${fmt(a.oldOrders)} ออเดอร์</small></td>
       <td class="num">${fmt(a.calls)}</td><td class="num">${fmt(a.reached)}</td><td class="num">${fmt(a.completed)}</td><td class="num">${fmt(a.closed)}</td>
-      <td class="num ${kcls(a.rReach, K.rReach)}">${pct(a.rReach)}</td><td class="num">${pct(a.rDone)}</td><td class="num ${kcls(a.rCon, K.rCon)}">${pct(a.rCon)}</td>
+      <td class="num ${kcls(a.rReach, K.rReach)}">${pct(a.rReach)}</td><td class="num">${pct(a.rDone)}</td><td class="num ${kcls(a.rCon, K.rCon)}">${pct(a.rCon)}</td><td class="num">${pct(a.rConNew)}</td><td class="num">${pct(a.rConOld)}</td>
       <td class="num">${a.talk == null ? "—" : hm(a.talk)}</td><td class="num ${kcls(a.talkPer, K.talkPerDay)}">${a.talkPer == null ? "—" : hm(a.talkPer)}</td><td class="num ${kcls(a.callsPer, K.callsPerDay)}">${fmt1(a.callsPer)}</td>
       <td class="num">${fmt(a.aov)}</td><td class="num">${fmt(a.newCust)}</td></tr>`;
   };
   const body = S.cfg.teams.map(t => row(esc(t.name), teamAv(t, 30), num(t.target) || 0, teamPred(t.id))).join("") + row("รวมทั้งหมด", "", totalTarget(), allPred, "total");
   return `<div class="ph"><div><h1>KPI รายทีม</h1><p>${esc(P.title)} · ค่าต่อคนต่อวันคิดจากวันที่มีการกรอกจริง</p></div></div>
-    <div class="panel scroll"><table><thead><tr><th>ทีม</th><th>ยอดขาย</th><th>% เป้า</th><th>โทร</th><th>ได้คุย</th><th>คุยจบ</th><th>ปิด</th><th>%ติดต่อได้</th><th>%คุยจบ</th><th>%Con</th><th>Talktime</th><th>Talktime<br>/คน/วัน</th><th>โทร<br>/คน/วัน</th><th>ยอดเฉลี่ย<br>/ออเดอร์</th><th>ลูกค้าใหม่</th></tr></thead><tbody>${body}</tbody></table></div>
+    <div class="panel scroll"><table><thead><tr><th>ทีม</th><th>ยอดขาย</th><th>% เป้า</th><th>ยอดใหม่</th><th>ยอดเก่า</th><th>โทร</th><th>ได้คุย</th><th>คุยจบ</th><th>ออเดอร์</th><th>%ติดต่อได้</th><th>%คุยจบ</th><th>%Con</th><th>%Con ใหม่</th><th>%Con เก่า</th><th>Talktime</th><th>Talktime<br>/คน/วัน</th><th>โทร<br>/คน/วัน</th><th>ยอดเฉลี่ย<br>/ออเดอร์</th><th>ลูกค้าใหม่</th></tr></thead><tbody>${body}</tbody></table></div>
     ${kpiNote()}
     <p class="hint">วิธีคิด: %ติดต่อได้ = ได้คุย ÷ โทร, %คุยจบ = คุยจบ ÷ ได้คุย, %Con = ปิด ÷ คุยจบ</p>`;
 }
@@ -1052,15 +1103,38 @@ function pageSummary() {
 }
 
 /* ---------- voices ---------- */
+let voiceBusy = false;
+async function saveVoiceCfg(mut, okMsg) {
+  if (voiceBusy) return; voiceBusy = true;
+  try {
+    const cfg = clone(S.cfg); mut(cfg);
+    await apiWrite({ action: "saveConfig", month: S.month, config: JSON.stringify(cfg) });
+    S.cfg = normCfg(cfg); S.replyKey = null; render(); toast(okMsg);
+  } catch (e) { toast(errText(e)); } finally { voiceBusy = false; }
+}
 function pageVoices() {
   const P = periodInfo();
   const wset = new Set(S.cal.weeks.filter(w => w.days.some(d => P.days.includes(d))).map(w => w.id));
   const cols = [["problem", "ปัญหา / อุปสรรค", "var(--miss)"], ["help", "อยากให้หัวหน้าช่วย", "var(--near)"], ["plan", "แผนสัปดาห์หน้า", "var(--hit)"], ["highlight", "จุดเด่น", "var(--accent)"]];
   const list = Object.values(S.notes).filter(n => wset.has(n.week));
+  const admin = S.role === "admin";
   const html = cols.map(([f, h, c]) => {
     const items = list.filter(n => String(n[f] || "").trim()).sort((a, b) => String(a.week).localeCompare(String(b.week))).map(n => {
       const t = teamById(n.team) || { id: n.team, name: n.team };
-      return `<div class="note">${teamAv(t, 34)}<div><b>${esc(t.name)}</b> <small>${esc(n.week)}${n.updatedBy ? " · " + esc(n.updatedBy) : ""}</small><p>${esc(n[f])}</p></div></div>`;
+      const k = `${n.week}__${n.team}__${f}`, rp = S.cfg.replies[k];
+      let extra = "";
+      if (f === "problem" || f === "help") {
+        if (rp) extra += `<div class="reply"><b>💬 หัวหน้าตอบ${rp.at ? ` · ${esc(dShort(rp.at))}` : ""}</b><p>${esc(rp.text)}</p></div>`;
+        if (admin) extra += S.replyKey === k
+          ? `<div class="acts" style="flex-direction:column;align-items:stretch"><textarea class="in" id="replyTxt" rows="3" placeholder="พิมพ์คำตอบถึงซุป${esc(t.name)}">${rp ? esc(rp.text) : ""}</textarea><div class="acts" style="margin-top:0"><button class="btn primary sm" data-replysave="${esc(k)}">บันทึกคำตอบ</button><button class="btn ghost sm" data-replycancel>ยกเลิก</button></div></div>`
+          : `<div class="acts"><button class="btn ghost sm" data-reply="${esc(k)}">${rp ? "แก้คำตอบ" : "+ ตอบกลับ"}</button></div>`;
+      }
+      if (f === "plan") {
+        const ak = `${n.week}__${n.team}`, ap = S.cfg.approvals[ak];
+        if (ap) extra += `<div><span class="okbadge">✓ หัวหน้าอนุมัติแผนแล้ว${ap.at ? ` · ${esc(dShort(ap.at))}` : ""}</span></div>`;
+        if (admin) extra += `<div class="acts">${ap ? `<button class="btn ghost sm" data-unapprove="${esc(ak)}">ยกเลิกการอนุมัติ</button>` : `<button class="btn primary sm" data-approve="${esc(ak)}">✓ อนุมัติแผนสัปดาห์หน้า</button>`}</div>`;
+      }
+      return `<div class="note">${teamAv(t, 34)}<div style="flex:1"><b>${esc(t.name)}</b> <small>${esc(n.week)}${n.updatedBy ? " · " + esc(n.updatedBy) : ""}</small><p>${esc(n[f])}</p>${extra}</div></div>`;
     }).join("");
     return `<div class="panel col"><h3><i style="background:${c}"></i>${h}</h3>${items || '<p class="empty" style="padding:0">ยังไม่มีข้อความในช่วงนี้</p>'}</div>`;
   }).join("");
@@ -1145,7 +1219,13 @@ function pageAdmin() {
     <div class="panel form"><div class="frow">
       <div style="flex:1;min-width:260px"><label class="l" for="planFile">ไฟล์แผน (.json)</label><input class="in" type="file" id="planFile" accept=".json,application/json"></div>
       <div><button class="btn ghost" id="planImport">นำเข้าแผน</button></div>
-    </div><p class="hint">ทีมจับคู่ตามรหัสทีม เซลส์จับคู่ตามชื่อหรือ username ถ้าไม่เจอจะเพิ่มเป็นคนใหม่ เป้าเดือนของทีมและรายคนจะถูกแทนด้วยยอดรวมตามแผน</p></div></section>
+    </div><p class="hint">ทีมจับคู่ตามรหัสทีม เซลส์จับคู่ตามชื่อหรือ username ถ้าไม่เจอจะเพิ่มเป็นคนใหม่ เป้าเดือนของทีมและรายคนจะถูกแทนด้วยยอดรวมตามแผน</p>
+    <div style="margin-top:14px"><label class="l" for="pbiUrl">หรือฝังรายงาน Power BI แทนตารางในหน้า "เป้าตามแคมเปญ" (วางลิงก์ Embed)</label>
+    <input class="in" id="pbiUrl" data-k="pbiUrl" value="${esc((D.pbi || {}).url || "")}" placeholder="https://app.powerbi.com/view?r=... หรือ .../reportEmbed?reportId=...">
+    <p class="hint">เอาลิงก์จาก Power BI: เปิดรายงาน → ไฟล์ → ฝังรายงาน → เลือก "เผยแพร่ไปยังเว็บ (สาธารณะ)" ลิงก์ view?r=... ทุกคนเห็นได้เลย หรือเลือก "เว็บไซต์หรือพอร์ทัล" ลิงก์ reportEmbed?... ซึ่งซุปต้องล็อกอิน Microsoft ก่อนถึงจะเห็น · เว้นว่าง = ใช้ตารางจากไฟล์แผนตามเดิม</p></div>
+    <div style="margin-top:14px"><label class="l" for="hitUrl">ลิงก์ Google Sheet แดชบอร์ด "Hit Target"</label>
+    <input class="in" id="hitUrl" data-k="hitUrl" value="${esc((D.hitboard || {}).url || "")}" placeholder="https://docs.google.com/spreadsheets/d/.../edit?gid=...">
+    <p class="hint">แสดงเป็นหน้า Hit Target รีเฟรชเองทุก 1 นาที · ชีตต้องแชร์แบบ "ทุกคนที่มีลิงก์ - ผู้มีสิทธิ์ดู" ซุปถึงจะเห็นโดยไม่ต้องล็อกอิน Google</p></div></div></section>
 
   <section class="sec"><div class="sech"><div><h2>เริ่มเดือนใหม่</h2><p>คัดลอกทีม รายชื่อ เป้า และเป้า KPI ของเดือนนี้ไปตั้งต้นเดือนใหม่ ข้อมูลเดือนเก่ายังดูย้อนหลังได้</p></div></div>
     <div class="panel form"><div class="frow"><div><label class="l" for="newMonth">เดือนใหม่</label><input class="in" type="month" id="newMonth"></div><div><button class="btn ghost" id="newMonthBtn">สร้างเดือนนี้</button></div></div></div></section>
@@ -1168,6 +1248,8 @@ function readAdminInputs() {
   });
   document.querySelectorAll("[data-k]").forEach(i => {
     if (i.dataset.k === "brand") D.brand = i.value;
+    else if (i.dataset.k === "pbiUrl") D.pbi = { url: i.value.trim() };
+    else if (i.dataset.k === "hitUrl") D.hitboard = { url: i.value.trim() };
     else { const v = parseNum(i.value); if (Number.isNaN(v) || v === null) errs.push(i); else D[i.dataset.k] = v / 100; }
   });
   document.querySelectorAll("[data-kpi]").forEach(i => {
@@ -1238,7 +1320,7 @@ async function importPlan() {
   });
   J.people.forEach(jp => {
     const tid = map[jp.team] || jp.team;
-    let p = D.people.find(x => (jp.username && x.username === jp.username) || norm(x.name) === norm(jp.name));
+    let p = D.people.find(x => jp.username && x.username === jp.username) || D.people.find(x => x.team === tid && norm(x.name) === norm(jp.name));
     if (!p) { p = { id: uid("p"), name: jp.name, team: tid, active: true }; D.people.push(p); addP++; } else updP++;
     p.team = tid; p.username = jp.username || p.username || ""; p.plan = jp.plan;
     p.target = Math.round(planCalc(jp.plan).sales); p.active = jp.active !== false;
@@ -1247,7 +1329,7 @@ async function importPlan() {
   toast(`นำเข้าแล้ว: เพิ่มเซลส์ใหม่ ${addP} คน อัปเดต ${updP} คน${addT ? ` เพิ่มทีม ${addT} ทีม` : ""} ตรวจแล้วกดบันทึกการตั้งค่า`);
 }
 function downloadCsv() {
-  const head = ["วันที่", "ทีม", "เซลส์", "ยอดขาย", "โทรออก", "ได้คุย", "คุยจบ", "ปิดการขาย", "Talktime (ชม.)", "ลูกค้าใหม่"];
+  const head = ["วันที่", "ทีม", "เซลส์", "ยอดใหม่", "ออเดอร์ใหม่", "ยอดเก่า", "ออเดอร์เก่า", "ยอดขายรวม", "โทรออก", "ได้คุย", "คุยจบ", "จำนวนออเดอร์", "Talktime (ชม.)", "ลูกค้าใหม่"];
   const rows = Object.values(S.daily).sort((a, b) => (a.date + a.team).localeCompare(b.date + b.team)).map(r => [
     r.date, (teamById(r.team) || {}).name || r.team, (personById(r.person) || {}).name || r.person, ...NUMF.map(f => num(r[f]) ?? "")]);
   const csv = "\ufeff" + [head, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
@@ -1431,6 +1513,16 @@ page.addEventListener("click", e => {
   if (x.closest("#saveEntry")) { saveEntry(); return; }
   const gt = x.closest("[data-goto]"); if (gt) { e.preventDefault(); go(gt.dataset.goto); return; }
   const plt = x.closest("[data-planteam]"); if (plt) { S.planTeam = plt.dataset.planteam; render(); return; }
+  const cu = x.closest("[data-cuteam]"); if (cu) { S.cuTeam = cu.dataset.cuteam; render(); return; }
+  const rb = x.closest("[data-reply]"); if (rb) { S.replyKey = rb.dataset.reply; render(); $("replyTxt")?.focus(); return; }
+  if (x.closest("[data-replycancel]")) { S.replyKey = null; render(); return; }
+  const rs = x.closest("[data-replysave]");
+  if (rs) { const k = rs.dataset.replysave, txt = ($("replyTxt")?.value || "").trim();
+    saveVoiceCfg(cfg => { if (txt) cfg.replies[k] = { text: txt, at: todayStr() }; else delete cfg.replies[k]; }, txt ? "ตอบกลับแล้ว ซุปจะเห็นในหน้านี้" : "ลบคำตอบแล้ว"); return; }
+  const apv = x.closest("[data-approve]");
+  if (apv) { saveVoiceCfg(cfg => { cfg.approvals[apv.dataset.approve] = { at: todayStr() }; }, "อนุมัติแผนแล้ว"); return; }
+  const uapv = x.closest("[data-unapprove]");
+  if (uapv) { saveVoiceCfg(cfg => { delete cfg.approvals[uapv.dataset.unapprove]; }, "ยกเลิกการอนุมัติแล้ว"); return; }
   const pt = x.closest("[data-pteam]"); if (pt) { S.peopleTeam = pt.dataset.pteam; render(); return; }
   const so = x.closest("[data-sort]"); if (so) { const k = so.dataset.sort; S.sort = { k, d: S.sort.k === k ? -S.sort.d : -1 }; render(); return; }
   const sm = x.closest("[data-smode]"); if (sm) { S.sumMode = sm.dataset.smode; render(); return; }
@@ -1456,7 +1548,6 @@ page.addEventListener("click", e => {
   const de = x.closest("[data-delev]"); if (de) { readAdminInputs(); S.draft.events = (S.draft.events || []).filter(ev => ev.id !== de.dataset.delev); adminMark(); render(); return; }
   if (x.closest("#addTier")) { readAdminInputs(); S.draft.inc = S.draft.inc || { first: 500, tiers: [] }; S.draft.inc.tiers.push([0, 0]); adminMark(); render(); return; }
   const dti = x.closest("[data-delti]"); if (dti) { readAdminInputs(); S.draft.inc.tiers.splice(+dti.dataset.delti, 1); adminMark(); render(); return; }
-  const cu = x.closest("[data-cuteam]"); if (cu) { S.cuTeam = cu.dataset.cuteam; render(); return; }
   if (x.closest("#csvBtn")) { downloadCsv(); return; }
 });
 page.addEventListener("input", e => {
