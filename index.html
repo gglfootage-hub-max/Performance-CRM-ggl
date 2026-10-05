@@ -49,7 +49,14 @@ img{max-width:100%}
 [hidden]{display:none!important}
 
 /* ---------- shell ---------- */
-.app{display:grid;grid-template-columns:268px minmax(0,1fr);min-height:100%}
+.app{display:grid;grid-template-columns:268px minmax(0,1fr);min-height:100%;transition:grid-template-columns .25s ease}
+body.sideHid .app{grid-template-columns:0 minmax(0,1fr)}
+body.sideHid .side{visibility:hidden;padding:0;overflow:hidden}
+.sideToggle{position:fixed;top:14px;left:14px;z-index:72;width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:none;place-items:center;cursor:pointer;box-shadow:0 4px 14px rgba(20,4,50,.14)}
+.sideToggle svg{width:18px;height:18px}
+body.sideHid .sideToggle{display:grid}
+.sideClose{margin-left:auto;width:30px;height:30px;border-radius:9px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.18);color:#fff;display:grid;place-items:center;cursor:pointer;padding:0}
+.sideClose svg{width:14px;height:14px}
 .side{position:sticky;top:0;height:100vh;height:100dvh;overflow:auto;background:linear-gradient(185deg,var(--brand) -40%,var(--brand-deep) 45%,color-mix(in srgb,var(--brand-deep) 70%,#000) 100%);color:#fff;padding:20px 16px calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:16px}
 .logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:19px;padding:0 6px}
 .logo svg{width:26px;height:26px}
@@ -311,7 +318,12 @@ dialog::backdrop{background:rgba(20,8,36,.6)}
   .fstep{grid-template-columns:70px 1fr 74px;gap:10px}
 }
 /* bell & notifications */
-.bell{position:fixed;top:14px;right:18px;z-index:70}
+.bell{position:fixed;top:14px;right:18px;z-index:70;display:flex;align-items:center;gap:6px;transition:transform .25s ease}
+.bell.hid{transform:translateX(calc(100% - 26px))}
+.bell.hid .bellbtn{opacity:.35;pointer-events:none}
+.bellhide{width:20px;height:44px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--muted);display:grid;place-items:center;cursor:pointer;padding:0}
+.bellhide svg{width:13px;height:13px;transition:transform .25s}
+.bell.hid .bellhide svg{transform:rotate(180deg)}
 .bellbtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 14px rgba(20,4,50,.14);position:relative}
 .bellbtn svg{width:21px;height:21px}
 .bellbtn .bdg{position:absolute;top:-4px;right:-4px;min-width:19px;height:19px;border-radius:10px;background:#D92D20;color:#fff;font-size:11.5px;font-weight:700;display:grid;place-items:center;padding:0 5px}
@@ -323,6 +335,21 @@ dialog::backdrop{background:rgba(20,8,36,.6)}
 .nitem b{font-size:13.5px}
 .nitem small{display:block;color:var(--muted);margin-top:2px;line-height:1.5}
 .nitem.warn .ic{background:#FEF0C7}.nitem.bad .ic{background:#FEE4E2}.nitem.good .ic{background:#D1FADF}
+.figs .fig strong{font-size:clamp(19px,2vw,28px);letter-spacing:-.3px}
+.kpigrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:14px;margin-bottom:22px}
+.kcard{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px 18px}
+.khead{display:flex;align-items:center;gap:11px;margin-bottom:6px}
+.khead small{display:block;color:var(--muted);font-size:12px}
+.kbig{font-size:25px;font-weight:700;margin:2px 0 2px}
+.kbig small{font-size:13px;font-weight:500;color:var(--muted)}
+.ksub{font-size:12px;color:var(--muted);margin-bottom:8px}
+.krow{display:grid;grid-template-columns:92px 1fr 118px;gap:9px;align-items:center;padding:5px 0}
+.krow .kl{font-size:12.5px;color:var(--muted);white-space:nowrap}
+.krow .kbar{height:8px;border-radius:5px;background:var(--track);overflow:hidden}
+.krow .kbar i{display:block;height:100%;border-radius:5px}
+.krow .kv{text-align:right;font-weight:600;font-size:13.5px;line-height:1.25}
+.krow .kv small{display:block;font-weight:400;color:var(--muted);font-size:10.5px}
+.kdetails summary{cursor:pointer;color:var(--brand-deep);font-weight:600;padding:4px 0}
 .sumgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px}
 .sumtile{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:3px;box-shadow:var(--shadow,0 1px 2px rgba(20,4,50,.06))}
 .sumtile small{color:var(--muted);font-size:12.5px}
@@ -341,10 +368,12 @@ dialog::backdrop{background:rgba(20,8,36,.6)}
 </head>
 <body>
 <div class="app">
+  <button class="sideToggle" id="sideOpen" aria-label="เปิดเมนู" title="เปิดเมนู"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
   <aside class="side" aria-label="เมนู">
     <div class="logo">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V4"/><path d="M4 4h12l-2 4 2 4H4"/></svg>
       Performance CRM ggl
+      <button class="sideClose" id="sideHideBtn" aria-label="ซ่อนเมนู" title="ซ่อนเมนู"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="15 5 8 12 15 19"/></svg></button>
     </div>
     <div><span class="sl">เดือน</span><select id="monthSel" aria-label="เลือกเดือน"></select></div>
     <div id="periodBox">
@@ -361,7 +390,7 @@ dialog::backdrop{background:rgba(20,8,36,.6)}
     </div>
   </aside>
   <main class="main">
-    <div class="bell"><button class="bellbtn" id="bellBtn" aria-label="การแจ้งเตือน" aria-haspopup="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="bdg" id="bellBadge" hidden></span></button><div class="bellpanel" id="bellPanel" hidden></div></div>
+    <div class="bell" id="bellWrap"><button class="bellhide" id="bellHide" aria-label="ซ่อน/แสดงกระดิ่ง" title="ซ่อน/แสดงกระดิ่ง"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><polyline points="9 5 16 12 9 19"/></svg></button><button class="bellbtn" id="bellBtn" aria-label="การแจ้งเตือน" aria-haspopup="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="bdg" id="bellBadge" hidden></span></button><div class="bellpanel" id="bellPanel" hidden></div></div>
     <div class="notice" id="notice" role="alert" hidden></div>
     <div id="page"></div>
   </main>
@@ -397,7 +426,7 @@ const ICON = {
   hit: '<path d="M12 2l2.9 6.26 6.9 1.01-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14l-5-4.87 6.9-1.01z"/>',
   inc: '<circle cx="12" cy="8" r="6"/><path d="M15.5 13 17 22l-5-3-5 3L8.5 13"/>',
   catchup: '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
-  plan: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/>',
+  lists: '<circle cx="6" cy="5" r="2.6"/><circle cx="18" cy="5" r="2.6"/><circle cx="12" cy="19" r="2.6"/><path d="M7.2 7.4 10.8 16.6M16.8 7.4 13.2 16.6"/>',
   people: '<circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M17 4a4 4 0 0 1 0 8"/><path d="M22 21a6 6 0 0 0-4-5.6"/>',
   kpi: '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-6"/>',
   summary: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 10h18"/><path d="M9 4v17"/>',
@@ -405,16 +434,16 @@ const ICON = {
   admin: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'
 };
 const PAGES = [
-  ["dash", "ภาพรวม"], ["entry", "กรอกผลรายวัน"], ["plan", "เป้าตามแคมเปญ"], ["catchup", "แผนเป้าทบ"], ["inc", "Incentive"], ["hit", "Daily Sales Tracking"], ["people", "รายคน"], ["kpi", "KPI รายทีม"],
+  ["dash", "ภาพรวม"], ["entry", "กรอกผลรายวัน"], ["lists", "กระจายรายชื่อ"], ["catchup", "แผนเป้าทบ"], ["inc", "Incentive"], ["hit", "Daily Sales Tracking"], ["people", "รายคน"], ["kpi", "KPI รายทีม"],
   ["summary", "สรุปตามช่วงเวลา"], ["voices", "เสียงจากซุป"], ["admin", "ตั้งค่า (แอดมิน)"]
 ];
 
 const S = {
   month: null, months: [], cfg: null, cal: null, role: null,
   daily: {}, notes: {}, photos: {},
-  page: "dash", ptype: "week", week: 0, day: null,
+  page: "dash", ptype: "day", week: 0, day: null,
   entryTeam: null, entryDate: null, dirty: false,
-  peopleTeam: "all", planTeam: null, cuTeam: null, replyKey: null, sort: { k: "p", d: -1 }, sumMode: "team",
+  peopleTeam: "all", planTeam: null, cuTeam: null, listsTeam: null, replyKey: null, sort: { k: "p", d: -1 }, sumMode: "team",
   draft: null, mode: "connecting"
 };
 let code = ""; try { code = localStorage.getItem(CODE_KEY) || ""; } catch (e) {}
@@ -425,7 +454,7 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": 
 const num = v => { if (v === null || v === undefined || v === "") return null; const n = Number(v); return isFinite(n) ? n : null; };
 const fmt = n => n == null || !isFinite(n) ? "—" : Math.round(n).toLocaleString("th-TH");
 const fmt1 = n => n == null || !isFinite(n) ? "—" : n.toLocaleString("th-TH", { maximumFractionDigits: 1 });
-const fmtM = n => (n / 1e6).toLocaleString("th-TH", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " ล้าน";
+const fmtM = n => fmt(n); // แสดงตัวเลขเต็มพร้อมคอมมา ไม่ย่อเป็นล้าน
 const pct = p => p == null || !isFinite(p) ? "—" : (p * 100).toLocaleString("th-TH", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + "%";
 const hm = h => { if (h == null || !isFinite(h)) return "—"; const m = Math.round(h * 60); return Math.floor(m / 60) + ":" + String(m % 60).padStart(2, "0"); };
 const isHex = v => typeof v === "string" && /^#[0-9a-fA-F]{6}$/.test(v);
@@ -713,7 +742,7 @@ function render() {
   document.title = "Performance CRM ggl · " + thMonth(S.month);
   renderBell(); if ($("bellPanel") && !$("bellPanel").hidden) renderBellPanel();
   renderSide();
-  const f = { dash: pageDash, entry: pageEntry, plan: pagePlan, catchup: pageCatchup, inc: pageInc, hit: pageHit, people: pagePeople, kpi: pageKpi, summary: pageSummary, voices: pageVoices, admin: pageAdmin }[S.page];
+  const f = { dash: pageDash, entry: pageEntry, lists: pageLists, catchup: pageCatchup, inc: pageInc, hit: pageHit, people: pagePeople, kpi: pageKpi, summary: pageSummary, voices: pageVoices, admin: pageAdmin }[S.page];
   $("page").innerHTML = f();
   afterRender();
 }
@@ -975,6 +1004,46 @@ function pagePlan() {
     <div class="panel scroll"><table><thead><tr><th>เซลส์</th>${camps.map(c => `<th style="white-space:normal;min-width:92px">${esc(c)}</th>`).join("")}<th>รายชื่อ<br>ที่ต้องโทร</th><th>ออเดอร์<br>รวม</th><th>ยอดขาย<br>เป้า</th><th>ยอดจริง</th><th>% เป้า</th></tr></thead><tbody>${body}</tbody></table></div></section>`;
 }
 
+/* ---------- กระจายรายชื่อ ---------- */
+function pageLists() {
+  const camps = S.cfg.campaigns || [];
+  const head = `<div class="ph"><div><h1>กระจายรายชื่อ</h1><p>`;
+  if (!camps.length) return head + `รายชื่อใหม่ที่แจกต่อคนต่อทีม และผลปิดชื่อใหม่</p></div></div><div class="panel"><p class="empty">ยังไม่มีแผนแคมเปญ ${S.role === "admin" ? 'นำเข้าไฟล์แผนได้ที่ <a href="#" data-goto="admin">หน้าตั้งค่า</a>' : "รอแอดมินนำเข้าแผน"}</p></div>`;
+  const ni = camps.findIndex(c => String(c).includes("ลูกค้าใหม่"));
+  const NI = ni >= 0 ? ni : 0, totalW = S.cal.total || 1;
+  const allDays = S.cal.days.map(d => d.ds);
+  const listOf = x => hasPlan(x) && x.plan[NI] ? num(x.plan[NI][0]) || 0 : 0;
+  const listAll = x => hasPlan(x) ? planCalc(x.plan).list : 0;
+  const planConNew = x => hasPlan(x) && x.plan[NI] ? num(x.plan[NI][2]) || 0 : 0;
+  const row = (label, av, plList, plAll, pCon, a, cls = "") => {
+    const used = a.newCust, closedP = a.newCust ? (a.newOrders || 0) / a.newCust : null;
+    return `<tr class="${cls}"><td><span class="tn">${av}<span>${label}</span></span></td>
+      <td class="num"><b>${fmt(plList)}</b></td><td class="num">${fmt1(plList / totalW)}</td><td class="num">${fmt(plAll)}</td>
+      <td class="num">${fmt(used)}</td><td class="num">${plList ? pct(Math.min(1.5, (used || 0) / plList)) : "—"}</td>
+      <td class="num">${fmt(a.newOrders)}</td>
+      <td class="num"><b>${pct(closedP)}</b>${pCon ? `<br><small>แผน ${pct(pCon)}</small>` : ""}</td>
+      <td class="num">${fmt(a.newSales)}</td></tr>`;
+  };
+  const headRow = `<thead><tr><th></th><th>รายชื่อใหม่<br>ตามแผน/เดือน</th><th>เฉลี่ย<br>/วัน</th><th>รายชื่อรวม<br>ทุกแคมเปญ</th><th>คุยแล้ว<br>(ลูกค้าใหม่)</th><th>% ใช้<br>รายชื่อ</th><th>ออเดอร์<br>ใหม่</th><th>% ปิด<br>ชื่อใหม่</th><th>ยอดขาย<br>ลูกค้าใหม่</th></tr></thead>`;
+  const teamRows = S.cfg.teams.map(t => {
+    const ppl = S.cfg.people.filter(p => p.team === t.id && p.active !== false);
+    const plList = hasPlan(t) ? listOf(t) : ppl.reduce((x, p) => x + listOf(p), 0);
+    const plAll = hasPlan(t) ? listAll(t) : ppl.reduce((x, p) => x + listAll(p), 0);
+    return row(`${esc(t.name)}${t.sup ? `<br><small>ซุป ${esc(t.sup)}</small>` : ""}`, teamAv(t, 30), plList, plAll, planConNew(t), agg(allDays, teamPred(t.id)));
+  }).join("") + row("รวมทุกทีม", "", S.cfg.teams.reduce((x, t) => x + (hasPlan(t) ? listOf(t) : 0), 0), S.cfg.teams.reduce((x, t) => x + (hasPlan(t) ? listAll(t) : 0), 0), 0, agg(allDays, allPred), "total");
+  const tsel = S.cfg.teams;
+  if (!S.listsTeam || !tsel.some(x => x.id === S.listsTeam)) S.listsTeam = tsel[0] && tsel[0].id;
+  const tm = teamById(S.listsTeam);
+  const pplRows = S.cfg.people.filter(p => p.team === tm.id && p.active !== false)
+    .map(p => row(`${esc(p.name)}${p.username ? `<br><small>${esc(p.username)}</small>` : ""}`, personAv(p, 30), listOf(p), listAll(p), planConNew(p), agg(allDays, personPred(p.id)))).join("");
+  return head + `แคมเปญ "${esc(camps[NI] || "ลูกค้าใหม่")}" · ตัวเลขแผนจากไฟล์แผนแคมเปญ ผลจริงสะสมทั้งเดือนจากที่ซุปกรอกรายวัน</p></div></div>
+    <section class="sec"><div class="sech"><div><h2>รายทีม</h2><p>% ปิดชื่อใหม่ = ออเดอร์ใหม่ ÷ ลูกค้าใหม่ที่คุยแล้ว เทียบกับ %Con ตามแผน</p></div></div>
+    <div class="panel scroll"><table>${headRow}<tbody>${teamRows}</tbody></table></div></section>
+    <section class="sec"><div class="sech"><div><h2>รายคน</h2></div></div>
+    <div class="chips">${tsel.map(x => `<button data-liteam="${esc(x.id)}" aria-pressed="${x.id === tm.id}">${esc(x.name)}</button>`).join("")}</div>
+    <div class="panel scroll"><table>${headRow}<tbody>${pplRows || '<tr><td colspan="9" class="empty">ทีมนี้ยังไม่มีรายชื่อเซลส์</td></tr>'}</tbody></table></div></section>`;
+}
+
 /* ---------- catch-up plan ---------- */
 function pageCatchup() {
   const t = todayStr(), totalW = S.cal.total || 1;
@@ -1181,6 +1250,38 @@ function kpiNote() {
 /* ---------- kpi teams ---------- */
 function pageKpi() {
   const P = periodInfo(), K = S.cfg.kpi;
+  const all = agg(P.days, allPred), allR = perf(totalTarget(), P.days, allPred);
+  const perDay = (v, a) => v == null || !a.pdays ? null : v / a.pdays;
+  const bar = (v, tgt, fmtF, label) => {
+    const has = v != null, p = has && tgt ? Math.min(1.3, v / tgt) : null;
+    const col = p == null ? "var(--brand)" : p >= 1 ? "#12B76A" : p >= .9 ? "#F79009" : "#F04438";
+    return `<div class="krow"><span class="kl">${label}</span>
+      <span class="kbar"><i style="width:${has ? Math.min(100, (p == null ? .6 : p) * 100) : 0}%;background:${col}"></i></span>
+      <span class="kv num">${has ? fmtF(v) : "—"}${tgt ? `<small>เป้า ${fmtF(tgt)}</small>` : ""}</span></div>`;
+  };
+  const tile = (t, v, sub) => `<div class="sumtile"><small>${t}</small><strong class="num">${v}</strong><span class="num">${sub || ""}</span></div>`;
+  const tiles = `<div class="sumgrid" style="margin-bottom:22px">
+    ${tile("💰 ยอดขายรวม", fmt(allR.sales) + " บ.", allR.p == null ? "" : pct(allR.p) + " ของเป้าถึงวันนี้")}
+    ${tile("📞 โทรออกรวม", fmt(all.calls), all.callsPer != null ? "เฉลี่ย " + fmt1(all.callsPer) + " สาย/คน/วัน" : "")}
+    ${tile("🗣 ได้คุยรวม", fmt(all.reached), perDay(all.reached, all) != null ? "เฉลี่ย " + fmt1(perDay(all.reached, all)) + " /คน/วัน" : "")}
+    ${tile("⏱ Talktime รวม", all.talk == null ? "—" : hm(all.talk), all.talkPer != null ? "เฉลี่ย " + hm(all.talkPer) + " /คน/วัน" : "")}
+    ${tile("🧾 ออเดอร์รวม", fmt(all.closed), "%Con " + pct(all.rCon))}
+  </div>`;
+  const cards = S.cfg.teams.map(t => {
+    const a = agg(P.days, teamPred(t.id)), r = perf(num(t.target) || 0, P.days, teamPred(t.id));
+    const salesPer = perDay(a.sales, a), reachPer = perDay(a.reached, a);
+    return `<div class="kcard">
+      <div class="khead">${teamAv(t, 44)}<div><b>${esc(t.name)}</b><small>${t.sup ? "ซุป " + esc(t.sup) : ""}${a.pdays ? ` · กรอก ${a.pdays} คน-วัน` : ""}</small></div>
+        <span class="chip ${r.status}" style="margin-left:auto">${r.p == null ? "รอกรอก" : pct(r.p)}</span></div>
+      <div class="kbig num">${fmt(r.sales)} <small>บาท</small></div>
+      <div class="ksub">เฉลี่ยต่อคนต่อวัน (เทียบเป้า KPI)</div>
+      ${bar(a.callsPer, num(K.callsPerDay), v => fmt1(v) + " สาย", "📞 โทร")}
+      ${bar(reachPer, null, v => fmt1(v) + " คน", "🗣 ได้คุย")}
+      ${bar(a.talkPer, num(K.talkPerDay), v => hm(v), "⏱ Talktime")}
+      ${bar(salesPer, null, v => fmt(v) + " บ.", "💰 ยอดขาย")}
+      <div class="krow"><span class="kl">🎯 %Con</span><span class="kbar"><i style="width:${a.rCon != null ? Math.min(100, a.rCon / (num(K.rCon) || 1) * 100) : 0}%;background:${a.rCon == null ? "var(--brand)" : num(K.rCon) && a.rCon >= num(K.rCon) ? "#12B76A" : "#F04438"}"></i></span><span class="kv num">${pct(a.rCon)}${num(K.rCon) ? `<small>เป้า ${pct(num(K.rCon))}</small>` : ""}</span></div>
+    </div>`;
+  }).join("");
   const row = (name, avHtml, m, pred, cls = "") => {
     const r = perf(m, P.days, pred), a = r.a;
     return `<tr class="${cls}"><td><span class="tn">${avHtml}${name}</span></td><td class="num">${fmt(r.sales)}</td><td><span class="chip ${r.status}">${r.p == null ? "รอกรอก" : pct(r.p)}</span></td>
@@ -1192,9 +1293,12 @@ function pageKpi() {
   };
   const body = S.cfg.teams.map(t => row(esc(t.name), teamAv(t, 30), num(t.target) || 0, teamPred(t.id))).join("") + row("รวมทั้งหมด", "", totalTarget(), allPred, "total");
   return `<div class="ph"><div><h1>KPI รายทีม</h1><p>${esc(P.title)} · ค่าต่อคนต่อวันคิดจากวันที่มีการกรอกจริง</p></div></div>
-    <div class="panel scroll"><table><thead><tr><th>ทีม</th><th>ยอดขาย</th><th>% เป้า</th><th>ยอดใหม่</th><th>ยอดเก่า</th><th>โทร</th><th>ได้คุย</th><th>คุยจบ</th><th>ออเดอร์</th><th>%ติดต่อได้</th><th>%คุยจบ</th><th>%Con</th><th>%Con ใหม่</th><th>%Con เก่า</th><th>Talktime</th><th>Talktime<br>/คน/วัน</th><th>โทร<br>/คน/วัน</th><th>ยอดเฉลี่ย<br>/ออเดอร์</th><th>ลูกค้าใหม่</th></tr></thead><tbody>${body}</tbody></table></div>
+    ${tiles}
+    <div class="kpigrid">${cards}</div>
+    <details class="kdetails"><summary>ตารางตัวเลขละเอียดทุกคอลัมน์</summary>
+    <div class="panel scroll" style="margin-top:12px"><table><thead><tr><th>ทีม</th><th>ยอดขาย</th><th>% เป้า</th><th>ยอดใหม่</th><th>ยอดเก่า</th><th>โทร</th><th>ได้คุย</th><th>คุยจบ</th><th>ออเดอร์</th><th>%ติดต่อได้</th><th>%คุยจบ</th><th>%Con</th><th>%Con ใหม่</th><th>%Con เก่า</th><th>Talktime</th><th>Talktime<br>/คน/วัน</th><th>โทร<br>/คน/วัน</th><th>ยอดเฉลี่ย<br>/ออเดอร์</th><th>ลูกค้าใหม่</th></tr></thead><tbody>${body}</tbody></table></div></details>
     ${kpiNote()}
-    <p class="hint">วิธีคิด: %ติดต่อได้ = ได้คุย ÷ โทร, %คุยจบ = คุยจบ ÷ ได้คุย, %Con = ปิด ÷ คุยจบ</p>`;
+    <p class="hint">วิธีคิด: %ติดต่อได้ = ได้คุย ÷ โทร, %คุยจบ = คุยจบ ÷ ได้คุย, %Con = ปิด ÷ คุยจบ · แถบเขียว = ถึงเป้า เหลือง = ใกล้ แดง = ต่ำกว่าเป้า</p>`;
 }
 
 /* ---------- summary ---------- */
@@ -1521,6 +1625,9 @@ async function load(month, silent) {
       S.day = defaultDay(); S.week = weekOf(S.day); S.entryDate = S.day;
     }
     if (S.week >= S.cal.weeks.length) S.week = 0;
+    // เปิดมาให้เป็นเดือนปัจจุบันอัตโนมัติ ถ้ามีข้อมูลเดือนนั้นอยู่
+    const cm = todayStr().slice(0, 7);
+    if (!month && !S.autoMonthDone) { S.autoMonthDone = true; if (S.months.includes(cm) && S.month !== cm) { loading = false; return load(cm); } }
     setSync(API ? "live" : "local");
     if (S.page === "entry" && S.dirty && silent) return;      // อย่าเขียนทับตอนซุปกำลังพิมพ์
     if (S.page === "admin" && S.adminDirty && silent) return;
@@ -1602,6 +1709,17 @@ $("picker").addEventListener("click", e => {
 $("monthSel").addEventListener("change", e => { if (!leaveGuard()) { e.target.value = S.month; return; } load(e.target.value); });
 $("switchBtn").addEventListener("click", () => askCode("", "ใส่รหัสใหม่ ซุปใช้รหัสทีม แอดมินใช้รหัสแอดมิน"));
 $("bellBtn").addEventListener("click", e => { e.stopPropagation(); const bp = $("bellPanel"); bp.hidden = !bp.hidden; if (!bp.hidden) renderBellPanel(); });
+$("bellHide").addEventListener("click", e => {
+  e.stopPropagation();
+  const w = $("bellWrap"), hid = w.classList.toggle("hid");
+  if (hid) $("bellPanel").hidden = true;
+  try { localStorage.setItem("salesRace.bellHid", hid ? "1" : ""); } catch (err) {}
+});
+try { if (localStorage.getItem("salesRace.bellHid") === "1") $("bellWrap").classList.add("hid"); } catch (err) {}
+const sideSet = h => { document.body.classList.toggle("sideHid", h); try { localStorage.setItem("salesRace.sideHid", h ? "1" : ""); } catch (err) {} };
+$("sideHideBtn").addEventListener("click", () => sideSet(true));
+$("sideOpen").addEventListener("click", () => sideSet(false));
+try { if (localStorage.getItem("salesRace.sideHid") === "1") sideSet(true); } catch (err) {}
 document.addEventListener("click", e => { const bp = $("bellPanel"); if (bp && !bp.hidden && !e.target.closest(".bell")) bp.hidden = true; });
 $("gCancel").addEventListener("click", () => { $("gate").close(); S.wantAdmin = false; });
 $("gate").addEventListener("cancel", ev => { if (!S.cfg) ev.preventDefault(); });
@@ -1627,6 +1745,7 @@ page.addEventListener("click", e => {
   const gt = x.closest("[data-goto]"); if (gt) { e.preventDefault(); go(gt.dataset.goto); return; }
   const plt = x.closest("[data-planteam]"); if (plt) { S.planTeam = plt.dataset.planteam; render(); return; }
   const cu = x.closest("[data-cuteam]"); if (cu) { S.cuTeam = cu.dataset.cuteam; render(); return; }
+  const li = x.closest("[data-liteam]"); if (li) { S.listsTeam = li.dataset.liteam; render(); return; }
   const rb = x.closest("[data-reply]"); if (rb) { S.replyKey = rb.dataset.reply; render(); $("replyTxt")?.focus(); return; }
   if (x.closest("[data-replycancel]")) { S.replyKey = null; render(); return; }
   const rs = x.closest("[data-replysave]");
