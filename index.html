@@ -323,6 +323,11 @@ dialog::backdrop{background:rgba(20,8,36,.6)}
 .nitem b{font-size:13.5px}
 .nitem small{display:block;color:var(--muted);margin-top:2px;line-height:1.5}
 .nitem.warn .ic{background:#FEF0C7}.nitem.bad .ic{background:#FEE4E2}.nitem.good .ic{background:#D1FADF}
+.sumgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px}
+.sumtile{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:3px;box-shadow:var(--shadow,0 1px 2px rgba(20,4,50,.06))}
+.sumtile small{color:var(--muted);font-size:12.5px}
+.sumtile strong{font-size:22px;line-height:1.2}
+.sumtile>span{color:var(--muted);font-size:12px;min-height:15px}
 .reply{margin-top:9px;padding:9px 12px;border-radius:10px;background:var(--soft);border-left:3px solid var(--brand)}
 .reply b{font-size:12px;color:var(--brand-deep)}
 .reply p{margin:3px 0 0;white-space:pre-wrap}
@@ -400,7 +405,7 @@ const ICON = {
   admin: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'
 };
 const PAGES = [
-  ["dash", "ภาพรวม"], ["entry", "กรอกผลรายวัน"], ["plan", "เป้าตามแคมเปญ"], ["catchup", "แผนเป้าทบ"], ["inc", "Incentive"], ["hit", "Hit Target"], ["people", "รายคน"], ["kpi", "KPI รายทีม"],
+  ["dash", "ภาพรวม"], ["entry", "กรอกผลรายวัน"], ["plan", "เป้าตามแคมเปญ"], ["catchup", "แผนเป้าทบ"], ["inc", "Incentive"], ["hit", "Daily Sales Tracking"], ["people", "รายคน"], ["kpi", "KPI รายทีม"],
   ["summary", "สรุปตามช่วงเวลา"], ["voices", "เสียงจากซุป"], ["admin", "ตั้งค่า (แอดมิน)"]
 ];
 
@@ -742,7 +747,26 @@ function pageDash() {
     <div class="htrack"><span class="track" data-track="${w},${pace}"><span class="fill"></span><span class="pace"></span><span class="runner">${runnerSvg}</span></span>
       <div class="hcap"><span>เส้นประ = จุดที่ควรไปถึงวันนี้</span><span>${tot.el}/${P.days.length} วันทำงานผ่านไปแล้ว</span></div></div>
   </section>`;
-  return hero + starsHtml(P) + (P.days.length > 1 ? chartHtml(P) : "") + lanesHtml(P) + funnelHtml(P);
+  return hero + sumHtml(P) + starsHtml(P) + (P.days.length > 1 ? chartHtml(P) : "") + lanesHtml(P) + funnelHtml(P);
+}
+
+function sumHtml(P) {
+  const aP = agg(P.days, allPred);
+  const allDays = S.cal.days.map(d => d.ds);
+  const aM = agg(allDays, allPred);
+  const label = S.ptype === "day" ? "วันนี้" : S.ptype === "week" ? "สัปดาห์นี้" : "เดือนนี้";
+  const showM = S.ptype !== "month";
+  const tile = (t, v, sub) => `<div class="sumtile"><small>${t}</small><strong class="num">${v}</strong><span class="num">${sub || ""}</span></div>`;
+  const b = v => v == null ? "—" : fmt(v);
+  return `<section class="sec"><div class="sech"><div><h2>สรุปยอด${label}</h2><p>ตัวเลขใหญ่ = ช่วงที่เลือก${showM ? " · บรรทัดเล็ก = สะสมทั้งเดือน" : " · แยกลูกค้าใหม่/เก่า จากที่ซุปกรอกรายวัน"}</p></div></div>
+    <div class="sumgrid">
+      ${tile("💰 ยอดขายรวม", b(aP.sales) + " บ.", showM ? "สะสมทั้งเดือน " + b(aM.sales) : "เฉลี่ย/ออเดอร์ " + b(aP.aov))}
+      ${tile("🧾 ออเดอร์รวม", b(aP.closed), showM ? "สะสมทั้งเดือน " + b(aM.closed) : "")}
+      ${tile("🆕 ยอดลูกค้าใหม่", b(aP.newSales) + " บ.", (aP.newOrders != null ? b(aP.newOrders) + " ออเดอร์" : "") + (showM ? " · เดือน " + b(aM.newSales) : ""))}
+      ${tile("🔁 ยอดลูกค้าเก่า", b(aP.oldSales) + " บ.", (aP.oldOrders != null ? b(aP.oldOrders) + " ออเดอร์" : "") + (showM ? " · เดือน " + b(aM.oldSales) : ""))}
+      ${tile("👥 ลูกค้าใหม่ (คน)", b(aP.newCust), "%Con ใหม่ " + pct(aP.rConNew))}
+      ${tile("🎯 %Con รวม", pct(aP.rCon), "%Con เก่า " + pct(aP.rConOld))}
+    </div></section>`;
 }
 
 function starsHtml(P) {
@@ -1015,18 +1039,107 @@ function pageInc() {
     <div class="panel scroll"><table><thead><tr><th>เซลส์</th><th>ยอดสะสม</th><th>ระดับ</th><th>Incentive</th><th>โบนัสคนแรก</th><th>รวมรับ</th><th class="tl-left">ระดับถัดไป</th></tr></thead><tbody>${board || '<tr><td colspan="7" class="empty">ยังไม่มีรายชื่อเซลส์</td></tr>'}</tbody></table></div></section>`;
 }
 
-/* ---------- hit target dashboard ---------- */
-function pageHit() {
+/* ---------- Daily Sales Tracking (อ่านจาก Google Sheet) ---------- */
+let hitState = { loading: false, at: 0, table: null, err: null };
+function hitSrc_() {
   const raw = ((S.cfg.hitboard || {}).url || "").trim();
-  const head = `<div class="ph"><div><h1>Hit Target 🎯</h1><p>แดชบอร์ดสดจาก Google Sheet อัปเดตอัตโนมัติทุก 1 นาที${S.role === "admin" ? ` · เปลี่ยนลิงก์ได้ที่ <a href="#" data-goto="admin">หน้าตั้งค่า</a>` : ""}</p></div></div>`;
-  if (!raw) return head + `<div class="panel"><p class="empty">ยังไม่ได้ใส่ลิงก์ชีต Hit Target ${S.role === "admin" ? "ใส่ได้ที่หน้าตั้งค่า" : "รอแอดมินตั้งค่า"}</p></div>`;
-  let src = raw;
+  if (!raw) return null;
   const m = raw.match(/docs\.google\.com\/spreadsheets\/d\/([\w-]+)/), g = raw.match(/[#?&]gid=(\d+)/);
-  if (m) src = `https://docs.google.com/spreadsheets/d/${m[1]}/preview?rm=minimal${g ? `&gid=${g[1]}` : ""}#gid=${g ? g[1] : "0"}`;
-  return head + `<div class="panel" style="padding:0;overflow:hidden"><iframe id="hitFrame" src="${esc(src)}" title="Hit Target" style="display:block;width:100%;height:min(80vh,950px);border:0" loading="lazy"></iframe></div>
-    <p class="hint" style="margin-top:10px">ถ้าขึ้นให้ขอสิทธิ์ ให้เจ้าของชีตตั้งแชร์เป็น "ทุกคนที่มีลิงก์ - ผู้มีสิทธิ์ดู" · <a href="${esc(raw)}" target="_blank" rel="noopener">เปิดชีตเต็มจอ</a></p>`;
+  return { raw, id: m ? m[1] : null, gid: g ? g[1] : null };
 }
-setInterval(() => { const f = $("hitFrame"); if (f && S.page === "hit") { const u = new URL(f.src); u.searchParams.set("ts", Date.now()); f.src = u.toString(); } }, 60000);
+async function loadHit(force) {
+  const src = hitSrc_(); if (!src || !src.id || hitState.loading) return;
+  if (!force && Date.now() - hitState.at < 55000 && hitState.table) return;
+  hitState.loading = true;
+  try {
+    const u = `https://docs.google.com/spreadsheets/d/${src.id}/gviz/tq?tqx=out:json&headers=1${src.gid ? `&gid=${src.gid}` : ""}&ts=${Date.now()}`;
+    const txt = await (await fetch(u)).text();
+    const j = JSON.parse(txt.slice(txt.indexOf("(") + 1, txt.lastIndexOf(")")));
+    if (!j.table) throw new Error("no table");
+    hitState = { loading: false, at: Date.now(), table: j.table, err: null };
+  } catch (e) { hitState = { loading: false, at: Date.now(), table: hitState.table, err: e }; }
+  if (S.page === "hit") renderHitBody();
+}
+function hitParse_() {
+  const t = hitState.table; if (!t) return null;
+  const labels = (t.cols || []).map(c => String(c.label || ""));
+  const ix = name => labels.findIndex(l => l.replace(/\s+/g, "").toLowerCase().includes(name));
+  const C = { crm: ix("crm"), total: ix("totalcrm"), target: ix("targetcrm"), actual: ix("actualcrm"), diff: ix("diff"), ach: ix("achieve"), order: ix("ordercrm"), size: ix("sizecrm"), calls: ix("โทรออก"), reached: ix("ได้คุย"), done: ix("คุยจบ"), talk: ix("talktime"), con: ix("con%"), manday: ix("manday"), avg: ix("เฉลี่ยเวลา") };
+  if (C.crm < 0 || C.actual < 0) return null;
+  const val = (r, i) => i >= 0 && r.c && r.c[i] ? r.c[i] : null;
+  const numv = c => c && typeof c.v === "number" ? c.v : null;
+  const disp = c => c ? (c.f != null ? String(c.f) : c.v == null ? "" : String(c.v)) : "";
+  const groups = []; let cur = null, gkey = "";
+  (t.rows || []).forEach(r => {
+    const cells = (r.c || []).map(c => c ? (c.f != null ? String(c.f) : c.v == null ? "" : String(c.v)) : "");
+    const joined = cells.join(" ");
+    const crm = disp(val(r, C.crm)).trim();
+    const firstTxt = cells.find(x => x.trim()) || "";
+    if (/^total/i.test(firstTxt.trim()) || /^total/i.test(crm)) {
+      if (cur) { cur.name = firstTxt.replace(/^total\s*/i, "").trim() || cur.name; cur.total = r; }
+      return;
+    }
+    const grpCell = cells[0] && cells[0].trim();
+    if (grpCell && !crm) { gkey = grpCell; return; }
+    if (grpCell && grpCell !== gkey && crm) { gkey = grpCell; cur = null; }
+    if (!crm) return;
+    if (!cur || cur.key !== gkey) { cur = { key: gkey || "ทีม", name: gkey || "ทีม", rows: [], total: null }; groups.push(cur); }
+    cur.rows.push(r);
+  });
+  return { C, groups, val, numv, disp };
+}
+function pageHit() {
+  const src = hitSrc_();
+  const head = `<div class="ph"><div><h1>Daily Sales Tracking</h1><p>ข้อมูลสดจากชีต Daily Sales Tracking อัปเดตอัตโนมัติทุก 1 นาที${S.role === "admin" ? ` · เปลี่ยนลิงก์ได้ที่ <a href="#" data-goto="admin">หน้าตั้งค่า</a>` : ""}</p></div></div>`;
+  if (!src) return head + `<div class="panel"><p class="empty">ยังไม่ได้ใส่ลิงก์ชีต ${S.role === "admin" ? "ใส่ได้ที่หน้าตั้งค่า" : "รอแอดมินตั้งค่า"}</p></div>`;
+  setTimeout(() => loadHit(false), 0);
+  return head + `<div id="hitBody">${hitState.table ? "" : '<div class="panel"><p class="empty">กำลังโหลดข้อมูลจาก Google Sheet…</p></div>'}</div>`;
+}
+function renderHitBody() {
+  const el = $("hitBody"); if (!el) return;
+  const src = hitSrc_(), P = hitParse_();
+  if (!P) {
+    el.innerHTML = `<div class="panel" style="padding:0;overflow:hidden"><iframe src="https://docs.google.com/spreadsheets/d/${esc(src.id)}/preview?rm=minimal${src.gid ? `&gid=${src.gid}` : ""}#gid=${esc(src.gid || "0")}" title="Daily Sales Tracking" style="display:block;width:100%;height:min(78vh,900px);border:0"></iframe></div>
+      <p class="hint" style="margin-top:10px">อ่านข้อมูลตรงไม่ได้ เลยแสดงชีตแทน · ให้เจ้าของชีตตั้งแชร์ "ทุกคนที่มีลิงก์ - ผู้มีสิทธิ์ดู" แล้วหน้านี้จะเปลี่ยนเป็นตารางสวยอัตโนมัติ · <a href="${esc(src.raw)}" target="_blank" rel="noopener">เปิดชีตเต็มจอ</a></p>`;
+    return;
+  }
+  const { C, groups, val, numv, disp } = P;
+  const byUser = {}; S.cfg.people.forEach(p => { if (p.username) byUser[String(p.username).trim().toLowerCase()] = p; });
+  const sum = i => groups.reduce((a, g) => a + g.rows.reduce((x, r) => x + (numv(val(r, i)) || 0), 0), 0);
+  const actAll = sum(C.actual), tgtAll = sum(C.target), ordAll = sum(C.order), manAll = sum(C.manday);
+  const tile = (t, v, sub) => `<div class="sumtile"><small>${t}</small><strong class="num">${v}</strong><span class="num">${sub || ""}</span></div>`;
+  const achChip = v => v == null ? "" : `<span class="chip ${v >= (num(S.cfg.hit) || 1) ? "hit" : v >= (num(S.cfg.near) || .9) ? "near" : "miss"}">${pct(v)}</span>`;
+  const achOf = r => { const c = val(r, C.ach); if (!c) return null; if (typeof c.v === "number") return c.v > 3 ? c.v / 100 : c.v; const n = parseFloat(String(c.f || c.v).replace("%", "")); return isFinite(n) ? n / 100 : null; };
+  const rowHtml = r => {
+    const uname = disp(val(r, C.crm)).trim(), p = byUser[uname.toLowerCase()];
+    const diffN = numv(val(r, C.diff));
+    return `<tr><td><span class="tn">${p ? personAv(p, 30) : ""}<span>${p ? esc(p.name) : esc(uname)}<br><small>${esc(uname)}</small></span></span></td>
+      <td class="num"><b>${esc(disp(val(r, C.actual)))}</b></td><td class="num">${esc(disp(val(r, C.target)))}</td>
+      <td>${achChip(achOf(r))}</td>
+      <td class="num" style="font-weight:600;color:${diffN != null && diffN < 0 ? "#D92D20" : "#039855"}">${esc(disp(val(r, C.diff)))}</td>
+      <td class="num">${esc(disp(val(r, C.order)))}</td><td class="num">${esc(disp(val(r, C.size)))}</td>
+      <td class="num">${esc(disp(val(r, C.calls)))}</td><td class="num">${esc(disp(val(r, C.reached)))}</td><td class="num">${esc(disp(val(r, C.done)))}</td>
+      <td class="num">${esc(disp(val(r, C.talk)))}</td><td class="num">${esc(disp(val(r, C.con)))}</td><td class="num">${esc(disp(val(r, C.avg)))}</td></tr>`;
+  };
+  const thead = `<thead><tr><th>เซลส์</th><th>Actual</th><th>Target</th><th>Achieve%</th><th>Diff</th><th>ออเดอร์</th><th>Size</th><th>โทรออก</th><th>ได้คุย</th><th>คุยจบ</th><th>Talk Time</th><th>Con%</th><th>เฉลี่ย/สาย</th></tr></thead>`;
+  const totRow = g => {
+    if (!g.total) return "";
+    const r = g.total, diffN = numv(val(r, C.diff));
+    return `<tr class="total"><td>รวม ${esc(g.name)}</td><td class="num"><b>${esc(disp(val(r, C.actual)))}</b></td><td class="num">${esc(disp(val(r, C.target)))}</td><td>${achChip(achOf(r))}</td>
+      <td class="num" style="font-weight:600;color:${diffN != null && diffN < 0 ? "#D92D20" : "#039855"}">${esc(disp(val(r, C.diff)))}</td>
+      <td class="num">${esc(disp(val(r, C.order)))}</td><td class="num">${esc(disp(val(r, C.size)))}</td><td class="num">${esc(disp(val(r, C.calls)))}</td><td class="num">${esc(disp(val(r, C.reached)))}</td><td class="num">${esc(disp(val(r, C.done)))}</td><td class="num">${esc(disp(val(r, C.talk)))}</td><td class="num">${esc(disp(val(r, C.con)))}</td><td class="num">${esc(disp(val(r, C.avg)))}</td></tr>`;
+  };
+  const secs = groups.map(g => `<section class="sec"><div class="sech"><div><h2>${esc(g.name)}</h2><p>${g.rows.length} คน</p></div></div>
+    <div class="panel scroll"><table>${thead}<tbody>${g.rows.map(rowHtml).join("")}${totRow(g)}</tbody></table></div></section>`).join("");
+  el.innerHTML = `<div class="sumgrid" style="margin-bottom:22px">
+      ${tile("💰 Actual รวม", fmt(actAll) + " บ.", "Target " + fmt(tgtAll))}
+      ${tile("🎯 Achieve% รวม", tgtAll ? pct(actAll / tgtAll) : "—", "Diff " + fmt(actAll - tgtAll))}
+      ${tile("🧾 ออเดอร์รวม", fmt(ordAll), "")}
+      ${tile("🙋 Manday รวม", fmt(manAll), "")}
+      ${tile("⏱ อัปเดตล่าสุด", new Date(hitState.at).toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit" }), "รีเฟรชเองทุก 1 นาที")}
+    </div>` + secs + `<p class="hint"><a href="${esc(src.raw)}" target="_blank" rel="noopener">เปิดชีตต้นทาง</a> · ชื่อเซลส์จับคู่จาก username ให้อัตโนมัติ</p>`;
+}
+setInterval(() => { if (S.page === "hit") loadHit(true); }, 60000);
 
 /* ---------- people ---------- */
 function pagePeople() {
