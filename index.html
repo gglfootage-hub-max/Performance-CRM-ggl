@@ -6,36 +6,38 @@
 <title>Performance CRM ggl</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@400;500;600;700&family=Mitr:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700;800&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --brand:#7A2BD6;
-  --brand-deep:color-mix(in srgb,var(--brand) 55%,#12021f);
-  --brand-hi:color-mix(in srgb,var(--brand) 65%,#ffffff);
+  --brand:#6C2BD9; /* ม่วงหลักเดียวกับเว็บ Marketing GGL */
+  --brand-deep:#3B2373;
+  --brand-hi:#A77CDC;
   --accent:var(--brand); --accent-ink:#fff;
-  --bg:color-mix(in srgb,var(--brand) 5%,#FFFFFF);
+  --slate1:#251743; --slate2:#1B1230; /* แถบข้าง */
+  --hero1:#241640; --hero2:#33205E;   /* การ์ดฮีโร่ */
+  --bg:#F2F3F1;
   --surface:#FFFFFF;
-  --soft:color-mix(in srgb,var(--brand) 10%,#FFFFFF);
-  --ink:#1F1433; --muted:#6F6388;
-  --line:color-mix(in srgb,var(--brand) 14%,#FFFFFF);
-  --track:color-mix(in srgb,var(--brand) 11%,#FFFFFF);
-  --hit:#0FA97A; --near:#E08A00; --miss:#E43B72; --wait:#BDB3D3;
-  --hit-soft:#D8F5EA; --near-soft:#FDEFD2; --miss-soft:#FDE1EB; --wait-soft:#F1EEF7;
-  --display:"Mitr","Anuphan","Noto Sans Thai",Tahoma,sans-serif;
-  --body:"Anuphan","Noto Sans Thai",Tahoma,sans-serif;
+  --soft:#EFEAF8;
+  --ink:#17191C; --muted:#6A6F76;
+  --line:#DDDFDB;
+  --track:#E9E5F4;
+  --hit:#1E7A46; --near:#8A6100; --miss:#B4262E; --wait:#8A8F96;
+  --hit-soft:#E7F3EC; --near-soft:#FBF3DC; --miss-soft:#FBECEC; --wait-soft:#F0F1EE;
+  --display:"Prompt","IBM Plex Sans Thai","Sukhumvit Set","Noto Sans Thai",system-ui,sans-serif;
+  --body:"Prompt","IBM Plex Sans Thai","Sukhumvit Set","Noto Sans Thai",system-ui,sans-serif;
   color-scheme:light; box-sizing:border-box;
 }
 @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
-    --accent:color-mix(in srgb,var(--brand) 55%,#fff); --accent-ink:#150a24;
-    --bg:color-mix(in srgb,var(--brand) 10%,#0B0614);
-    --surface:color-mix(in srgb,var(--brand) 15%,#130B20);
-    --soft:color-mix(in srgb,var(--brand) 26%,#130B20);
-    --ink:#F4EEFF; --muted:#AFA2C9;
-    --line:color-mix(in srgb,var(--brand) 28%,#130B20);
-    --track:color-mix(in srgb,var(--brand) 24%,#130B20);
-    --hit:#2AD6A0; --near:#FFB83D; --miss:#FF6A9A; --wait:#5A4F74;
-    --hit-soft:#10392E; --near-soft:#3C2C0E; --miss-soft:#40162B; --wait-soft:#241C36;
+    --accent:#A77CDC; --accent-ink:#1B1230;
+    --bg:#141020;
+    --surface:#1D1730;
+    --soft:#2A2142;
+    --ink:#F0EDF6; --muted:#A9A1BE;
+    --line:#332A4E;
+    --track:#2B2344;
+    --hit:#4CAF78; --near:#EAD08C; --miss:#FF8A8A; --wait:#5C5574;
+    --hit-soft:#13331F; --near-soft:#3A2F10; --miss-soft:#44191C; --wait-soft:#262038;
     color-scheme:dark;
   }
 }
@@ -57,7 +59,7 @@ body.sideHid .side{visibility:hidden;padding:0;overflow:hidden}
 body.sideHid .sideToggle{display:grid}
 .sideClose{margin-left:auto;width:30px;height:30px;border-radius:9px;border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.18);color:#fff;display:grid;place-items:center;cursor:pointer;padding:0}
 .sideClose svg{width:14px;height:14px}
-.side{position:sticky;top:0;height:100vh;height:100dvh;overflow:auto;background:linear-gradient(185deg,var(--brand) -40%,var(--brand-deep) 45%,color-mix(in srgb,var(--brand-deep) 70%,#000) 100%);color:#fff;padding:20px 16px calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:16px}
+.side{position:sticky;top:0;height:100vh;height:100dvh;overflow:auto;background:linear-gradient(135deg,var(--slate1) 0%,var(--slate2) 100%);color:#F5F6F4;padding:20px 16px calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:16px}
 .logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:600;font-size:19px;padding:0 6px}
 .logo svg{width:26px;height:26px}
 .sl{font-size:12px;opacity:.7;margin:0 6px 6px;display:block}
@@ -73,10 +75,10 @@ body.sideHid .sideToggle{display:grid}
 .wbtn:hover{background:rgba(255,255,255,.08)}
 .wbtn[aria-pressed="true"]{background:rgba(255,255,255,.18);opacity:1;box-shadow:inset 3px 0 0 #fff}
 .nav{display:flex;flex-direction:column;gap:2px;border-top:1px solid rgba(255,255,255,.14);padding-top:12px}
-.nav button{display:flex;align-items:center;gap:11px;border:0;background:none;color:#fff;border-radius:11px;padding:10px 12px;cursor:pointer;text-align:left;font-size:15px;opacity:.85}
+.nav button{display:flex;align-items:center;gap:11px;border:0;background:none;color:#B9BDB6;border-radius:12px;padding:10px 13px;cursor:pointer;text-align:left;font-size:14.5px;font-weight:600}
 .nav button svg{width:19px;height:19px;flex:none;opacity:.9}
-.nav button:hover{background:rgba(255,255,255,.08)}
-.nav button[aria-current="page"]{background:#fff;color:var(--brand-deep);opacity:1;font-weight:600}
+.nav button:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav button[aria-current="page"]{background:var(--bg);color:#3B2373;opacity:1;font-weight:800}
 .nav .lock{margin-left:auto;font-size:11px;opacity:.7}
 .sidefoot{margin-top:auto;display:flex;flex-direction:column;gap:8px;font-size:13px}
 .pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.12)}
@@ -117,7 +119,7 @@ body.sideHid .sideToggle{display:grid}
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
 
 /* hero */
-.hero{background:radial-gradient(130% 160% at 100% 0%,var(--brand) 0%,var(--brand-deep) 62%);color:#fff;border-radius:24px;padding:26px 30px 22px;margin-bottom:26px;position:relative;overflow:hidden}
+.hero{background:linear-gradient(135deg,var(--hero1) 0%,var(--hero2) 55%,var(--hero1) 100%);box-shadow:0 14px 34px rgba(36,22,64,.35);color:#fff;border-radius:24px;padding:26px 30px 22px;margin-bottom:26px;position:relative;overflow:hidden}
 .hero::after{content:"";position:absolute;inset:auto -10% -70% -10%;height:120%;background:repeating-linear-gradient(180deg,rgba(255,255,255,.07) 0 2px,transparent 2px 44px);transform:perspective(600px) rotateX(58deg);transform-origin:bottom;pointer-events:none}
 .hero>*{position:relative;z-index:1}
 .hrow{display:grid;grid-template-columns:1fr auto;gap:16px 30px;align-items:end}
@@ -380,8 +382,11 @@ dialog::backdrop{background:rgba(20,8,36,.6)}
 .planbanner p{margin:5px 0 0;white-space:pre-wrap}
 .planbanner.ok{background:#D1FADF;color:#054F31;border-left:4px solid #039855}
 .planbanner.wait{background:#FEF0C7;color:#7A4D0B;border-left:4px solid #DC6803}
-.coachli{display:flex;gap:9px;align-items:flex-start;padding:7px 10px;border-radius:11px;margin-top:7px;font-size:13.5px;line-height:1.5;color:#241440}
+.coachli{display:flex;gap:9px;align-items:flex-start;padding:7px 10px;border-radius:11px;margin-top:7px;font-size:13.5px;line-height:1.5;color:#241440;background:#F3EFFA}
 .coachli p{color:#241440}
+.pfix{margin-top:8px;padding:7px 11px;border-radius:10px;font-size:12.5px;line-height:1.55}
+.pfix.ok{background:#E7F3EC;color:#14532D}
+.pfix.bad{background:#FBF3DC;color:#713F12}
 .coachli span{flex:none}
 .coachli p{margin:0}
 .coachli.warn{background:#FEF5E7}
@@ -513,13 +518,13 @@ const ICON = {
   catchup: '<polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>',
   lists: '<circle cx="6" cy="5" r="2.6"/><circle cx="18" cy="5" r="2.6"/><circle cx="12" cy="19" r="2.6"/><path d="M7.2 7.4 10.8 16.6M16.8 7.4 13.2 16.6"/>',
   people: '<circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M17 4a4 4 0 0 1 0 8"/><path d="M22 21a6 6 0 0 0-4-5.6"/>',
-  kpi: '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-6"/>',
+  kpihub: '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-6"/>',
   summary: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 10h18"/><path d="M9 4v17"/>',
   voices: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
   admin: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'
 };
 const PAGES = [
-  ["dash", "ภาพรวม"], ["entry", "กรอกผลรายวัน"], ["lists", "กระจายรายชื่อ"], ["catchup", "แผนเป้าทบ"], ["inc", "Incentive"], ["coach", "AI โค้ช"], ["chatroom", "แชทผู้นำ"], ["hit", "Daily Sales Tracking"], ["people", "รายคน"], ["kpi", "KPI รายทีม"], ["award", "Hopeful Awards"],
+  ["dash", "ภาพรวม"], ["entry", "กรอกผลรายวัน"], ["lists", "กระจายรายชื่อ"], ["catchup", "แผนเป้าทบ"], ["inc", "Incentive"], ["coach", "AI โค้ช"], ["chatroom", "แชทผู้นำ"], ["hit", "Daily Sales Tracking"], ["kpihub", "Performance KPI"], ["award", "Hopeful Awards"],
   ["summary", "สรุปตามช่วงเวลา"], ["voices", "เสียงจากซุป"], ["admin", "ตั้งค่า (แอดมิน)"]
 ];
 
@@ -529,7 +534,7 @@ const S = {
   page: "dash", ptype: "day", week: 0, day: null,
   entryTeam: null, entryDate: null, dirty: false,
   peopleTeam: "all", planTeam: null, cuTeam: null, listsTeam: null, replyKey: null, pplFrom: null, pplTo: null, sort: { k: "p", d: -1 }, sumMode: "team",
-  chat: [], log: [], draft: null, mode: "connecting"
+  kpiView: "team", voiceTeam: "all", chat: [], log: [], draft: null, mode: "connecting"
 };
 let code = ""; try { code = localStorage.getItem(CODE_KEY) || ""; } catch (e) {}
 
@@ -568,7 +573,7 @@ function bootMonth() {
 }
 function defaultConfig(month) {
   return {
-    month, brand: isHex(BOOT.brand) ? BOOT.brand : "#7A2BD6", near: 0.9, hit: 1,
+    month, brand: isHex(BOOT.brand) ? BOOT.brand : "#6C2BD9", near: 0.9, hit: 1,
     workWeekdays: [1, 2, 3, 4, 5, 6],
     holidays: month === "2026-10" ? ["2026-10-13", "2026-10-23"] : [],
     teams: (BOOT.teams || []).map(t => ({ id: t.id, name: t.name, sup: "", target: t.target })),
@@ -823,7 +828,7 @@ function miniCal(sel, attr, dotFn) {
 }
 
 /* ============ pages ============ */
-const PERIOD_PAGES = ["dash", "lists", "catchup", "inc", "people", "kpi", "summary", "voices"];
+const PERIOD_PAGES = ["dash", "lists", "catchup", "inc", "kpihub", "summary", "voices"];
 function periodBarHtml() {
   const segBtn = (k, l) => `<button data-p="${k}" aria-pressed="${S.ptype === k}">${l}</button>`;
   let sub = "";
@@ -839,11 +844,17 @@ function periodBarHtml() {
 }
 function render() {
   if (!S.cfg) return;
-  document.documentElement.style.setProperty("--brand", isHex(S.cfg.brand) ? S.cfg.brand : "#7A2BD6");
+  // สีธีม: ค่าเริ่มต้นเก่า (#7A2BD6) ให้ใช้ม่วง Marketing GGL แทนอัตโนมัติ สีที่แอดมินตั้งเองยังใช้ได้
+  let bc = isHex(S.cfg.brand) ? S.cfg.brand : "#6C2BD9";
+  if (bc.toLowerCase() === "#7a2bd6") bc = "#6C2BD9";
+  const rootSt = document.documentElement.style;
+  rootSt.setProperty("--brand", bc);
+  if (bc.toLowerCase() === "#6c2bd9") { rootSt.removeProperty("--brand-deep"); rootSt.removeProperty("--brand-hi"); }
+  else { rootSt.setProperty("--brand-deep", `color-mix(in srgb, ${bc} 58%, #12021f)`); rootSt.setProperty("--brand-hi", `color-mix(in srgb, ${bc} 55%, #ffffff)`); }
   document.title = "Performance CRM ggl · " + thMonth(S.month);
   renderBell(); if ($("bellPanel") && !$("bellPanel").hidden) renderBellPanel();
   renderSide();
-  const f = { dash: pageDash, entry: pageEntry, lists: pageLists, catchup: pageCatchup, inc: pageInc, hit: pageHit, people: pagePeople, kpi: pageKpi, summary: pageSummary, voices: pageVoices, coach: pageCoach, chatroom: pageChat, award: pageAward, admin: pageAdmin }[S.page];
+  const f = { dash: pageDash, entry: pageEntry, lists: pageLists, catchup: pageCatchup, inc: pageInc, hit: pageHit, kpihub: pageKpiHub, summary: pageSummary, voices: pageVoices, coach: pageCoach, chatroom: pageChat, award: pageAward, admin: pageAdmin }[S.page];
   $("page").innerHTML = (PERIOD_PAGES.includes(S.page) ? periodBarHtml() : "") + f();
   afterRender();
 }
@@ -1484,7 +1495,7 @@ function pageHit() {
   const src = hitSrc_();
   const head = `<div class="ph"><div><h1>Daily Sales Tracking</h1><p>ข้อมูลสดจากชีต Daily Sales Tracking อัปเดตอัตโนมัติทุก 1 นาที${S.role === "admin" ? ` · เปลี่ยนลิงก์ได้ที่ <a href="#" data-goto="admin">หน้าตั้งค่า</a>` : ""}</p></div></div>`;
   if (!src) return head + `<div class="panel"><p class="empty">ยังไม่ได้ใส่ลิงก์ชีต ${S.role === "admin" ? "ใส่ได้ที่หน้าตั้งค่า" : "รอแอดมินตั้งค่า"}</p></div>`;
-  setTimeout(() => loadHit(false), 0);
+  setTimeout(() => { if (hitState.table) renderHitBody(); loadHit(false); }, 0);
   return head + `<div id="hitBody">${hitState.table ? "" : '<div class="panel"><p class="empty">กำลังโหลดข้อมูลจาก Google Sheet…</p></div>'}</div>`;
 }
 function renderHitBody() {
@@ -1564,7 +1575,7 @@ function renderHitBody() {
 setInterval(() => { if (S.page === "hit") loadHit(true); }, 60000);
 
 /* ---------- people ---------- */
-function pagePeople() {
+function kpiPeopleBody() {
   let P = periodInfo();
   if (S.pplFrom && S.pplTo && S.pplFrom <= S.pplTo) {
     const days = S.cal.days.map(d => d.ds).filter(d => d >= S.pplFrom && d <= S.pplTo);
@@ -1581,9 +1592,24 @@ function pagePeople() {
   rows.sort((x, y) => (x.k[k] - y.k[k]) * d);
   const th = (key, label) => `<th class="sort" data-sort="${key}">${label}${k === key ? (d < 0 ? " ▼" : " ▲") : ""}</th>`;
   const barp = (v, tgt, fmtF, label) => {
-    const has = v != null, pc_ = has && tgt ? Math.min(1.3, v / tgt) : null;
+    const has = v != null, pc_ = has && tgt ? v / tgt : null;
     const col = pc_ == null ? "var(--brand)" : pc_ >= 1 ? "#12B76A" : pc_ >= .9 ? "#F79009" : "#F04438";
-    return `<div class="krow"><span class="kl">${label}</span><span class="kbar"><i style="width:${has ? Math.min(100, (pc_ == null ? .6 : pc_) * 100) : 0}%;background:${col}"></i></span><span class="kv num">${has ? fmtF(v) : "—"}${tgt ? `<small>เป้า ${fmtF(tgt)}</small>` : ""}</span></div>`;
+    return `<div class="krow"><span class="kl">${label}</span><span class="kbar"><i style="width:${has ? Math.min(100, (pc_ == null ? .6 : Math.min(1.3, pc_)) * 100) : 0}%;background:${col}"></i></span><span class="kv num">${has ? fmtF(v) : "—"}${tgt ? `<small>เป้า ${fmtF(tgt)}${pc_ != null ? ` · สำเร็จ ${pct(pc_)}` : ""}</small>` : ""}</span></div>`;
+  };
+  const fixLine = (a, r) => {
+    const mets = [
+      ["📞 โทร/วัน", a.callsPer, num(K.callsPerDay), v => fmt1(v) + " สาย"],
+      ["⏱ Talktime/วัน", a.talkPer, num(K.talkPerDay), v => hm(v)],
+      ["🗣 %ติดต่อได้", a.rReach, num(K.rReach), v => pct(v)],
+      ["🎯 %Con", a.rCon, num(K.rCon), v => pct(v)],
+      ["💰 เป้ายอดขาย", r.p, 1, v => pct(v)]
+    ].filter(m => m[1] != null && m[2]).map(m => ({ l: m[0], v: m[1], t: m[2], f: m[3], ratio: m[1] / m[2] }));
+    if (!mets.length) return "";
+    const best = mets.reduce((x2, y) => y.ratio > x2.ratio ? y : x2);
+    const worst = mets.reduce((x2, y) => y.ratio < x2.ratio ? y : x2);
+    const fails = mets.filter(m => m.ratio < .9);
+    return `<div class="pfix ok">✅ เด่นสุด: ${best.l} ${best.f(best.v)} (${pct(best.ratio)} ของเป้า)</div>
+      <div class="pfix ${fails.length ? "bad" : "ok"}">${fails.length ? `⚠️ ต้องแก้: ${fails.map(m => `${m.l} ${m.f(m.v)} (${pct(m.ratio)})`).join(" · ")}` : "🏆 ผ่านเกณฑ์ทุกเรื่องที่ตั้งเป้าไว้"}</div>`;
   };
   const cards = rows.slice().sort((x, y) => y.k.sales - x.k.sales).map((x, i) => {
     const t = teamById(x.p.team) || {}, a = x.a;
@@ -1597,6 +1623,7 @@ function pagePeople() {
       ${barp(a.talkPer, num(K.talkPerDay), v => hm(v), "⏱ Talktime")}
       ${barp(perDay(a.sales, a), null, v => fmt(v) + " บ.", "💰 ยอดขาย")}
       ${barp(a.rCon, num(K.rCon), v => pct(v), "🎯 %Con")}
+      ${fixLine(a, x.r)}
     </div>`;
   }).join("");
   const body = rows.map((x, i) => {
@@ -1610,12 +1637,11 @@ function pagePeople() {
       <td class="num ${kcls(a.callsPer, K.callsPerDay)}">${fmt1(a.callsPer)}</td><td class="num">${a.dates.size}</td></tr>`;
   }).join("");
   const mn = S.cal.days[0].ds, mx = S.cal.days[S.cal.days.length - 1].ds;
-  return `<div class="ph"><div><h1>ผลงานรายคน</h1><p>${esc(P.title)} · เรียงตามยอดขายช่วงที่เลือก</p></div>
-    <div class="pb-day"><span class="pb-lbl">เลือกช่วงวันที่:</span>
+  return `<div class="pb-day" style="margin-bottom:12px"><span class="pb-lbl">${esc(P.title)} · เลือกช่วงวันที่:</span>
       <input type="date" id="pplFrom" class="in" style="width:148px" value="${esc(S.pplFrom || "")}" min="${mn}" max="${mx}" aria-label="ตั้งแต่วันที่">
       <span class="pb-lbl">ถึง</span>
       <input type="date" id="pplTo" class="in" style="width:148px" value="${esc(S.pplTo || "")}" min="${mn}" max="${mx}" aria-label="ถึงวันที่">
-      ${S.pplFrom || S.pplTo ? '<button class="btn ghost sm" id="pplClear">ล้างช่วง</button>' : ""}</div></div>
+      ${S.pplFrom || S.pplTo ? '<button class="btn ghost sm" id="pplClear">ล้างช่วง</button>' : ""}</div>
     <div class="chips">${[["all", "ทุกทีม"], ...S.cfg.teams.map(t => [t.id, t.name])].map(([id, n]) => `<button data-pteam="${esc(id)}" aria-pressed="${S.peopleTeam === id}">${esc(n)}</button>`).join("")}</div>
     <div class="kpigrid">${cards || '<p class="empty">ยังไม่มีรายชื่อเซลส์</p>'}</div>
     <details class="kdetails"><summary>ตารางตัวเลขละเอียด (กดหัวตารางเพื่อเรียง)</summary>
@@ -1633,7 +1659,7 @@ function kpiNote() {
 }
 
 /* ---------- kpi teams ---------- */
-function pageKpi() {
+function kpiTeamBody() {
   const P = periodInfo(), K = S.cfg.kpi;
   const all = agg(P.days, allPred), allR = perf(totalTarget(), P.days, allPred);
   const perDay = (v, a) => v == null || !a.pdays ? null : v / a.pdays;
@@ -1704,14 +1730,22 @@ function pageKpi() {
       <td class="num">${fmt(a.aov)}</td><td class="num">${fmt(a.newCust)}</td></tr>`;
   };
   const body = S.cfg.teams.map(t => row(esc(t.name), teamAv(t, 30), num(t.target) || 0, teamPred(t.id))).join("") + row("รวมทั้งหมด", "", totalTarget(), allPred, "total");
-  return `<div class="ph"><div><h1>KPI รายทีม</h1><p>${esc(P.title)} · ค่าต่อคนต่อวันคิดจากวันที่มีการกรอกจริง</p></div></div>
-    ${tiles}
+  return `${tiles}
     ${goodBad}
     ${cardsHtml}
     <details class="kdetails"><summary>ตารางตัวเลขละเอียดทุกคอลัมน์</summary>
     <div class="panel scroll" style="margin-top:12px"><table><thead><tr><th>ทีม</th><th>ยอดขาย</th><th>% เป้า</th><th>ยอดใหม่</th><th>ยอดเก่า</th><th>โทร</th><th>ได้คุย</th><th>คุยจบ</th><th>ออเดอร์</th><th>%ติดต่อได้</th><th>%คุยจบ</th><th>%Con</th><th>%Con ใหม่</th><th>%Con เก่า</th><th>Talktime</th><th>Talktime<br>/คน/วัน</th><th>โทร<br>/คน/วัน</th><th>ยอดเฉลี่ย<br>/ออเดอร์</th><th>ลูกค้าใหม่</th></tr></thead><tbody>${body}</tbody></table></div></details>
     ${kpiNote()}
     <p class="hint">วิธีคิด: %ติดต่อได้ = ได้คุย ÷ โทร, %คุยจบ = คุยจบ ÷ ได้คุย, %Con = ปิด ÷ คุยจบ · แถบเขียว = ถึงเป้า เหลือง = ใกล้ แดง = ต่ำกว่าเป้า</p>`;
+}
+
+/* ---------- Performance KPI (รวมรายทีม+รายคน) ---------- */
+function pageKpiHub() {
+  const P = periodInfo();
+  const seg = v => `<button data-kv="${v}" aria-pressed="${S.kpiView === v}">${v === "team" ? "🏢 รายทีม" : "🧑‍💼 รายคน"}</button>`;
+  return `<div class="ph"><div><h1>Performance KPI</h1><p>${esc(P.title)} · ${S.kpiView === "team" ? "ภาพรวมและ KPI ของแต่ละทีม เทียบเป้าอัตโนมัติ" : "ผลงานรายคน เทียบเป้า KPI ว่าสำเร็จกี่ % และต้องแก้เรื่องอะไร"}</p></div>
+    <div class="chips" style="margin:0">${seg("team")}${seg("person")}</div></div>
+    ${S.kpiView === "team" ? kpiTeamBody() : kpiPeopleBody()}`;
 }
 
 /* ---------- summary ---------- */
@@ -1771,8 +1805,9 @@ async function saveVoiceCfg(mut, okMsg) {
 function pageVoices() {
   const P = periodInfo();
   const wset = new Set(S.cal.weeks.filter(w => w.days.some(d => P.days.includes(d))).map(w => w.id));
+  if (S.voiceTeam !== "all" && !S.cfg.teams.some(t => t.id === S.voiceTeam)) S.voiceTeam = "all";
   const cols = [["problem", "ปัญหา / อุปสรรค", "var(--miss)"], ["help", "อยากให้หัวหน้าช่วย", "var(--near)"], ["plan", "แผนสัปดาห์หน้า", "var(--hit)"], ["highlight", "จุดเด่น", "var(--accent)"]];
-  const list = Object.values(S.notes).filter(n => wset.has(n.week));
+  const list = Object.values(S.notes).filter(n => wset.has(n.week) && (S.voiceTeam === "all" || n.team === S.voiceTeam));
   const admin = S.role === "admin";
   const html = cols.map(([f, h, c]) => {
     const items = list.filter(n => String(n[f] || "").trim()).sort((a, b) => String(b.week).localeCompare(String(a.week)) || String(b.updatedAt || "").localeCompare(String(a.updatedAt || ""))).map(n => {
@@ -1795,7 +1830,9 @@ function pageVoices() {
     }).join("");
     return `<div class="panel col"><h3><i style="background:${c}"></i>${h}</h3>${items || '<p class="empty" style="padding:0">ยังไม่มีข้อความในช่วงนี้</p>'}</div>`;
   }).join("");
-  return `<div class="ph"><div><h1>เสียงจากซุป</h1><p>${esc(P.title)} · ซุปเขียนได้ที่หน้ากรอกผลรายวัน</p></div></div><div class="voices" style="grid-template-columns:repeat(2,minmax(0,1fr))">${html}</div>`;
+  return `<div class="ph"><div><h1>เสียงจากซุป</h1><p>${esc(P.title)} · ซุปเขียนได้ที่หน้ากรอกผลรายวัน · กดเลือกทีมเพื่อดูทีละทีม</p></div></div>
+    <div class="chips" style="margin-bottom:16px">${[["all", "ทุกทีม"], ...S.cfg.teams.map(t => [t.id, t.name])].map(([id, n2]) => `<button data-vteam="${esc(id)}" aria-pressed="${S.voiceTeam === id}">${esc(n2)}</button>`).join("")}</div>
+    <div class="voices" style="grid-template-columns:repeat(2,minmax(0,1fr))">${html}</div>`;
 }
 
 /* ---------- admin ---------- */
@@ -1830,7 +1867,7 @@ function pageAdmin() {
       <div class="frow">
         <div><label class="l" for="aNear">เกณฑ์ "ใกล้เป้า" (%)</label><input class="in" id="aNear" data-k="near" value="${Math.round((num(D.near) ?? .9) * 100)}" inputmode="numeric"></div>
         <div><label class="l" for="aHit">เกณฑ์ "ถึงเป้า" (%)</label><input class="in" id="aHit" data-k="hit" value="${Math.round((num(D.hit) ?? 1) * 100)}" inputmode="numeric"></div>
-        <div><label class="l" for="aBrand">สีธีมบริษัท</label><div style="display:flex;gap:8px;align-items:center"><input type="color" id="aBrand" data-k="brand" value="${isHex(D.brand) ? D.brand : "#7A2BD6"}" style="width:48px;height:40px;border:0;background:none;padding:0"><span class="num">${esc(D.brand)}</span></div></div>
+        <div><label class="l" for="aBrand">สีธีมบริษัท</label><div style="display:flex;gap:8px;align-items:center"><input type="color" id="aBrand" data-k="brand" value="${isHex(D.brand) ? D.brand : "#6C2BD9"}" style="width:48px;height:40px;border:0;background:none;padding:0"><span class="num">${esc(D.brand)}</span></div></div>
       </div>
     </div></section>
 
@@ -2107,7 +2144,8 @@ async function apiWrite(p) {
 }
 function errText(e) {
   const c = e && e.code;
-  return c === "unauthorized" ? "รหัสไม่ถูกต้อง กด 'เปลี่ยนรหัส' ที่เมนูซ้ายล่าง"
+  return c === "unknown_action" ? "หลังบ้านยังเป็นเวอร์ชันเก่า: วาง Code.gs ตัวล่าสุดใน Apps Script แล้ว Deploy → Manage deployments → New version"
+    : c === "unauthorized" ? "รหัสไม่ถูกต้อง กด 'เปลี่ยนรหัส' ที่เมนูซ้ายล่าง"
     : c === "admin_only" ? "ต้องใช้รหัสแอดมินจึงจะทำรายการนี้ได้"
     : c === "too_large" ? "ข้อมูลใหญ่เกินไป ลองลดขนาดรูปหรือจำนวนรายการ"
     : "บันทึกไม่สำเร็จ ตรวจอินเทอร์เน็ตแล้วลองอีกครั้ง";
@@ -2143,6 +2181,11 @@ async function load(month, silent) {
     setSync(API ? "live" : "local");
     if (S.page === "entry" && S.dirty && silent) return;      // อย่าเขียนทับตอนซุปกำลังพิมพ์
     if (S.page === "admin" && S.adminDirty && silent) return;
+    if (silent && S.page === "hit") { renderBell(); return; }  // หน้า Daily Sales มีรอบรีเฟรชของตัวเอง
+    if (silent && S.page === "chatroom") {                     // อัปเดตเฉพาะลิสต์แชท ไม่ล้างช่องพิมพ์
+      const cl = $("chatList"); if (cl) { cl.innerHTML = chatListHtml(); cl.scrollTop = 1e9; }
+      renderBell(); return;
+    }
     render(); entryCalc();
   } catch (e) {
     if (!silent || S.mode !== "live") setSync("offline");
@@ -2260,6 +2303,8 @@ page.addEventListener("click", e => {
   const li = x.closest("[data-liteam]"); if (li) { S.listsTeam = li.dataset.liteam; render(); return; }
   if (x.closest("#pplClear")) { S.pplFrom = S.pplTo = null; render(); return; }
   if (x.closest("#chatSetName")) { openProf(); return; }
+  const kv = x.closest("[data-kv]"); if (kv) { S.kpiView = kv.dataset.kv; render(); return; }
+  const vt = x.closest("[data-vteam]"); if (vt) { S.voiceTeam = vt.dataset.vteam; render(); return; }
   if (x.closest("#allocSave")) {
     const o = {}; let bad = null;
     document.querySelectorAll("[data-alloc]").forEach(i => { const v = parseNum(i.value); if (Number.isNaN(v)) { bad = i; } else if (v != null) o[i.dataset.alloc] = v; });
@@ -2383,18 +2428,21 @@ $("profBtn").addEventListener("click", openProf);
 
 /* ============ แชทผู้นำ ============ */
 function chatName_(u) { return String(u || "ไม่ระบุ"); }
-function pageChat() {
-  const pf = profGet();
+function chatListHtml() {
   const mine = profLabel();
   const msgs = (S.chat || []).slice(-150);
   const byDay = {};
   msgs.forEach(m => { const d = String(m.ts || "").slice(0, 10); (byDay[d] = byDay[d] || []).push(m); });
-  const body = Object.keys(byDay).sort().map(d => `<div class="chat-day"><span>${d ? esc(dLong(d)) : ""}</span></div>` +
+  return Object.keys(byDay).sort().map(d => `<div class="chat-day"><span>${d ? esc(dLong(d)) : ""}</span></div>` +
     byDay[d].map(m => {
       const me = chatName_(m.user) === mine && mine;
       const tm2 = String(m.ts || "").slice(11, 16);
       return `<div class="chat-m ${me ? "me" : ""}">${me ? "" : `<b>${esc(chatName_(m.user))}</b>`}<p>${esc(m.text || "")}</p><small>${esc(tm2)}</small></div>`;
     }).join("")).join("");
+}
+function pageChat() {
+  const pf = profGet();
+  const body = chatListHtml();
   return `<div class="ph"><div><h1>แชทผู้นำ 💬</h1><p>ห้องคุยงานของซุปและหัวหน้า ทุกคนที่มีรหัสเข้าเว็บเห็นห้องนี้ · ข้อความอัปเดตอัตโนมัติ</p></div>
     ${pf && pf.name ? "" : `<div><button class="btn primary" id="chatSetName">ระบุชื่อก่อนเริ่มแชท</button></div>`}</div>
     <div class="panel chatroom"><div class="chat-list" id="chatList">${body || '<p class="empty">ยังไม่มีข้อความ เริ่มทักทายทีมได้เลย</p>'}</div>
@@ -2408,9 +2456,8 @@ async function chatSend() {
   inp.value = ""; inp.disabled = true;
   try {
     await apiWrite({ action: "saveChat", text, by: profLabel() });
-    await load(S.month, true);
-    if (S.page === "chatroom") { render(); }
-  } catch (e) { toast(errText(e)); }
+    await load(S.month, true); // silent: อัปเดตเฉพาะลิสต์แชท
+  } catch (e) { toast(errText(e)); const i3 = $("chatInput"); if (i3 && !i3.value) i3.value = text; }
   finally { const i2 = $("chatInput"); if (i2) { i2.disabled = false; i2.focus(); } }
 }
 
