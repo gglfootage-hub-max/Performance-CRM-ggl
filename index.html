@@ -510,6 +510,7 @@ const POLL_MS = 30000;
 const ICON = {
   dash: '<path d="M3 13h8V3H3z"/><path d="M13 21h8V11h-8z"/><path d="M13 3v6h8V3z"/><path d="M3 21h8v-6H3z"/>',
   entry: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+  teamset: '<circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="18" cy="9" r="2.4"/><path d="M16 14.6c2.6.4 4.6 2.3 5 4.9"/>',
   chatroom: '<path d="M21 11a8 8 0 0 1-8 8H6l-3 3V11a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/><circle cx="9.5" cy="11" r="1"/><circle cx="13" cy="11" r="1"/><circle cx="16.5" cy="11" r="1"/>',
   coach: '<path d="M12 3a7 7 0 0 1 7 7c0 2.4-1.2 4-2.5 5.5-.8.9-1 1.6-1 2.5h-7c0-.9-.2-1.6-1-2.5C6.2 14 5 12.4 5 10a7 7 0 0 1 7-7z"/><path d="M9.5 21h5"/>',
   award: '<path d="M3 9l4-6h10l4 6-9 12z"/><path d="M3 9h18M9 3l3 6 3-6M12 21l-3-12M12 21l3-12"/>',
@@ -524,7 +525,7 @@ const ICON = {
   admin: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>'
 };
 const PAGES = [
-  ["dash", "ภาพรวม"], ["entry", "กรอกผลรายวัน"], ["lists", "กระจายรายชื่อ"], ["catchup", "แผนเป้าทบ"], ["inc", "Incentive"], ["coach", "AI โค้ช"], ["chatroom", "แชทผู้นำ"], ["hit", "Daily Sales Tracking"], ["kpihub", "Performance KPI"], ["award", "Hopeful Awards"],
+  ["dash", "ภาพรวม"], ["entry", "กรอกผลรายวัน"], ["lists", "กระจายรายชื่อ"], ["catchup", "แผนเป้าทบ"], ["inc", "Incentive"], ["coach", "AI โค้ช"], ["chatroom", "แชทผู้นำ"], ["teamset", "ตั้งค่าทีม (ซุป)"], ["hit", "Daily Sales Tracking"], ["kpihub", "Performance KPI"], ["award", "Hopeful Awards"],
   ["summary", "สรุปตามช่วงเวลา"], ["voices", "เสียงจากซุป"], ["admin", "ตั้งค่า (แอดมิน)"]
 ];
 
@@ -534,7 +535,7 @@ const S = {
   page: "dash", ptype: "day", week: 0, day: null,
   entryTeam: null, entryDate: null, dirty: false,
   peopleTeam: "all", planTeam: null, cuTeam: null, listsTeam: null, replyKey: null, pplFrom: null, pplTo: null, sort: { k: "p", d: -1 }, sumMode: "team",
-  kpiView: "team", voiceTeam: "all", chat: [], log: [], draft: null, mode: "connecting"
+  kpiView: "team", voiceTeam: "all", tsTeam: null, tsDraft: null, tsDirty: false, chat: [], log: [], draft: null, mode: "connecting"
 };
 let code = ""; try { code = localStorage.getItem(CODE_KEY) || ""; } catch (e) {}
 
@@ -854,7 +855,7 @@ function render() {
   document.title = "Performance CRM ggl · " + thMonth(S.month);
   renderBell(); if ($("bellPanel") && !$("bellPanel").hidden) renderBellPanel();
   renderSide();
-  const f = { dash: pageDash, entry: pageEntry, lists: pageLists, catchup: pageCatchup, inc: pageInc, hit: pageHit, kpihub: pageKpiHub, summary: pageSummary, voices: pageVoices, coach: pageCoach, chatroom: pageChat, award: pageAward, admin: pageAdmin }[S.page];
+  const f = { dash: pageDash, entry: pageEntry, lists: pageLists, catchup: pageCatchup, inc: pageInc, hit: pageHit, kpihub: pageKpiHub, summary: pageSummary, voices: pageVoices, coach: pageCoach, chatroom: pageChat, teamset: pageTeamSet, award: pageAward, admin: pageAdmin }[S.page];
   $("page").innerHTML = (PERIOD_PAGES.includes(S.page) ? periodBarHtml() : "") + f();
   afterRender();
 }
@@ -2119,6 +2120,14 @@ function localWrite(p) {
   } else if (p.action === "savePhoto") {
     // photos are shared across months
     try { const all = JSON.parse(localStorage.getItem("salesRace.v3.photos") || "[]").filter(x => x.id !== p.id); if (p.photo) all.push({ id: p.id, photo: p.photo }); localStorage.setItem("salesRace.v3.photos", JSON.stringify(all)); } catch (e) {}
+  } else if (p.action === "saveTeamPeople") {
+    const cfg2 = d.config || null;
+    if (cfg2) {
+      const byId = {}; (cfg2.people || []).forEach(x2 => { if (x2.team === p.team) byId[x2.id] = x2; });
+      const cleaned = p.people.map(x2 => Object.assign({}, byId[x2.id] || {}, { id: x2.id, team: p.team, name: x2.name, username: x2.username || "", target: x2.target, active: x2.active !== false, status: x2.status || "", probStart: x2.probStart || "" }));
+      cfg2.people = (cfg2.people || []).filter(x2 => x2.team !== p.team).concat(cleaned);
+      save(m, { ...d, config: cfg2 });
+    }
   } else if (p.action === "saveChat") {
     try { const all = JSON.parse(localStorage.getItem("salesRace.v3.chat") || "[]"); all.push({ id: Date.now() + "", ts: new Date().toISOString().slice(0, 16).replace("T", " "), user: p.by, text: p.text }); localStorage.setItem("salesRace.v3.chat", JSON.stringify(all.slice(-300))); } catch (e) {}
   } else if (p.action === "saveConfig") {
@@ -2305,6 +2314,13 @@ page.addEventListener("click", e => {
   if (x.closest("#chatSetName")) { openProf(); return; }
   const kv = x.closest("[data-kv]"); if (kv) { S.kpiView = kv.dataset.kv; render(); return; }
   const vt = x.closest("[data-vteam]"); if (vt) { S.voiceTeam = vt.dataset.vteam; render(); return; }
+  const tst = x.closest("[data-tsteam]");
+  if (tst) { if (S.tsDirty && !confirm("มีการแก้ไขที่ยังไม่บันทึก สลับทีมเลยไหม?")) return; tsInit_(tst.dataset.tsteam); render(); return; }
+  if (x.closest("#tsAdd")) { tsRead_(); S.tsDraft.push({ id: uid("p"), name: "", username: "", target: null, active: true, status: "" }); S.tsDirty = true; render(); const ins2 = document.querySelectorAll('[data-tsi][data-f="name"]'); ins2[ins2.length - 1]?.focus(); return; }
+  const tsd = x.closest("[data-tsdel]");
+  if (tsd) { tsRead_(); const pp2 = S.tsDraft[+tsd.dataset.tsdel]; if (!confirm(`ลบ ${pp2 && pp2.name ? pp2.name : "เซลส์คนนี้"}? ถ้าแค่ลาออกกลางเดือน เอาติ๊ก "ทำงานอยู่" ออกแทน ยอดเก่าจะยังนับ`)) return; S.tsDraft.splice(+tsd.dataset.tsdel, 1); S.tsDirty = true; render(); return; }
+  if (x.closest("#tsSave")) { tsSave_(); return; }
+  if (x.closest("#tsReset")) { if (S.tsDirty && !confirm("ยกเลิกการแก้ไขทั้งหมด?")) return; tsInit_(S.tsTeam); render(); return; }
   if (x.closest("#allocSave")) {
     const o = {}; let bad = null;
     document.querySelectorAll("[data-alloc]").forEach(i => { const v = parseNum(i.value); if (Number.isNaN(v)) { bad = i; } else if (v != null) o[i.dataset.alloc] = v; });
@@ -2368,6 +2384,8 @@ page.addEventListener("mouseover", e => { const g = e.target.closest(".cbar"); i
 page.addEventListener("mousemove", e => { const g = e.target.closest(".cbar"); if (g && !$("chartTip").hidden) chartTipShow(g, e); });
 page.addEventListener("mouseout", e => { if (e.target.closest(".cbar") && !e.relatedTarget?.closest?.(".cbar")) $("chartTip").hidden = true; });
 page.addEventListener("submit", e => { if (e.target && e.target.id === "chatForm") { e.preventDefault(); chatSend(); } });
+page.addEventListener("input", e => { if (e.target.matches("[data-tsi]")) { S.tsDirty = true; const m2 = document.querySelector(".savebar .msg"); if (m2 && S.page === "teamset") { m2.textContent = "มีการแก้ไขที่ยังไม่บันทึก"; m2.classList.add("dirty"); } } });
+page.addEventListener("change", e => { if (S.page === "teamset" && e.target.matches("select[data-tsi]")) { tsRead_(); S.tsDirty = true; render(); } });
 page.addEventListener("input", e => {
   if (e.target.matches(".ein")) { S.dirty = true; const m = $("saveMsg"); if (m) { m.textContent = "มีการแก้ไขที่ยังไม่บันทึก"; m.classList.add("dirty"); } entryCalc(); }
   else if (e.target.matches("[data-note]")) { S.dirty = true; const m = $("saveMsg"); if (m) { m.textContent = "มีการแก้ไขที่ยังไม่บันทึก"; m.classList.add("dirty"); } }
@@ -2425,6 +2443,59 @@ $("pfForm").addEventListener("submit", e => {
   if (S.page === "chatroom") render();
 });
 $("profBtn").addEventListener("click", openProf);
+
+/* ============ ตั้งค่าทีม (ซุป) ============ */
+function tsInit_(teamId) {
+  S.tsTeam = teamId;
+  S.tsDraft = clone(S.cfg.people.filter(p => p.team === teamId));
+  S.tsDirty = false;
+}
+function tsRead_() {
+  document.querySelectorAll("[data-tsi]").forEach(i => {
+    const p = S.tsDraft[+i.dataset.tsi]; if (!p) return;
+    const f = i.dataset.f;
+    if (f === "target") { const v = parseNum(i.value); p.target = Number.isNaN(v) ? p.target : v; }
+    else if (f === "active") p.active = i.checked;
+    else p[f] = i.value.trim();
+  });
+}
+function pageTeamSet() {
+  const teams = S.cfg.teams;
+  if (!teams.length) return `<div class="ph"><div><h1>ตั้งค่าทีม (ซุป)</h1></div></div><div class="panel"><p class="empty">ยังไม่มีทีมในระบบ</p></div>`;
+  const pf = profGet() || {};
+  if (!S.tsTeam || !teams.some(t => t.id === S.tsTeam)) tsInit_(teams.some(t => t.id === pf.team) ? pf.team : teams[0].id);
+  if (!S.tsDraft) tsInit_(S.tsTeam);
+  const t = teamById(S.tsTeam);
+  const rows = S.tsDraft.map((p, i) => `<tr>
+    <td><input class="in" data-tsi="${i}" data-f="name" value="${esc(p.name || "")}" placeholder="ชื่อเล่น" aria-label="ชื่อเซลส์"></td>
+    <td><input class="in num" data-tsi="${i}" data-f="username" value="${esc(p.username || "")}" placeholder="เช่น hf0015_pop" aria-label="รหัสพนักงาน" style="min-width:150px"></td>
+    <td><input class="in num" data-tsi="${i}" data-f="target" value="${num(p.target) == null ? "" : num(p.target).toLocaleString("th-TH")}" placeholder="อัตโนมัติ" inputmode="numeric" aria-label="เป้าเดือน"></td>
+    <td><select class="in" data-tsi="${i}" data-f="status" aria-label="สถานะ" style="min-width:104px"><option value="">ปกติ</option><option value="prob" ${p.status === "prob" ? "selected" : ""}>ทดลองงาน</option></select>
+      ${p.status === "prob" ? `<input class="in" type="date" data-tsi="${i}" data-f="probStart" value="${esc(p.probStart || "")}" title="วันเริ่มงาน" aria-label="วันเริ่มงาน" style="display:block;width:150px;margin-top:6px">` : ""}</td>
+    <td><label style="display:inline-flex;gap:6px;align-items:center"><input type="checkbox" data-tsi="${i}" data-f="active" ${p.active !== false ? "checked" : ""}>ทำงานอยู่</label></td>
+    <td><button class="btn danger" data-tsdel="${i}">ลบ</button></td></tr>`).join("");
+  return `<div class="ph"><div><h1>ตั้งค่าทีม (ซุป)</h1><p>ซุปจัดการรายชื่อเซลส์ของทีมตัวเองได้เอง ไม่ต้องรอแอดมิน · เลือกทีมของตัวเองแล้วแก้ได้เลย</p></div></div>
+    <div class="chips">${teams.map(x => `<button data-tsteam="${esc(x.id)}" aria-pressed="${x.id === S.tsTeam}">${esc(x.name)}${x.id === pf.team ? " ⭐" : ""}</button>`).join("")}</div>
+    <section class="sec"><div class="sech"><div><h2>ทีม ${esc(t.name)}${t.sup ? " · ซุป " + esc(t.sup) : ""} (${S.tsDraft.length} คน)</h2>
+      <p><b>รหัสพนักงาน</b>ต้องพิมพ์ให้ตรงกับช่อง CRM ในชีต Daily Sales Tracking (เช่น hf0015_pop) ระบบใช้จับคู่ตอนกด "⬇ ดึงตัวเลขจากชีต" และหน้า Daily Sales</p></div>
+      <button class="btn ghost" id="tsAdd">+ เพิ่มเซลส์</button></div>
+    <div class="panel scroll">${rows ? `<table class="atable"><thead><tr><th class="tl-left">ชื่อเซลส์</th><th class="tl-left">รหัสพนักงาน<br>(ตรงกับ Daily Sales)</th><th>เป้าเดือน (บาท)</th><th class="tl-left">สถานะ</th><th></th><th></th></tr></thead><tbody>${rows}</tbody></table>` : '<p class="empty">ทีมนี้ยังไม่มีรายชื่อ กด "+ เพิ่มเซลส์"</p>'}</div></section>
+    <div class="savebar"><span class="msg ${S.tsDirty ? "dirty" : ""}">${S.tsDirty ? "มีการแก้ไขที่ยังไม่บันทึก" : "ข้อมูลล่าสุดแล้ว"}</span>
+      <div style="display:flex;gap:8px"><button class="btn ghost" id="tsReset">ยกเลิก</button><button class="btn primary" id="tsSave">บันทึกรายชื่อทีม ${esc(t.name)}</button></div></div>`;
+}
+async function tsSave_() {
+  tsRead_();
+  if (S.tsDraft.some(p => !String(p.name || "").trim())) { toast("เซลส์ทุกคนต้องมีชื่อ"); return; }
+  const btn = $("tsSave"); if (btn) { btn.disabled = true; btn.textContent = "กำลังบันทึก…"; }
+  try {
+    const people = S.tsDraft.map(p => ({ id: p.id, name: p.name, username: p.username || "", target: num(p.target), active: p.active !== false, status: p.status || "", probStart: p.probStart || "" }));
+    await apiWrite({ action: "saveTeamPeople", month: S.month, team: S.tsTeam, people });
+    toast(`บันทึกรายชื่อทีมแล้ว ${people.length} คน`);
+    S.tsDraft = null; S.tsDirty = false;
+    await load(S.month, true); render();
+  } catch (e) { toast(errText(e)); }
+  finally { const b2 = $("tsSave"); if (b2) { b2.disabled = false; } }
+}
 
 /* ============ แชทผู้นำ ============ */
 function chatName_(u) { return String(u || "ไม่ระบุ"); }
